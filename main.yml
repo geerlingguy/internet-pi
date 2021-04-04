@@ -1,0 +1,7 @@
+---
+- hosts: internet_pi
+  become: true
+
+  tasks:
+    - include_tasks: tasks/docker.yml
+    - include_tasks: tasks/internet-monitoring.yml

@@ -1,0 +1,15 @@
+---
+- name: Clone internet-monitoring repo to Pi.
+  git:
+    repo: https://github.com/geerlingguy/internet-monitoring
+    dest: ~/internet-monitoring/
+    version: master
+    accept_hostkey: true
+  become: false
+
+- name: Ensure internet-monitoring environment is running.
+  meta: noop
+
+# git clone https://github.com/geerlingguy/internet-monitoring
+# cd internet-monitoring
+# docker-compose up -d

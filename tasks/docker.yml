@@ -1,0 +1,47 @@
+---
+- name: Check if Docker is already present.
+  command: which docker
+  failed_when: false
+  changed_when: false
+  register: docker_command_result
+
+- name: Download Docker install convenience script.
+  get_url:
+    url: https://get.docker.com/
+    dest: /tmp/get-docker.sh
+    mode: 0775
+  when: docker_command_result.rc == 1
+
+- name: Run Docker install convenience script.
+  command: /tmp/get-docker.sh
+  environment:
+    CHANNEL: stable
+  when: docker_command_result.rc == 1
+
+- name: Ensure Docker is started.
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Ensure dependencies are installed.
+  apt:
+    name:
+      - libffi-dev
+      - libssl-dev
+      - python3-dev
+      - python3-pip
+      - git
+    state: present
+
+- name: Install Docker Compose using Pip.
+  pip:
+    name: docker-compose
+    state: present
+    executable: pip3
+
+- name: Ensure pi user is added to the docker group.
+  user:
+    name: pi
+    groups: docker
+    append: true

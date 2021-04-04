@@ -1,0 +1,2 @@
+[internet_pi]
+10.0.100.52 ansible_user=pi
