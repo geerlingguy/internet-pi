@@ -2,6 +2,16 @@
 - hosts: internet_pi
   become: true
 
+  pre_tasks:
+    - name: Load configuration.
+      ansible.builtin.include_vars: config.yml
+
+    - name: Ensure apt cache is up to date.
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
   tasks:
-    - include_tasks: tasks/docker.yml
-    - include_tasks: tasks/internet-monitoring.yml
+    - ansible.builtin.include_tasks: tasks/docker.yml
+    - ansible.builtin.include_tasks: tasks/internet-monitoring.yml
+    - ansible.builtin.include_tasks: tasks/pi-hole.yml

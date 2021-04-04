@@ -1,15 +1,16 @@
 ---
 - name: Clone internet-monitoring repo to Pi.
-  git:
+  ansible.builtin.git:
     repo: https://github.com/geerlingguy/internet-monitoring
     dest: ~/internet-monitoring/
     version: master
     accept_hostkey: true
   become: false
 
+# TODO: The first time this playbook is run, the `pi` user may not be added
+# to the `docker` group, so this task may fail.
 - name: Ensure internet-monitoring environment is running.
-  meta: noop
-
-# git clone https://github.com/geerlingguy/internet-monitoring
-# cd internet-monitoring
-# docker-compose up -d
+  community.docker.docker_compose:
+    project_src: ~/internet-monitoring/
+    build: false
+  become: false
