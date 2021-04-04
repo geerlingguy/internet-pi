@@ -10,7 +10,7 @@ So that's what this is.
 
 ## Features
 
-  - **Internet Monitoring**: Installs the `internet-monitoring` Docker containers, which exposes a Grafana dashboard with historical uptime, ping stats, and speedtest results over time.
+  - **Internet Monitoring**: Installs an [`internet-monitoring` Docker config](https://github.com/geerlingguy/internet-monitoring), which exposes a Grafana dashboard with historical uptime, ping stats, and speedtest results over time.
   - **Pi-hole**: Installs the Pi-hole Docker configuration so you can use Pi-hole for network-wide ad-blocking and local DNS. Make sure to update your network router config to direct all DNS queries through your Raspberry Pi if you want to use Pi-hole effectively!
 
 **IMPORTANT NOTE**: If you use this playbook, it will download a decently-large amount of data through your Internet connection on a daily basis. Don't use it, or tune the `internet-monitoring` setup to not run the speedtests as often, if you have a metered connection!
