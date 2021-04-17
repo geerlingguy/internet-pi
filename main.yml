@@ -12,6 +12,15 @@
         cache_valid_time: 3600
 
   tasks:
-    - ansible.builtin.include_tasks: tasks/docker.yml
-    - ansible.builtin.include_tasks: tasks/internet-monitoring.yml
-    - ansible.builtin.include_tasks: tasks/pi-hole.yml
+    - name: Setup Docker.
+      ansible.builtin.import_tasks: tasks/docker.yml
+
+    - name: Set up Internet Monitoring.
+      ansible.builtin.import_tasks: tasks/internet-monitoring.yml
+
+    - name: Set up Pi Hole.
+      ansible.builtin.import_tasks: tasks/pi-hole.yml
+
+    - name: Set up Shelly Plug Monitoring.
+      ansible.builtin.import_tasks: tasks/shelly-plug.yml
+      when: shelly_plug_enable
