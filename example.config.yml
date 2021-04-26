@@ -6,3 +6,5 @@ shelly_plug_enable: false
 shelly_plug_hostname: my-shelly-plug-host-or-ip
 shelly_plug_http_username: username
 shelly_plug_http_password: password
+
+starlink_enable: false
