@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+---
+version: "3"
+
+services:
+  starlink-exporter:
+    container_name: starlink-exporter
+    image: danopstech/starlink_exporter
+    ports:
+      - "9817:9817"
+    restart: unless-stopped
