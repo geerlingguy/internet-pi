@@ -4,6 +4,7 @@
     path: ~/starlink-exporter
     state: directory
     mode: 0755
+  become: false
 
 - name: Copy Starlink docker-compose template to Pi.
   ansible.builtin.template:
