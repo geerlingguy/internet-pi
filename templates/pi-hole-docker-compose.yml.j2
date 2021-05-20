@@ -2,12 +2,29 @@
 ---
 version: "3"
 
+# For DHCP to function pi-hole needs to be able to see/send broadcasts
+# More info at https://docs.pi-hole.net/docker/DHCP/ and
+# http://tonylawrence.com/posts/unix/synology/free-your-synology-ports/
+networks:
+  pihole_network:
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: '{{ ansible_facts['default_ipv4']['address'] }}/{{ mask_cidr }}'
+          gateway: '{{ ansible_facts['default_ipv4']['gateway'] }}'
+
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
     hostname: '{{ pihole_hostname }}'
+    networks:
+      pihole_network:
+        ipv4_address: '{{ pihole_ipaddr }}'
+
     ports:
       - "53:53/tcp"
       - "53:53/udp"
@@ -17,7 +34,7 @@ services:
     environment:
       TZ: 'America/Chicago'
       WEBPASSWORD: '{{ pihole_password }}'
-      ServerIP: '{{ ansible_facts['default_ipv4']['address'] }}'
+      ServerIP: '{{ pihole_ipaddr }}' 
     dns:
       - 127.0.0.1
       - 8.8.8.8
