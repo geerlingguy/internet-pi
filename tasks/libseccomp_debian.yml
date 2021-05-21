@@ -1,0 +1,20 @@
+---
+- name: Add Buster backports apt key
+  ansible.builtin.apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: '{{ item }}'
+  loop:
+    - 04EE7237B7D453EC
+    - 648ACFD622F3D138
+
+- name: Add Buster backports for fixed libseccomp2
+  ansible.builtin.apt_repository:
+    repo: deb http://httpredir.debian.org/debian buster-backports main contrib non-free
+    state: present
+    filename: debian-backports
+
+- name: Install >libseccomp2.4.4 to fix 32bit issue
+  ansible.builtin.apt:
+    name: libseccomp2
+    state: latest
+    default_release: buster-backports
