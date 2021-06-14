@@ -45,3 +45,7 @@
     name: pi
     groups: docker
     append: true
+
+# reset_connection doesn't support conditionals.
+- name: Reset connection so docker group is picked up.
+  meta: reset_connection
