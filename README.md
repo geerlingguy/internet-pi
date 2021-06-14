@@ -34,6 +34,10 @@ Other features:
     - `example.config.yml` to `config.yml`
   4. Run the playbook: `ansible-playbook main.yml`
 
+## Updating and Backup
+
+A guide for backing up your configurations and monitoring data, and for keeping everything up to date is being worked on in [Issue #7: Create upgrade / update guide](https://github.com/geerlingguy/internet-pi/issues/7).
+
 ## License
 
 MIT
