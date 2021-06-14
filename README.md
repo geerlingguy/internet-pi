@@ -20,7 +20,7 @@ So that's what this is.
 ## Setup
 
   1. [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (either full version or ansible-base).
-  2. Install requirements: `ansible-galaxy collection install -r requirements.yml`
+  2. Install requirements: `ansible-galaxy install -r requirements.yml`
   3. Make copies of the following files and customize them to your liking:
     - `example.inventory.ini` to `inventory.ini` (replace IP address with your Pi's IP).
     - `example.config.yml` to `config.yml`
