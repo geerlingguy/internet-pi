@@ -10,13 +10,13 @@ So that's what this is.
 
 ## Features
 
-![Internet Monitoring Dashboard in Grafana](/images/internet-monitoring.png)
-
 **Internet Monitoring**: Installs an [`internet-monitoring` Docker config](https://github.com/geerlingguy/internet-monitoring), which exposes a Grafana dashboard with historical uptime, ping stats, and speedtest results over time.
 
-![Pi-hole on the Internet Pi](/images/pi-hole.png)
+![Internet Monitoring Dashboard in Grafana](/images/internet-monitoring.png)
 
 **Pi-hole**: Installs the Pi-hole Docker configuration so you can use Pi-hole for network-wide ad-blocking and local DNS. Make sure to update your network router config to direct all DNS queries through your Raspberry Pi if you want to use Pi-hole effectively!
+
+![Pi-hole on the Internet Pi](/images/pi-hole.png)
 
 Other features:
 
