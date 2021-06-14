@@ -10,8 +10,16 @@ So that's what this is.
 
 ## Features
 
-  - **Internet Monitoring**: Installs an [`internet-monitoring` Docker config](https://github.com/geerlingguy/internet-monitoring), which exposes a Grafana dashboard with historical uptime, ping stats, and speedtest results over time.
-  - **Pi-hole**: Installs the Pi-hole Docker configuration so you can use Pi-hole for network-wide ad-blocking and local DNS. Make sure to update your network router config to direct all DNS queries through your Raspberry Pi if you want to use Pi-hole effectively!
+![Internet Monitoring Dashboard in Grafana](/images/internet-monitoring.png)
+
+**Internet Monitoring**: Installs an [`internet-monitoring` Docker config](https://github.com/geerlingguy/internet-monitoring), which exposes a Grafana dashboard with historical uptime, ping stats, and speedtest results over time.
+
+![Pi-hole on the Internet Pi](/images/pi-hole.png)
+
+**Pi-hole**: Installs the Pi-hole Docker configuration so you can use Pi-hole for network-wide ad-blocking and local DNS. Make sure to update your network router config to direct all DNS queries through your Raspberry Pi if you want to use Pi-hole effectively!
+
+Other features:
+
   - **Shelly Plug Monitoring**: Installs a [`shelly-plug-prometheus` exporter](https://github.com/geerlingguy/shelly-plug-prometheus) and a Grafana dashboard, which tracks and displays power usage on a Shelly Plug running on the local network. (This is disabled by default. Enable and configure using the `shelly_plug_*` vars in `config.yml`.)
   - **Starlink Monitoring**: Installs a [`starlink` prometheus exporter](https://github.com/danopstech/starlink_exporter) and a Grafana dashboard, which tracks and displays Starlink statistics. (This is disabled by default. Enable and configure using the `starlink_enable` var in `config.yml`.)
 
