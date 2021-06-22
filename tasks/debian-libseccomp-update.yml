@@ -16,5 +16,5 @@
 - name: Install >libseccomp2.4.4 to fix 32-bit OS issue.
   ansible.builtin.apt:
     name: libseccomp2
-    state: latest
+    state: latest  # noqa package-latest
     default_release: buster-backports
