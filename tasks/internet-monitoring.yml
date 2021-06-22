@@ -1,14 +1,15 @@
 ---
-- name: Gather package facts
+- name: Gather package facts.
   ansible.builtin.package_facts:
     manager: auto
-  when: ansible_facts['userspace_bits'] == '32'
+  when: ansible_facts.userspace_bits == '32'
 
-- name: Upgrade libseccomp2 on 32bit debian systems
-  ansible.builtin.import_tasks: tasks/libseccomp_debian.yml
-  when: ansible_facts['os_family'] == "Debian" and
-        ansible_facts['userspace_bits'] == '32' and
-        ansible_facts.packages['libseccomp2'][0]['version'] is version('2.4.4', '<')
+- name: Upgrade libseccomp2 to latest version (32-bit Debian).
+  ansible.builtin.import_tasks: tasks/debian-libseccomp-update.yml
+  when:
+    - ansible_facts.os_family == "Debian"
+    - ansible_facts.userspace_bits == '32'
+    - ansible_facts.packages['libseccomp2'][0]['version'] is version('2.4.4', '<')
 
 - name: Clone internet-monitoring repo to Pi.
   ansible.builtin.git:
