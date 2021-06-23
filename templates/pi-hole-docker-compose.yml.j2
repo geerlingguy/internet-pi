@@ -15,7 +15,7 @@ services:
       - "80:80/tcp"
       - "443:443/tcp"
     environment:
-      TZ: 'America/Chicago'
+      TZ: '{{ pihole_timezone }}'
       WEBPASSWORD: '{{ pihole_password }}'
       ServerIP: '{{ ansible_facts['default_ipv4']['address'] }}'
     dns:

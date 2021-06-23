@@ -1,5 +1,6 @@
 ---
 pihole_hostname: pihole
+pihole_timezone: America/Chicago
 pihole_password: change-this-password
 
 shelly_plug_enable: false
