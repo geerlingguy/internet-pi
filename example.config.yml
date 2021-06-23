@@ -2,6 +2,8 @@
 pihole_hostname: pihole
 pihole_password: change-this-password
 
+pihole_ipaddr: 192.168.1.245  # Ip you want pi-hole to have on your LAN
+
 shelly_plug_enable: false
 shelly_plug_hostname: my-shelly-plug-host-or-ip
 shelly_plug_http_username: username

@@ -12,10 +12,6 @@
   vars:
     ip: "{{ ansible_facts['default_ipv4']['address'] }}/{{ ansible_facts['default_ipv4']['netmask'] }}"
 
-- name: CIDR subnet is
-  ansible.builtin.debug:
-    msg: 'Subnet: {{ mask_cidr }}'
-
 - name: Copy Pi-hole docker-compose template to Pi.
   ansible.builtin.template:
     src: templates/pi-hole-docker-compose.yml.j2
