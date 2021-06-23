@@ -10,7 +10,7 @@
   set_fact:
     mask_cidr: "{{ ip | ipaddr('prefix') }}"
   vars:
-    ip: "{{ ansible_facts['default_ipv4']['address'] }}/{{ansible_facts['default_ipv4']['netmask'] }}"
+    ip: "{{ ansible_facts['default_ipv4']['address'] }}/{{ ansible_facts['default_ipv4']['netmask'] }}"
 
 - name: CIDR subnet is
   ansible.builtin.debug:
