@@ -2,11 +2,10 @@
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
-  # scrape_timeout is set to the global default (10s).
+  scrape_timeout: 10s
   external_labels:
     monitor: 'Alertmanager'
 
-# Load and evaluate rules in this file every 'evaluation_interval' seconds.
 rule_files:
   - 'alert.rules'
 
@@ -18,25 +17,17 @@ scrape_configs:
 
   - job_name: 'speedtest'
     metrics_path: /metrics
-    scrape_interval: 30m
+    scrape_interval: {{ monitoring_speedtest_interval }}
     scrape_timeout: 60s  # running speedtest needs time to complete
     static_configs:
       - targets: ['speedtest:9798']
 
-  # This job config only works with my internet-pi configuration currently,
-  # if you also have the shelly plug enabled there. It will just error out
-  # by default if you don't have a Shelly Plug on your network. Someday I'll
-  # work on making this more configurable...
   - job_name: 'shelly-plug'
     metrics_path: /metrics
     scrape_interval: 1m
     static_configs:
       - targets: ['172.17.0.1:9924']
 
-  # This job config only works with my internet-pi configuration currently,
-  # if you also have starlink enabled there. It will just error out by default
-  # if you don't have Starlink. Someday I'll work on making this more
-  # configurable...
   - job_name: 'starlink'
     metrics_path: /metrics
     static_configs:

@@ -3,17 +3,18 @@
 pihole_enable: true
 pihole_hostname: pihole
 pihole_timezone: America/Chicago
-pihole_password: change-this-password
+pihole_password: "change-this-password"
 
 # Internet monitoring configuration.
 monitoring_enable: true
-monitoring_grafana_admin_password: admin
+monitoring_grafana_admin_password: "admin"
+monitoring_speedtest_interval: 60m
 
 # Shelly Plug configuration. (Also requires `monitoring_enable`)
 shelly_plug_enable: false
 shelly_plug_hostname: my-shelly-plug-host-or-ip
 shelly_plug_http_username: username
-shelly_plug_http_password: password
+shelly_plug_http_password: "password"
 
 # Starlink configuration. (Also requires `monitoring_enable`)
 starlink_enable: false
