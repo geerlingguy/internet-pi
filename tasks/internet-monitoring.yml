@@ -13,7 +13,7 @@
 
 - name: Synchronize internet-monitoring directory.
   ansible.posix.synchronize:
-    src: internet-monitoring
+    src: internet-monitoring/
     dest: ~/internet-monitoring
     delete: false
     recursive: true
