@@ -43,11 +43,11 @@ scrape_configs:
           - pinghosts.yaml
     relabel_configs:
       - source_labels: [__address__]
-        regex: '(.*);(.*);(.*);(.*)'  # first is the url, thus unique for instance
+        regex: '(.*);(.*)'  # first is the url, thus unique for instance
         target_label: instance
         replacement: $1
       - source_labels: [__address__]
-        regex: '(.*);(.*);(.*);(.*)'  # second is humanname to use in charts
+        regex: '(.*);(.*)'  # second is humanname to use in charts
         target_label: humanname
         replacement: $2
       - source_labels: [instance]
