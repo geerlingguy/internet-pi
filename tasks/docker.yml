@@ -43,7 +43,7 @@
 
 - name: Ensure pi user is added to the docker group.
   ansible.builtin.user:
-    name: pi
+    name: "{{ ansible_user }}"
     groups: docker
     append: true
 
