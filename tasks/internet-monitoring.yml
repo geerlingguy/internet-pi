@@ -11,17 +11,30 @@
     - ansible_facts.userspace_bits == '32'
     - ansible_facts.packages['libseccomp2'][0]['version'] is version('2.4.4', '<')
 
-- name: Clone internet-monitoring repo to Pi.
-  ansible.builtin.git:
-    repo: https://github.com/geerlingguy/internet-monitoring
-    dest: ~/internet-monitoring/
-    version: master
-    accept_hostkey: true
-    force: true
+- name: Synchronize internet-monitoring directory.
+  ansible.posix.synchronize:
+    src: internet-monitoring
+    dest: ~/internet-monitoring
+    delete: no
+    recursive: yes
   become: false
 
-# TODO: The first time this playbook is run, the `pi` user may not be added
-# to the `docker` group, so this task may fail.
+# This is an upgrade task from 1.x to 2.x - can be removed for 3.x.
+- name: Ensure internet-monitoring directory is not a Git repository.
+  ansible.builtin.file:
+    path: ~/internet-monitoring/.git/
+    state: absent
+  become: false
+
+- name: Copy templated internet-monitoring files into place.
+  ansible.builtin.template:
+    src: templates/{{ item.src }}
+    dest: ~/internet-monitoring/{{ item.dest }}
+  loop:
+    - src: grafana-config.monitoring.j2
+      dest: grafana/config.monitoring
+  become: false
+
 - name: Ensure internet-monitoring environment is running.
   community.docker.docker_compose:
     project_src: ~/internet-monitoring/
