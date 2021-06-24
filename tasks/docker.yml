@@ -41,9 +41,9 @@
     state: present
     executable: pip3
 
-- name: Ensure pi user is added to the docker group.
+- name: Ensure {{ ansible_user }} user is added to the docker group.
   ansible.builtin.user:
-    name: pi
+    name: "{{ ansible_user }}"
     groups: docker
     append: true
 
