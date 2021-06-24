@@ -3,7 +3,7 @@
   ansible.builtin.command: which docker
   failed_when: false
   changed_when: false
-  check_mode: no
+  check_mode: false
   register: docker_command_result
 
 - name: Download Docker install convenience script.
