@@ -1,0 +1,3 @@
+---
+- targets:
+{{ monitoring_ping_hosts | to_nice_yaml() | indent(4, True) }}

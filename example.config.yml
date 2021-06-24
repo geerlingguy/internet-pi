@@ -9,6 +9,10 @@ pihole_password: "change-this-password"
 monitoring_enable: true
 monitoring_grafana_admin_password: "admin"
 monitoring_speedtest_interval: 60m
+monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
+  - https://www.google.com/;google.com
+  - https://github.com/;github.com
+  - https://www.apple.com/;apple.com
 
 # Shelly Plug configuration. (Also requires `monitoring_enable`)
 shelly_plug_enable: false

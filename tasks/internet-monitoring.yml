@@ -36,6 +36,8 @@
       dest: grafana/config.monitoring
     - src: prometheus.yml.j2
       dest: prometheus/prometheus.yml
+    - src: prometheus-pinghosts.yaml.j2
+      dest: prometheus/pinghosts.yaml
   notify: Restart internet-monitoring
   become: false
 
