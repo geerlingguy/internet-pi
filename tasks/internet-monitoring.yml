@@ -33,6 +33,7 @@
   loop:
     - src: grafana-config.monitoring.j2
       dest: grafana/config.monitoring
+  notify: Restart internet-monitoring
   become: false
 
 - name: Ensure internet-monitoring environment is running.

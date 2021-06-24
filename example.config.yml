@@ -7,6 +7,7 @@ pihole_password: change-this-password
 
 # Internet monitoring configuration.
 monitoring_enable: true
+monitoring_grafana_admin_password: admin
 
 # Shelly Plug configuration. (Also requires `monitoring_enable`)
 shelly_plug_enable: false

@@ -34,11 +34,17 @@ Other features:
     - `example.config.yml` to `config.yml`
   4. Run the playbook: `ansible-playbook main.yml`
 
-## Logging in
+## Usage
 
-Grafana has an admin username and password by default; currently this is not easily configurable, but follow [this issue](https://github.com/geerlingguy/internet-pi/issues/23) for progress making it more configurable.
+### Pi-hole
 
-The default is `admin`/`wonka`.
+Visit the Pi's IP address (e.g. http://192.168.1.10/) and use the `pihole_password` you configured in your `config.yml` file.
+
+### Grafana
+
+Visit the Pi's IP address with port 3030 (e.g. http://192.168.1.10:3030/), and log in with username `admin` and the password `monitoring_grafana_admin_password` you configured in your `config.yml`.
+
+> Note: The `monitoring_grafana_admin_password` is only used the first time Grafana starts up; if you need to change it later, do it via Grafana's admin UI.
 
 ## Updating and Backup
 

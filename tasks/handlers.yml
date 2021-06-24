@@ -1,0 +1,7 @@
+---
+- name: Restart internet-monitoring
+  community.docker.docker_compose:
+    project_src: ~/internet-monitoring/
+    build: false
+    restarted: true
+  become: false

@@ -11,6 +11,10 @@
         update_cache: true
         cache_valid_time: 3600
 
+  handlers:
+    - name: Include handlers.
+      ansible.builtin.import_tasks: tasks/handlers.yml
+
   tasks:
     - name: Setup Docker.
       ansible.builtin.import_tasks: tasks/docker.yml
