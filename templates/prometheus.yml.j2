@@ -22,16 +22,20 @@ scrape_configs:
     static_configs:
       - targets: ['speedtest:9798']
 
+{% if not shelly_plug_enable %}      
   - job_name: 'shelly-plug'
     metrics_path: /metrics
     scrape_interval: 1m
     static_configs:
       - targets: ['172.17.0.1:9924']
+{% endif %}
 
+{% if not starlink_enable %}      
   - job_name: 'starlink'
     metrics_path: /metrics
     static_configs:
       - targets: ['172.17.0.1:9817']
+{% endif %}
 
   - job_name: 'ping'
     metrics_path: /probe
