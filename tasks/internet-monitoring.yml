@@ -41,6 +41,22 @@
   notify: Restart internet-monitoring
   become: false
 
+- name: Copy starlink dashboard config to grafana
+  ansible.builtin.file:
+    src: files/starlink-overview.json
+    path: ~/internet-monitoring/grafana/provisioning/dashboards/
+    state: present
+  become: false
+  when: starlink_enable
+
+- name: Copy shelly dashboard config to grafana
+  ansible.builtin.file:
+    src: files/power-consumption.json
+    path: ~/internet-monitoring/grafana/provisioning/dashboards/
+    state: present
+  become: false
+  when: shelly_enable
+
 - name: Ensure internet-monitoring environment is running.
   community.docker.docker_compose:
     project_src: ~/internet-monitoring/
