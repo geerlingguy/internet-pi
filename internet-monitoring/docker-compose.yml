@@ -23,6 +23,9 @@ services:
       - '--web.console.templates=/usr/share/prometheus/consoles'
     ports:
       - 9090:9090
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
     links:
       - ping:ping
       - speedtest:speedtest
