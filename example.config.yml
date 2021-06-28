@@ -1,4 +1,7 @@
 ---
+# Location where configuration files will be stored.
+config_dir: '~'
+
 # Pi-hole configuration.
 pihole_enable: true
 pihole_hostname: pihole

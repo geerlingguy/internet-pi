@@ -14,7 +14,7 @@
 - name: Synchronize internet-monitoring directory.
   ansible.posix.synchronize:
     src: internet-monitoring
-    dest: ~/
+    dest: "{{ config_dir }}/"
     delete: false
     recursive: true
     perms: false
@@ -23,14 +23,14 @@
 # This is an upgrade task from 1.x to 2.x - can be removed for 3.x.
 - name: Ensure internet-monitoring directory is not a Git repository.
   ansible.builtin.file:
-    path: ~/internet-monitoring/.git/
+    path: "{{ config_dir }}/internet-monitoring/.git/"
     state: absent
   become: false
 
 - name: Copy templated internet-monitoring files into place.
   ansible.builtin.template:
     src: templates/{{ item.src }}
-    dest: ~/internet-monitoring/{{ item.dest }}
+    dest: "{{ config_dir }}/internet-monitoring/{{ item.dest }}"
   loop:
     - src: grafana-config.monitoring.j2
       dest: grafana/config.monitoring
@@ -59,6 +59,6 @@
 
 - name: Ensure internet-monitoring environment is running.
   community.docker.docker_compose:
-    project_src: ~/internet-monitoring/
+    project_src: "{{ config_dir }}/internet-monitoring/"
     build: false
   become: false
