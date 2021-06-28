@@ -55,7 +55,7 @@
     path: ~/internet-monitoring/grafana/provisioning/dashboards/
     state: present
   become: false
-  when: shelly_enable
+  when: shelly_plug_enable
 
 - name: Ensure internet-monitoring environment is running.
   community.docker.docker_compose:
