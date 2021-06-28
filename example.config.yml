@@ -1,5 +1,5 @@
 ---
-# General configuration
+# Location where configuration files will be stored.
 config_dir: '~'
 
 # Pi-hole configuration.
