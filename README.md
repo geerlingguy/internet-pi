@@ -36,6 +36,8 @@ Other features:
     - `example.config.yml` to `config.yml`
   4. Run the playbook: `ansible-playbook main.yml`
 
+> **If running locally on the Pi**: You may encounter an error like "Error while fetching server API version". If you do, please either reboot or log out and log back in, then run the playbook again.
+
 ## Usage
 
 ### Pi-hole
