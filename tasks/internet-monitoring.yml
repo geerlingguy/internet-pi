@@ -44,7 +44,7 @@
 - name: Copy starlink dashboard config to grafana
   ansible.builtin.copy:
     src: files/starlink-overview.json
-    path: ~/internet-monitoring/grafana/provisioning/dashboards/
+    dest: ~/internet-monitoring/grafana/provisioning/dashboards/
     mode: 0644
   become: false
   when: starlink_enable
@@ -52,7 +52,7 @@
 - name: Copy shelly dashboard config to grafana
   ansible.builtin.copy:
     src: files/power-consumption.json
-    path: ~/internet-monitoring/grafana/provisioning/dashboards/
+    dest: ~/internet-monitoring/grafana/provisioning/dashboards/
     mode: 0644
   become: false
   when: shelly_plug_enable
