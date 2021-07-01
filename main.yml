@@ -15,7 +15,7 @@
 
     - name: Ensure pacman cache is up to date
       community.general.pacman:
-        update_cache: yes
+        update_cache: true
       when:
         - ansible_facts.os_family == "Archlinux"
 
