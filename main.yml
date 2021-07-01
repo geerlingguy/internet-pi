@@ -13,6 +13,11 @@
       when:
         - ansible_facts.os_family == "Debian"
 
+    - name: Ensure pacman cache is up to date
+      community.general.pacman:
+        update_cache: yes
+      when:
+        - ansible_facts.os_family == "Archlinux"
 
   handlers:
     - name: Include handlers.
