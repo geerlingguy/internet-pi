@@ -8,6 +8,13 @@ docker_ipv6_enable: false
 docker_ipv6_subnet: 2001:3984:3989::/64
 docker_ipv6_gateway: 2001:3984:3989::1
 
+# Domain names configuration (related services need to be enabled).
+domain_name_enable: false
+domain_name: 'home.local'
+domain_pihole: 'pihole'          # to access pihole via: http://pihole.home.local
+domain_grafana: 'grafana'        # to access grafana via: http://grafana.home.local
+domain_prometheus: 'prometheus'  # to access prometheus via: http://prometheus.home.local
+
 # Pi-hole configuration.
 pihole_enable: true
 pihole_hostname: pihole
