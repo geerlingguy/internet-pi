@@ -1,5 +1,6 @@
+# {{ ansible_managed }}
 ---
-version: "3.1"
+version: "3.5"
 
 volumes:
   prometheus_data: {}
@@ -7,9 +8,24 @@ volumes:
 
 networks:
   front-tier:
+    name: internet-monitoring-front-tier
   back-tier:
+    name: internet-monitoring-back-tier
 
 services:
+{% if domain_name_enable %}
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - back-tier
+      - front-tier
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+{% endif %}
+
   prometheus:
     image: prom/prometheus:v2.25.2
     restart: always
@@ -29,6 +45,13 @@ services:
       - speedtest:speedtest
     networks:
       - back-tier
+{% if domain_name_enable and domain_name and domain_prometheus %}
+    depends_on:
+      - nginx-proxy
+    environment:
+      - VIRTUAL_HOST={{ domain_prometheus }}.{{ domain_name }}
+      - VIRTUAL_PORT=9090
+{% endif %}
 
   grafana:
     image: grafana/grafana
@@ -45,6 +68,13 @@ services:
     networks:
       - back-tier
       - front-tier
+{% if domain_name_enable and domain_name and domain_grafana %}
+    depends_on:
+      - nginx-proxy
+    environment:
+      - VIRTUAL_HOST={{ domain_grafana }}.{{ domain_name }}
+      - VIRTUAL_PORT=3000
+{% endif %}
 
   ping:
     tty: true
