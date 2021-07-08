@@ -23,5 +23,8 @@ shelly_plug_hostname: my-shelly-plug-host-or-ip
 shelly_plug_http_username: username
 shelly_plug_http_password: "password"
 
+# AirGradient configuration. (Also requires `monitoring_enable`)
+airgradient_enable: false
+
 # Starlink configuration. (Also requires `monitoring_enable`)
 starlink_enable: false
