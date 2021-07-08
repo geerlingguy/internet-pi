@@ -21,3 +21,10 @@
     project_src: ~/airgradient-prometheus/
     build: false
   become: false
+
+# - name: Copy airgradient dashboard config to grafana
+#   ansible.builtin.copy:
+#     src: files/airgradient.json
+#     dest: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/"
+#     mode: 0644
+#   become: false

@@ -19,3 +19,10 @@
     project_src: ~/starlink-exporter/
     build: false
   become: false
+
+- name: Copy starlink dashboard config to grafana.
+  ansible.builtin.copy:
+    src: files/starlink-overview.json
+    dest: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/"
+    mode: 0644
+  become: false
