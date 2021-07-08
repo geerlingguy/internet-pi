@@ -31,6 +31,7 @@
   ansible.builtin.template:
     src: templates/{{ item.src }}
     dest: "{{ config_dir }}/internet-monitoring/{{ item.dest }}"
+    mode: 0644
   loop:
     - src: grafana-config.monitoring.j2
       dest: grafana/config.monitoring
