@@ -12,6 +12,7 @@
     dest: ~/starlink-exporter/docker-compose.yml
     mode: '0640'
   become: false
+  notify: Restart starlink-exporter
 
 - name: Ensure Starlink Prometheus exporter is running.
   community.docker.docker_compose:

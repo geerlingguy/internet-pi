@@ -3,8 +3,11 @@
   become: true
 
   pre_tasks:
-    - name: Load configuration.
-      ansible.builtin.include_vars: config.yml
+    - name: Load configuration (with defaults from example file).
+      ansible.builtin.include_vars: "{{ item }}"
+      loop:
+        - example.config.yml
+        - config.yml
 
     - name: Ensure apt cache is up to date.
       ansible.builtin.apt:

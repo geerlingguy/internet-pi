@@ -6,6 +6,7 @@
     version: master
     accept_hostkey: true
   become: false
+  notify: Restart shelly-plug-prometheus
 
 - name: Copy Shelly Plug docker-compose template to Pi.
   ansible.builtin.template:
@@ -13,6 +14,7 @@
     dest: ~/shelly-plug-prometheus/docker-compose.yml
     mode: '0640'
   become: false
+  notify: Restart shelly-plug-prometheus
 
 - name: Ensure Shelly Plug Prometheus exporter is running.
   community.docker.docker_compose:

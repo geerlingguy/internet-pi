@@ -6,6 +6,7 @@
     version: master
     accept_hostkey: true
   become: false
+  notify: Restart airgradient-prometheus
 
 - name: Copy AirGradient docker-compose template to Pi.
   ansible.builtin.template:
@@ -13,8 +14,9 @@
     dest: ~/airgradient-prometheus/docker-compose.yml
     mode: '0640'
   become: false
+  notify: Restart airgradient-prometheus
 
-- name: Ensure Shelly Plug Prometheus exporter is running.
+- name: Ensure AirGradient Prometheus exporter is running.
   community.docker.docker_compose:
     project_src: ~/airgradient-prometheus/
     build: false

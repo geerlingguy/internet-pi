@@ -30,6 +30,14 @@ scrape_configs:
       - targets: ['172.17.0.1:9924']
 {% endif %}
 
+{% if airgradient_enable %}
+  - job_name: 'airgradient'
+    metrics_path: /metrics
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['172.17.0.1:9925']
+{% endif %}
+
 {% if starlink_enable %}
   - job_name: 'starlink'
     metrics_path: /metrics
@@ -39,7 +47,7 @@ scrape_configs:
 
   - job_name: 'ping'
     metrics_path: /probe
-    scrape_interval: 5s
+    scrape_interval: {{ monitoring_ping_interval }}
     params:
       module: [http_2xx]  # Look for a HTTP 200 response.
     file_sd_configs:
