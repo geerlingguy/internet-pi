@@ -12,6 +12,7 @@ pihole_password: "change-this-password"
 monitoring_enable: true
 monitoring_grafana_admin_password: "admin"
 monitoring_speedtest_interval: 60m
+monitoring_ping_interval: 5s
 monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - http://www.google.com/;google.com
   - https://github.com/;github.com
@@ -22,6 +23,9 @@ shelly_plug_enable: false
 shelly_plug_hostname: my-shelly-plug-host-or-ip
 shelly_plug_http_username: username
 shelly_plug_http_password: "password"
+
+# AirGradient configuration. (Also requires `monitoring_enable`)
+airgradient_enable: false
 
 # Starlink configuration. (Also requires `monitoring_enable`)
 starlink_enable: false

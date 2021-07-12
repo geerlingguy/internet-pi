@@ -12,11 +12,17 @@
     dest: ~/starlink-exporter/docker-compose.yml
     mode: '0640'
   become: false
+  notify: Restart starlink-exporter
 
-# TODO: The first time this playbook is run, the `pi` user may not be added
-# to the `docker` group, so this task may fail.
 - name: Ensure Starlink Prometheus exporter is running.
   community.docker.docker_compose:
     project_src: ~/starlink-exporter/
     build: false
+  become: false
+
+- name: Copy starlink dashboard config to grafana.
+  ansible.builtin.copy:
+    src: files/starlink-overview.json
+    dest: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/"
+    mode: 0644
   become: false

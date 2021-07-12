@@ -1,0 +1,30 @@
+---
+- name: Clone airgradient-prometheus repo to Pi.
+  ansible.builtin.git:
+    repo: https://github.com/geerlingguy/airgradient-prometheus
+    dest: ~/airgradient-prometheus/
+    version: master
+    accept_hostkey: true
+  become: false
+  notify: Restart airgradient-prometheus
+
+- name: Copy AirGradient docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/airgradient-docker-compose.yml.j2
+    dest: ~/airgradient-prometheus/docker-compose.yml
+    mode: '0640'
+  become: false
+  notify: Restart airgradient-prometheus
+
+- name: Ensure AirGradient Prometheus exporter is running.
+  community.docker.docker_compose:
+    project_src: ~/airgradient-prometheus/
+    build: false
+  become: false
+
+- name: Copy airgradient dashboard config to grafana
+  ansible.builtin.copy:
+    src: files/airgradient-air-quality.json
+    dest: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/"
+    mode: 0644
+  become: false

@@ -6,6 +6,7 @@
     version: master
     accept_hostkey: true
   become: false
+  notify: Restart shelly-plug-prometheus
 
 - name: Copy Shelly Plug docker-compose template to Pi.
   ansible.builtin.template:
@@ -13,11 +14,17 @@
     dest: ~/shelly-plug-prometheus/docker-compose.yml
     mode: '0640'
   become: false
+  notify: Restart shelly-plug-prometheus
 
-# TODO: The first time this playbook is run, the `pi` user may not be added
-# to the `docker` group, so this task may fail.
 - name: Ensure Shelly Plug Prometheus exporter is running.
   community.docker.docker_compose:
     project_src: ~/shelly-plug-prometheus/
     build: false
+  become: false
+
+- name: Copy shelly dashboard config to grafana
+  ansible.builtin.copy:
+    src: files/power-consumption.json
+    dest: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/"
+    mode: 0644
   become: false
