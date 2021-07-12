@@ -15,7 +15,6 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 5,
   "links": [],
   "panels": [
     {
@@ -77,7 +76,7 @@
           "refId": "A"
         }
       ],
-      "title": "CO2",
+      "title": "CO2 (Latest)",
       "type": "gauge"
     },
     {
@@ -140,7 +139,7 @@
           "refId": "A"
         }
       ],
-      "title": "PM2.5",
+      "title": "PM2.5 (Latest)",
       "type": "gauge"
     },
     {
@@ -543,12 +542,12 @@
     "list": []
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "AirGradient Air Quality",
   "uid": "chu1ZJinz",
-  "version": 6
+  "version": 1
 }
