@@ -2,7 +2,7 @@
 - name: Clone shelly-plug-prometheus repo to Pi.
   ansible.builtin.git:
     repo: https://github.com/geerlingguy/shelly-plug-prometheus
-    dest: ~/shelly-plug-prometheus/
+    dest: "{{ config_dir }}/shelly-plug-prometheus/"
     version: master
     accept_hostkey: true
   become: false
@@ -11,14 +11,14 @@
 - name: Copy Shelly Plug docker-compose template to Pi.
   ansible.builtin.template:
     src: templates/shelly-plug-docker-compose.yml.j2
-    dest: ~/shelly-plug-prometheus/docker-compose.yml
+    dest: "{{ config_dir }}/shelly-plug-prometheus/docker-compose.yml"
     mode: '0640'
   become: false
   notify: Restart shelly-plug-prometheus
 
 - name: Ensure Shelly Plug Prometheus exporter is running.
   community.docker.docker_compose:
-    project_src: ~/shelly-plug-prometheus/
+    project_src: "{{ config_dir }}/shelly-plug-prometheus/"
     build: false
   become: false
 

@@ -1,7 +1,7 @@
 ---
 - name: Ensure Starlink directory exists.
   file:
-    path: ~/starlink-exporter
+    path: "{{ config_dir }}/starlink-exporter"
     state: directory
     mode: 0755
   become: false
@@ -9,14 +9,14 @@
 - name: Copy Starlink docker-compose template to Pi.
   ansible.builtin.template:
     src: templates/starlink-docker-compose.yml.j2
-    dest: ~/starlink-exporter/docker-compose.yml
+    dest: "{{ config_dir }}/starlink-exporter/docker-compose.yml"
     mode: '0640'
   become: false
   notify: Restart starlink-exporter
 
 - name: Ensure Starlink Prometheus exporter is running.
   community.docker.docker_compose:
-    project_src: ~/starlink-exporter/
+    project_src: "{{ config_dir }}/starlink-exporter/"
     build: false
   become: false
 

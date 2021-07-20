@@ -1,35 +1,35 @@
 ---
 - name: Restart pi-hole
   community.docker.docker_compose:
-    project_src: ~/pi-hole/
+    project_src: "{{ config_dir }}/pi-hole/"
     build: false
     restarted: true
   become: false
 
 - name: Restart internet-monitoring
   community.docker.docker_compose:
-    project_src: ~/internet-monitoring/
+    project_src: "{{ config_dir }}/internet-monitoring/"
     build: false
     restarted: true
   become: false
 
 - name: Restart shelly-plug-prometheus
   community.docker.docker_compose:
-    project_src: ~/shelly-plug-prometheus/
+    project_src: "{{ config_dir }}/shelly-plug-prometheus/"
     build: false
     restarted: true
   become: false
 
 - name: Restart airgradient-prometheus
   community.docker.docker_compose:
-    project_src: ~/airgradient-prometheus/
+    project_src: "{{ config_dir }}/airgradient-prometheus/"
     build: false
     restarted: true
   become: false
 
 - name: Restart starlink-exporter
   community.docker.docker_compose:
-    project_src: ~/starlink-exporter/
+    project_src: "{{ config_dir }}/starlink-exporter/"
     build: false
     restarted: true
   become: false
