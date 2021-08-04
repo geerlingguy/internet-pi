@@ -44,4 +44,19 @@ services:
       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
     cap_add:
       - NET_ADMIN
+{% if domain_name_enable and domain_name %}
+    # adds hostname mappings to pihole /etc/hosts file
+    extra_hosts:
+      # # LAN hostnames for other docker containers using nginx-proxy
+      - "{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+{% if domain_name_enable and domain_name and domain_pihole %}
+      - "{{ domain_pihole }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+{% endif %}
+{% if domain_name_enable and domain_name and domain_grafana %}
+      - "{{ domain_grafana }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+{% endif %}
+{% if domain_name_enable and domain_name and domain_prometheus %}
+      - "{{ domain_prometheus }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+{% endif %}
+{% endif %}
     restart: unless-stopped
