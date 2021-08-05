@@ -17,6 +17,8 @@ monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - http://www.google.com/;google.com
   - https://github.com/;github.com
   - https://www.apple.com/;apple.com
+  - https://1.1.1.1/;1.1.1.1
+  - https://www.nasa.gov/;nasa.gov
 
 # Shelly Plug configuration. (Also requires `monitoring_enable`)
 shelly_plug_enable: false
