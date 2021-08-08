@@ -64,9 +64,24 @@ Visit the Pi's IP address with port 3030 (e.g. http://192.168.1.10:3030/), and l
 
 > Note: The `monitoring_grafana_admin_password` is only used the first time Grafana starts up; if you need to change it later, do it via Grafana's admin UI.
 
-## Updating and Backup
+## Updating
 
-A guide for backing up your configurations and monitoring data, and for keeping everything up to date is being worked on in [Issue #7: Create upgrade / update guide](https://github.com/geerlingguy/internet-pi/issues/7).
+To upgrade Pi-hole to the latest version, run the following commands:
+
+```bash
+cd ~/pi-hole # 
+docker-compose pull             # pulls the latest images
+docker-compose up -d --no-deps  # restarts containers with newer images
+docker system prune --all       # deletes unused images
+```
+
+Upgrades for the other configurations are similar (go into the directory, and run the same `docker-compose` commands. Make sure to `cd` into the `config_dir` that you use in your `config.yml` file.
+
+At some point in the future, a dedicated upgrade playbook may be added, but for now, upgrades may be performed manually as shown above.
+
+## Backups
+
+A guide for backing up the configurations and historical data will be posted here as part of [Issue #194: Create Backup guide](https://github.com/geerlingguy/internet-pi/issues/194).
 
 ## License
 
