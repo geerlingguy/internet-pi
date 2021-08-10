@@ -63,8 +63,6 @@ services:
       - back-tier
 
   speedtest:
-    tty: true
-    stdin_open: true
     expose:
       - 9798
     ports:
