@@ -44,8 +44,7 @@ It should also work with Ubuntu for Pi, or Arch Linux, but has not been tested o
      1. (If on Pi/Debian): `sudo apt-get install -y python3-pip`
      2. (Everywhere): `pip3 install ansible`
   2. Clone this repository: `git clone https://github.com/geerlingguy/internet-pi.git`, then enter the repository directory: `cd internet-pi`.
-  3. Install requirements: `ansible-galaxy collection install -r requirements.yml`
-  > **Note**: If you receive the error "ansible-galaxy: command not found" and you are confident that you've installed `ansible` (Step 1), simply restart your bash or SSH session.
+  3. Install requirements: `ansible-galaxy collection install -r requirements.yml` (if you see `ansible-galaxy: command not found`, restart your SSH session or reboot the Pi and try again)
   4. Make copies of the following files and customize them to your liking:
      - `example.inventory.ini` to `inventory.ini` (replace IP address with your Pi's IP, or comment that line and uncomment the `connection=local` line if you're running it on the Pi you're setting up).
      - `example.config.yml` to `config.yml`
