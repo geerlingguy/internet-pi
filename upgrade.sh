@@ -9,7 +9,7 @@ docker-compose pull
 #Restarts necessary containers with newer images
 docker-compose up -d --no-deps
 
-#Moves to internet-pi
+#Moves to internet-monitoring
 cd ..
 cd ~/internet-monitoring
 
