@@ -52,7 +52,10 @@ It should also work with Ubuntu for Pi, or Arch Linux, but has not been tested o
 
 > **If running locally on the Pi**: You may encounter an error like "Error while fetching server API version". If you do, please either reboot or log out and log back in, then run the playbook again.
 
-> **Pi 3 model B+ require an addtional step for Internet Monitoring. Enter the `internet-monitoring` directory and run `docker-compose up -d`. Allow the to complete then you can retry `ansible-playbook main.yml` in the `internet-pi` directory. Thanks to [https://github.com/geerlingguy/internet-pi/issues/150#issuecomment-885074468](duongnosu) for this solution.
+> **Pi 3 model B+ require an addtional step for Internet Monitoring. 
+> - Enter the `internet-monitoring` directory and run `docker-compose up -d`. 
+> - Allow the to complete then you can retry `ansible-playbook main.yml` in the `internet-pi` directory. 
+> Thanks to [https://github.com/geerlingguy/internet-pi/issues/150#issuecomment-885074468](duongnosu) for this solution.
 
 ## Usage
 
