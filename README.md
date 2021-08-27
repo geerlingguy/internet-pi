@@ -54,7 +54,7 @@ It should also work with Ubuntu for Pi, or Arch Linux, but has not been tested o
 
 > **Pi 3 model B+** require an addtional step for Internet Monitoring. 
 > - Enter the `internet-monitoring` directory and run `docker-compose up -d`. 
-> - Allow the to complete then you can retry `ansible-playbook main.yml` in the `internet-pi` directory. 
+> - Allow this to complete then you can retry `ansible-playbook main.yml` in the `internet-pi` directory. 
 > 
 > Thanks to [duongnosu](https://github.com/geerlingguy/internet-pi/issues/150#issuecomment-885074468) for this solution.
 
