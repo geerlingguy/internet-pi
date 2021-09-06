@@ -69,7 +69,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rco2{job=\"airgradient\"}",
+          "expr": "rco2{job=\"airgradient-{{ item.id }}\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -132,7 +132,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "pm02{job=\"airgradient\"}",
+          "expr": "pm02{job=\"airgradient-{{ item.id }}\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -206,7 +206,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "atmp{job=\"airgradient\"} * 1.8 + 32",
+          "expr": "atmp{job=\"airgradient-{{ item.id }}\"} * 1.8 + 32",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -281,7 +281,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rhum{job=\"airgradient\"}",
+          "expr": "rhum{job=\"airgradient-{{ item.id }}\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -344,7 +344,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rco2{job=\"airgradient\"}",
+          "expr": "rco2{job=\"airgradient-{{ item.id }}\"}",
           "interval": "",
           "legendFormat": "CO2",
           "queryType": "randomWalk",
@@ -464,7 +464,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "pm02{job=\"airgradient\"}",
+          "expr": "pm02{job=\"airgradient-{{ item.id }}\"}",
           "interval": "",
           "legendFormat": "PM2.5",
           "queryType": "randomWalk",
@@ -547,7 +547,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "AirGradient Air Quality",
-  "uid": "chu1ZJinz",
+  "title": "AirGradient - {{ item.id }}",
+  "uid": "ag{{ item.id }}",
   "version": 1
 }
