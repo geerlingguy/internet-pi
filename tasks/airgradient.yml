@@ -16,15 +16,17 @@
   become: false
   notify: Restart airgradient-prometheus
 
-- name: Ensure AirGradient Prometheus exporter is running.
+- name: Ensure AirGradient Prometheus exporters are running.
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/airgradient-prometheus/"
     build: false
   become: false
 
-- name: Copy airgradient dashboard config to grafana
-  ansible.builtin.copy:
-    src: files/airgradient-air-quality.json
-    dest: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/"
+- name: Copy airgradient dashboard configs to Grafana.
+  ansible.builtin.template:
+    src: templates/airgradient-air-quality.json.j2
+    dest: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/airgradient-{{ item.id }}.json"
     mode: 0644
   become: false
+  loop: "{{ airgradient_sensors }}"
+  notify: Restart internet-monitoring
