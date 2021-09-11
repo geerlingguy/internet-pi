@@ -23,11 +23,13 @@ scrape_configs:
       - targets: ['speedtest:9798']
 
 {% if shelly_plug_enable %}
-  - job_name: 'shelly-plug'
+{% for plug in shelly_plugs %}
+  - job_name: 'shelly-plug-{{ plug.name }}'
     metrics_path: /metrics
     scrape_interval: 1m
     static_configs:
-      - targets: ['172.17.0.1:9924']
+      - targets: ['172.17.0.1:{{ plug.exposed_port }}']
+{% endfor %}
 {% endif %}
 
 {% if airgradient_enable %}

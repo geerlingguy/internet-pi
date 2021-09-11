@@ -3,15 +3,17 @@
 version: "3"
 
 services:
-  shelly-plug:
-    container_name: shelly-plug
+{% for plug in shelly_plugs %}
+  shelly-plug-{{ plug.name }}:
+    container_name: shelly-plug-{{ plug.name}}
     image: php:8-apache
     ports:
-      - "9924:80"
+      - "{{ plug.exposed_port }}:80"
     environment:
-      SHELLY_HOSTNAME: '{{ shelly_plug_hostname }}'
-      SHELLY_HTTP_USERNAME: '{{ shelly_plug_http_username }}'
-      SHELLY_HTTP_PASSWORD: '{{ shelly_plug_http_password }}'
+      SHELLY_HOSTNAME: '{{ plug.hostname }}'
+      SHELLY_HTTP_USERNAME: '{{ plug.http_username }}'
+      SHELLY_HTTP_PASSWORD: '{{ plug.http_password }}'
     volumes:
       - './:/var/www/html'
     restart: unless-stopped
+{% endfor %}

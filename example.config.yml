@@ -20,9 +20,12 @@ monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
 
 # Shelly Plug configuration. (Also requires `monitoring_enable`)
 shelly_plug_enable: false
-shelly_plug_hostname: my-shelly-plug-host-or-ip
-shelly_plug_http_username: username
-shelly_plug_http_password: "password"
+shelly_plugs:
+  - name: ShellyPlugOne
+    hostname: my-shelly-plyg-host-or-ip
+    http_username: username
+    http_password: "password"
+
 
 # AirGradient configuration. (Also requires `monitoring_enable`)
 airgradient_enable: false
