@@ -22,6 +22,7 @@ monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
 shelly_plug_enable: false
 shelly_plugs:
   - name: ShellyPlugOne
+    exposed_port: 9924
     hostname: my-shelly-plyg-host-or-ip
     http_username: username
     http_password: "password"
