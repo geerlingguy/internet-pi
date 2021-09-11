@@ -23,7 +23,7 @@ shelly_plug_enable: false
 shelly_plugs:
   - name: ShellyPlugOne
     exposed_port: 9924
-    hostname: my-shelly-plyg-host-or-ip
+    hostname: my-shelly-plug-host-or-ip
     http_username: username
     http_password: "password"
 
