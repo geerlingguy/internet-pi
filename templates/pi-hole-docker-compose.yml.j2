@@ -6,7 +6,7 @@ version: "3"
 services:
   pihole:
     container_name: pihole
-    image: pihole/pihole:latest
+    image: jacklul/pihole:latest
     hostname: '{{ pihole_hostname }}'
     ports:
       - "53:53/tcp"
@@ -24,6 +24,7 @@ services:
     volumes:
       - './etc-pihole/:/etc/pihole/'
       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+      - './etc-pihole-updatelists/:/etc/pihole-updatelists/'
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
