@@ -21,6 +21,11 @@ pihole_hostname: pihole
 pihole_timezone: America/Chicago
 pihole_password: "change-this-password"
 
+# Raspberry monitoring configuration
+raspberry_monitoring_enable: false
+telegraf_retention_policy: '90d'
+telegraf_password: 'admin'
+
 # Internet monitoring configuration.
 monitoring_enable: true
 monitoring_grafana_admin_password: "admin"

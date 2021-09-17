@@ -6,6 +6,13 @@
     restarted: true
   become: false
 
+- name: Restart raspberry-monitoring
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/raspberry-monitoring/"
+    build: false
+    restarted: true
+  become: false
+
 - name: Restart internet-monitoring
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/internet-monitoring/"

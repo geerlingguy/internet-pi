@@ -1,0 +1,49 @@
+---
+- name: Synchronize raspberry-monitoring directory.
+  ansible.posix.synchronize:
+    src: raspberry-monitoring
+    dest: "{{ config_dir }}/"
+    delete: false
+    recursive: true
+    perms: false
+  become: false
+
+- name: Create raspberry-monitoring directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ config_dir }}/raspberry-monitoring"
+    - "{{ config_dir }}/raspberry-monitoring/init"
+    - "{{ config_dir }}/raspberry-monitoring/data"
+  become: false
+
+- name: Copy templated raspberry-monitoring files into place.
+  ansible.builtin.template:
+    src: templates/raspberry-monitoring/{{ item.src }}
+    dest: "{{ config_dir }}/raspberry-monitoring/{{ item.dest }}"
+    mode: 0644
+  loop:
+    - src: raspberry-monitoring-docker-compose.yml.j2
+      dest: docker-compose.yml
+    - src: create-telegraf.iql.j2
+      dest: init/create-telegraf.iql
+    - src: telegraf.conf.j2
+      dest: telegraf.conf
+  notify: Restart raspberry-monitoring
+  become: false
+
+- name: Copy raspberry-monitoring dashboard config to grafana
+  ansible.builtin.copy:
+    src: files/raspberry-monitoring.json
+    dest: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/"
+    mode: 0644
+  notify: Restart internet-monitoring
+  become: false
+
+- name: Ensure raspberry-monitoring environment is running.
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/raspberry-monitoring/"
+    build: false
+  become: false

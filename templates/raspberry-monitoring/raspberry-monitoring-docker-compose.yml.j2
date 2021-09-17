@@ -1,0 +1,35 @@
+# {{ ansible_managed }}
+---
+version: "3.5"
+
+networks:
+  internet-monitoring-back-tier:
+    external: true
+
+services:
+  influxdb:
+    image: influxdb:1.8.9 # latest influxdb compatible with 32 bits processors
+    restart: always
+    networks:
+      - internet-monitoring-back-tier
+    volumes:
+      - ./data:/var/lib/influxdb
+      - ./influxdb.conf:/etc/influxdb/influxdb.conf:ro
+      - ./init:/docker-entrypoint-initdb.d
+  telegraf:
+    image: telegraf:1.9.3
+    restart: always
+    networks:
+      - internet-monitoring-back-tier
+    depends_on:
+      - influxdb
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /:/hostfs:ro
+    environment:
+      - HOST_ETC=/hostfs/etc
+      - HOST_PROC=/hostfs/proc
+      - HOST_SYS=/hostfs/sys
+      - HOST_VAR=/hostfs/var
+      - HOST_RUN=/hostfs/run
+      - HOST_MOUNT_PREFIX=/hostfs

@@ -1,0 +1,3 @@
+CREATE DATABASE telegraf WITH DURATION {{ telegraf_retention_policy }}
+CREATE USER telegraf WITH PASSWORD '{{ telegraf_password }}'
+GRANT WRITE ON telegraf to telegraf
