@@ -45,6 +45,7 @@
       - base-devel
       - python-pip
       - git
+      - rsync
     state: present
   when: ansible_facts.os_family == "Archlinux"
 
