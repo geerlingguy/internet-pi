@@ -49,11 +49,19 @@
     state: present
   when: ansible_facts.os_family == "Archlinux"
 
+- name: Check if Docker Compose is already present.
+  ansible.builtin.command: which docker-compose
+  failed_when: false
+  changed_when: false
+  check_mode: false
+  register: docker_compose_command_result
+
 - name: Install Docker Compose using Pip.
   ansible.builtin.pip:
     name: docker-compose
     state: present
     executable: pip3
+  when: docker_compose_command_result.rc == 1
 
 - name: Ensure {{ ansible_user }} user is added to the docker group.
   ansible.builtin.user:
