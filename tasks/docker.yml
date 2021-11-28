@@ -33,6 +33,7 @@
       - python3-dev
       - python3-pip
       - git
+      - rsync
     state: present
   when: ansible_facts.os_family == "Debian"
 
@@ -44,6 +45,7 @@
       - base-devel
       - python-pip
       - git
+      - rsync
     state: present
   when: ansible_facts.os_family == "Archlinux"
 

@@ -31,11 +31,13 @@ scrape_configs:
 {% endif %}
 
 {% if airgradient_enable %}
-  - job_name: 'airgradient'
+{% for sensor in airgradient_sensors %}
+  - job_name: 'airgradient-{{ sensor.id }}'
     metrics_path: /metrics
     scrape_interval: 30s
     static_configs:
-      - targets: ['172.17.0.1:9925']
+      - targets: ['172.17.0.1:{{ sensor.port }}']
+{% endfor %}
 {% endif %}
 
 {% if starlink_enable %}
