@@ -29,6 +29,7 @@ airgradient_enable: false
 airgradient_sensors:
   # ID Should be limited to no more than 38 characters, in the set a-z.
   - id: livingroom
+    ip: "192.168.0.123"
     port: 9925
 
 # Starlink configuration. (Also requires `monitoring_enable`)

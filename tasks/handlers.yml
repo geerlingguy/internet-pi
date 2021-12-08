@@ -20,13 +20,6 @@
     restarted: true
   become: false
 
-- name: Restart airgradient-prometheus
-  community.docker.docker_compose:
-    project_src: "{{ config_dir }}/airgradient-prometheus/"
-    build: false
-    restarted: true
-  become: false
-
 - name: Restart starlink-exporter
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/starlink-exporter/"
