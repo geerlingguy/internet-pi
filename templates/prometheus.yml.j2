@@ -36,7 +36,7 @@ scrape_configs:
     metrics_path: /metrics
     scrape_interval: 30s
     static_configs:
-      - targets: ['172.17.0.1:{{ sensor.port }}']
+      - targets: ['{{ sensor.ip }}:{{ sensor.port }}']
 {% endfor %}
 {% endif %}
 
