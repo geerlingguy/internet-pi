@@ -12,11 +12,11 @@
     dest: "{{ config_dir }}/home-assistant/docker-compose.yml"
     mode: '0640'
   become: false
-  notify: Restart home-assistant
+  #notify: Restart home-assistant
 
 # TODO: The first time this playbook is run, the `pi` user may not be added
 # to the `docker` group, so this task may fail.
-- name: Ensure Pi-hole is running.
+- name: Ensure Home Assistant is running.
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/home-assistant/"
     build: false
