@@ -49,3 +49,7 @@
     - name: Set up Starlink Monitoring.
       ansible.builtin.import_tasks: tasks/starlink.yml
       when: starlink_enable
+
+    - name: Set up Home Assistant.
+      ansible.builtin.import_tasks: tasks/home-assistant.yml
+      when: assistant_enable
