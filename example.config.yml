@@ -7,6 +7,10 @@ pihole_enable: true
 pihole_hostname: pihole
 pihole_timezone: America/Chicago
 pihole_password: "change-this-password"
+# Block Apple's iCloud Private Relay by default
+# - Prevent Apple devices from bypassing Pi-hole
+# - See also: Pi-hole configuration 'BLOCK_ICLOUD_PR'
+pihole_block_icloud_pr: true
 
 # Internet monitoring configuration.
 monitoring_enable: true
