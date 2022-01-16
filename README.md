@@ -18,6 +18,10 @@ So that's what this is.
 
 ![Pi-hole on the Internet Pi](/images/pi-hole.png)
 
+**Home Assistant**: Installs the Home Assistant Docker configuration so you can manage smart devices across your home network. Use Home Assistant to automate your home!
+
+![Home Assistant on the Internet Pi](/images/home-assistant.png)
+
 Other features:
 
   - **Shelly Plug Monitoring**: Installs a [`shelly-plug-prometheus` exporter](https://github.com/geerlingguy/shelly-plug-prometheus) and a Grafana dashboard, which tracks and displays power usage on a Shelly Plug running on the local network. (Disabled by default. Enable and configure using the `shelly_plug_*` vars in `config.yml`.)
@@ -69,7 +73,7 @@ Visit the Pi's IP address with port 3030 (e.g. http://192.168.1.10:3030/), and l
 To upgrade Pi-hole to the latest version, run the following commands:
 
 ```bash
-cd ~/pi-hole # 
+cd ~/pi-hole #
 docker-compose pull             # pulls the latest images
 docker-compose up -d --no-deps  # restarts containers with newer images
 docker system prune --all       # deletes unused images
