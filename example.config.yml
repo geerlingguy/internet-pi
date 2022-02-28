@@ -19,10 +19,13 @@ monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - https://www.apple.com/;apple.com
 
 # Shelly Plug configuration. (Also requires `monitoring_enable`)
-shelly_plug_enable: false
-shelly_plug_hostname: my-shelly-plug-host-or-ip
-shelly_plug_http_username: username
-shelly_plug_http_password: "password"
+shelly_plugs_enable: false
+shelly_plugs:           # list of Shelly Plugs to connect to
+  - name: my-shelly-plug   # will show up in dashboard to identify this plug
+    hostname: "my-shelly-plug-host-or-ip"
+    port: 9924
+shelly_plugs_http_username: username
+shelly_plugs_http_password: "password"
 
 # AirGradient configuration. (Also requires `monitoring_enable`)
 airgradient_enable: false
