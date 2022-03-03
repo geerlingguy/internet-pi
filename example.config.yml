@@ -2,6 +2,12 @@
 # Location where configuration files will be stored.
 config_dir: '~'
 
+# IPv6 configuration: You can specify your desired subnet for docker-compose here.
+# If you change these settings, you must tear down any existing containers first so the network is created from scratch
+docker_ipv6_enable: false
+docker_ipv6_subnet: 2001:3984:3989::/64
+docker_ipv6_gateway: 2001:3984:3989::1
+
 # Pi-hole configuration.
 pihole_enable: true
 pihole_hostname: pihole

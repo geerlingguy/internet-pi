@@ -8,6 +8,20 @@ volumes:
 networks:
   front-tier:
   back-tier:
+{% if docker_ipv6_enable %}
+    enable_ipv6: true
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "true"
+    ipam:
+      config:
+       - subnet: {{ docker_ipv6_subnet }}
+         gateway: {{ docker_ipv6_gateway }}
+{% else %}
+    enable_ipv6: false
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+{% endif %}
 
 services:
   prometheus:
