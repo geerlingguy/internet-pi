@@ -34,6 +34,7 @@
       - python3-pip
       - git
       - rsync
+      - iptables-persistent
     state: present
   when: ansible_facts.os_family == "Debian"
 
@@ -60,6 +61,31 @@
     name: "{{ ansible_user }}"
     groups: docker
     append: true
+
+- name: Load routing rules to allow access to IPv6 hosts (Debian).
+  ansible.builtin.blockinfile:
+    block: "{{ lookup('template', 'templates/ip6tables.rules.j2') }}"
+    dest: /etc/iptables/rules.v6
+    marker: "# {mark} ANSIBLE MANAGED BLOCK FOR IPV6 ROUTING"
+    validate: ip6tables-restore %s
+    mode: 0644
+  become: true
+  when:
+    - docker_ipv6_enable
+    - ansible_facts.os_family == "Debian"
+
+- name: Load routing rules to allow access to IPv6 hosts (Archlinux).
+  # TODO: the implementation for Archlinux has not been tested
+  ansible.builtin.blockinfile:
+    block: "{{ lookup('template', 'templates/ip6tables.rules.j2') }}"
+    dest: /etc/iptables/iptables.rules
+    marker: "# {mark} ANSIBLE MANAGED BLOCK FOR IPV6 ROUTING"
+    validate: ip6tables-restore %s
+    mode: 0644
+  become: true
+  when:
+    - docker_ipv6_enable
+    - ansible_facts.os_family == "Archlinux"
 
 # reset_connection doesn't support conditionals.
 - name: Reset connection so docker group is picked up.

@@ -1,0 +1,8 @@
+# rules to allow addressing hosts via IPv6 from the docker containers
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A POSTROUTING -s {{ docker_ipv6_subnet }} ! -o docker0 -j MASQUERADE
+COMMIT
