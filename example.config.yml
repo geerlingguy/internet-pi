@@ -34,3 +34,13 @@ airgradient_sensors:
 
 # Starlink configuration. (Also requires `monitoring_enable`)
 starlink_enable: false
+
+# Temperature Probe configuration. (Also requires `monitoring_enable`)
+temp_probes_enable: false
+temp_probes:
+  - name: "temp"           # human-readable name you wish to give this probe
+    id: "28-06201cd5251b"  # ID of the probe (check which folder in /sys/bus/w1/devices has a file named w1_slave)
+    # GPIO pin the data signal of the probe is connected to (will be set up for one-wire communication):
+    # Changing or enabling this setting will require a reboot of the pi.
+    pin: 4
+    port: 9920             # port for prometheus to reach the exporter
