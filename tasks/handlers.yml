@@ -33,3 +33,10 @@
     build: false
     restarted: true
   become: false
+
+- name: Restart temp-probe-exporter
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/temp-probe-exporter/"
+    build: false
+    restarted: true
+  become: false

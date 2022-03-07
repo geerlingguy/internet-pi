@@ -1,0 +1,53 @@
+---
+- name: Configure pin for one-wire communication.
+  ansible.builtin.blockinfile:
+    dest: /boot/config.txt
+    block: "dtoverlay=w1-gpio,gpiopin={{ item.pin }}"
+    insertafter: '^\[all\]$'
+    marker: "# {mark} ONE-WIRE CONFIGURATION FOR TEMPERATUE PROBE {{ item.name | upper }}"
+    mode: 0755
+  register: boot_txt
+  become: true
+  loop: "{{ temp_probes }}"
+
+- name: Reboot the machine to finish configuration of pin.
+  reboot:
+  when:
+    - boot_txt.changed
+
+- name: Ensure Temperature Probe directory exists.
+  file:
+    path: "{{ config_dir }}/temp-probe-exporter"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Clone ds18b20-temperature-exporter repo to Pi.
+  ansible.builtin.git:
+    repo: https://github.com/corentinvds/ds18b20-temperature-exporter
+    dest: "{{ config_dir }}/temp-probe-exporter/ds18b20-temperature-exporter"
+    version: main
+    accept_hostkey: true
+  become: false
+  notify: Restart temp-probe-exporter
+
+- name: Copy Temperature Probe docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/temp-probe-docker-compose.yml.j2
+    dest: "{{ config_dir }}/temp-probe-exporter/docker-compose.yml"
+    mode: '0640'
+  become: false
+  notify: Restart temp-probe-exporter
+
+- name: Ensure Temperature Probe Prometheus exporter is running.
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/temp-probe-exporter/"
+    build: false
+  become: false
+
+- name: Copy Temperature Probe dashboard config to grafana.
+  ansible.builtin.copy:
+    src: files/temp-probe-overview.json
+    dest: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/"
+    mode: 0644
+  become: false

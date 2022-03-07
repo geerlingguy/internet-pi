@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+---
+version: "3"
+
+services:
+{% for probe in temp_probes %}
+  temp-probe-exporter-{{ probe.name | lower }}:
+    container_name: temp-probe-exporter-{{ probe.name | lower }}
+    build: {{ config_dir }}/temp-probe-exporter/ds18b20-temperature-exporter
+    ports:
+      - "{{ probe.port }}:{{ probe.port }}"
+    command: --port {{ probe.port }} --device-id {{ probe.id }} --room "{{ probe.name }}"
+    volumes:
+      - "/sys/devices/w1_bus_master1/:/sys/devices/w1_bus_master1/:ro"
+    restart: unless-stopped
+{% endfor %}
