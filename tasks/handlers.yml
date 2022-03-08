@@ -1,4 +1,7 @@
 ---
+- name: Reboot target machine
+  reboot:
+
 - name: Restart pi-hole
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/pi-hole/"

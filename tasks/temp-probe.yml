@@ -6,14 +6,9 @@
     insertafter: '^\[all\]$'
     marker: "# {mark} ONE-WIRE CONFIGURATION FOR TEMPERATUE PROBE {{ item.name | upper }}"
     mode: 0755
-  register: boot_txt
   become: true
   loop: "{{ temp_probes }}"
-
-- name: Reboot the machine to finish configuration of pin.
-  reboot:
-  when:
-    - boot_txt.changed
+  notify: Reboot target machine
 
 - name: Ensure Temperature Probe directory exists.
   file:
