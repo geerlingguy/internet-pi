@@ -26,7 +26,7 @@ shelly_plug_http_password: "password"
 
 # AirGradient configuration. (Also requires `monitoring_enable`)
 airgradient_enable: false
-airgradient_metrics: fahrenheit # changeable to celsius or fahrenheit
+airgradient_metrics: fahrenheit  # changeable to celsius or fahrenheit
 airgradient_sensors:
   # ID Should be limited to no more than 38 characters, in the set a-z.
   - id: livingroom

@@ -1,8 +1,8 @@
 ---
 - name: Set metrics for Grafana dashboard
-  local_action:
-    module: ansible.builtin.replace
-    path: "./templates/airgradient-air-quality.json.j2"
+  delegate_to: localhost
+  ansible.builtin.replace:
+    path: "{{ lookup('env', 'PWD') }}/templates/airgradient-air-quality.json.j2"
     regexp: '"unit": "fahrenheit"|"unit": "celsius"'
     replace: '"unit": "{{ airgradient_metrics }}"'
 
