@@ -1,5 +1,5 @@
 ---
-- name: Set metrics for Grafana dashboard
+- name: Set temperature metrics for Grafana dashboard
   delegate_to: localhost
   ansible.builtin.replace:
     path: "{{ lookup('env', 'PWD') }}/templates/airgradient-air-quality.json.j2"
