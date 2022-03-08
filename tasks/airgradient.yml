@@ -4,7 +4,7 @@
   ansible.builtin.replace:
     path: "{{ lookup('env', 'PWD') }}/templates/airgradient-air-quality.json.j2"
     regexp: '"unit": "fahrenheit"|"unit": "celsius"'
-    replace: '"unit": "{{ airgradient_metrics }}"'
+    replace: '"unit": "{{ airgradient_temperature_metrics }}"'
 
 - name: Copy airgradient dashboard configs to Grafana.
   ansible.builtin.template:
