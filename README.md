@@ -85,6 +85,10 @@ At some point in the future, a dedicated upgrade playbook may be added, but for 
 
 A guide for backing up the configurations and historical data will be posted here as part of [Issue #194: Create Backup guide](https://github.com/geerlingguy/internet-pi/issues/194).
 
+## Troubleshooting
+
+A collection of troubleshooting guides are availabe in the [troubleshooting readme](/docs/README_TROUBLESHOOT.md).
+
 ## License
 
 MIT
