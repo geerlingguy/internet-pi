@@ -1,0 +1,37 @@
+---
+- name: Ensure ddclient directory exists.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/ddclient"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Ensure ddclient/config directory exists.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/ddclient/config"
+    state: directory
+    mode: 0755
+  become: false
+  
+- name: Copy ddclient docker-compose template and config
+  ansible.builtin.template:
+    src: templates/{{ item.src }}
+    dest: "{{ config_dir }}/ddclient/{{ item.dest }}"
+    mode: 0644
+  loop:
+    - src: ddclient-docker-compose.yml.j2
+      dest: docker-compose.yml # ~/ddclient/docker-compose.yml
+    - src: ddclient.conf.j2
+      dest: "config/ddclient.conf" # ~/ddclient/config/ddclient.conf
+  notify: Restart ddclient
+  become: true
+  become_user: "{{ ansible_user }}"
+
+# TODO: The first time this playbook is run, the `pi` user may not be added
+# to the `docker` group, so this task may fail.
+- name: Ensure ddclient is running.
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/ddclient/"
+    build: false
+  become: false
+
