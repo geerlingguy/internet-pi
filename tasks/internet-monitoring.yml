@@ -39,6 +39,8 @@
       dest: prometheus/prometheus.yml
     - src: prometheus-pinghosts.yaml.j2
       dest: prometheus/pinghosts.yaml
+    - src: ddclient.conf.j2
+      dest: ddclient/ddclient.conf
   notify: Restart internet-monitoring
   become: false
 

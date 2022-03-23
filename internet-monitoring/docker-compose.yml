@@ -89,3 +89,13 @@ services:
       - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
     networks:
       - back-tier
+
+  ddclient:
+    image: linuxserver/ddclient:latest
+    container_name: ddclient
+    networks:
+      - back-tier
+    volumes:
+      - ./ddclient:/config
+    restart: unless-stopped
+    pull_policy: always

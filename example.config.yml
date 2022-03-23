@@ -18,6 +18,14 @@ monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - https://github.com/;github.com
   - https://www.apple.com/;apple.com
 
+# DDclient configuration (A records for hosts must already exist)
+ddclient_protocol: cloudflare
+ddclient_login: my-cloudflare-login-email-address
+# Cloudflare Global API Key can be generated here: https://dash.cloudflare.com/profile/api-tokens
+ddclient_password: my-cloudflare-global-api-key
+ddclient_zone: mydomain.com
+ddclient_hosts: grafana.mydomain.com,pihole.mydomain.com
+
 # Shelly Plug configuration. (Also requires `monitoring_enable`)
 shelly_plug_enable: false
 shelly_plug_hostname: my-shelly-plug-host-or-ip
