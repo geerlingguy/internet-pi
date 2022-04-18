@@ -12,6 +12,7 @@ pihole_password: "change-this-password"
 monitoring_enable: true
 monitoring_grafana_admin_password: "admin"
 monitoring_speedtest_interval: 60m
+monitoring_speedtest_provider: ookla # changeable to ookla or cloudflare
 monitoring_ping_interval: 5s
 monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - http://www.google.com/;google.com
