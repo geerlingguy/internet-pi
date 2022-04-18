@@ -1,0 +1,23 @@
+---
+- name: Create Node Exporter folder on Pi.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/node-exporter"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Copy Node-Exporter docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/node-exporter-docker-compose.yml.j2
+    dest: "{{ config_dir }}/node-exporter/docker-compose.yml"
+    mode: '0640'
+  become: false
+  notify: Restart Node-Exporter
+
+# TODO: The first time this playbook is run, the `pi` user may not be added
+# to the `docker` group, so this task may fail.
+- name: Ensure Node-Exporter is running.
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/node-exporter/"
+    build: false
+  become: false

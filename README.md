@@ -85,6 +85,18 @@ At some point in the future, a dedicated upgrade playbook may be added, but for 
 
 A guide for backing up the configurations and historical data will be posted here as part of [Issue #194: Create Backup guide](https://github.com/geerlingguy/internet-pi/issues/194).
 
+## Removal
+
+To deprecate and remove Internet-Pi from your device, please run the uninstall.sh script or complete the following procedure here:
+
+```bash
+cd ~/internet-monitoring
+docker-compose down -v    #Shuts down internet-monitoring container(s)
+cd ~/pi-hole
+docker-compose down -v    #Shuts down pi-hole container(s)
+docker system prune -f    #Clean up docker
+```
+
 ## License
 
 MIT
