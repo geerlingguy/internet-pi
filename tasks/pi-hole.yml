@@ -1,4 +1,11 @@
 ---
+
+- name: Disable systemd-resolved stub listener (Ubuntu 17.10+).
+  ansible.builtin.import_tasks: tasks/ubuntu-disable-dns-stub-listener.yml
+  when:
+    - ansible_facts['distribution'] == "Ubuntu"
+    - ansible_facts['lsb']['release'] | int >= 17.10
+
 - name: Create Pi-hole folder on Pi.
   ansible.builtin.file:
     path: "{{ config_dir }}/pi-hole"
