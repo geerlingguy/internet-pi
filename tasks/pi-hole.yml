@@ -6,6 +6,9 @@
     - ansible_facts['distribution'] == "Ubuntu"
     - ansible_facts['lsb']['release'] | int >= 17.10
 
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
 - name: Create Pi-hole folder on Pi.
   ansible.builtin.file:
     path: "{{ config_dir }}/pi-hole"
