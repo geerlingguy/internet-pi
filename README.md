@@ -85,6 +85,31 @@ At some point in the future, a dedicated upgrade playbook may be added, but for 
 
 A guide for backing up the configurations and historical data will be posted here as part of [Issue #194: Create Backup guide](https://github.com/geerlingguy/internet-pi/issues/194).
 
+## Uninstall
+
+To remove `internet-pi` from your system, run the following commands (assuming the default install location of `~`, your home directory):
+
+```bash
+# Enter the internet-monitoring directory.
+cd ~/internet-monitoring
+
+# Shut down internet-monitoring containers and delete data volumes.
+docker-compose down -v
+
+# Enter the pi-hole directory.
+cd ~/pi-hole
+
+# Shutdown pi-hole containers and delete data volumes.
+docker-compose down -v
+
+# Delete all the unused container images, volumes, etc. from the system.
+docker system prune -f
+```
+
+Do the same thing for any of the other optional directories added by this project (e.g. `shelly-plug-prometheus`, `starlink-exporter`, etc.).
+
+You can then delete the `internet-monitoring`, `pi-hole`, etc. folders and everything will be gone from your system.
+
 ## License
 
 MIT
