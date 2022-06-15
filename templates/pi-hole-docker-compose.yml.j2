@@ -1,6 +1,13 @@
 # {{ ansible_managed }}
 ---
-version: "3"
+version: "3.5"
+
+{% if domain_name_enable and domain_name and domain_pihole %}
+{# Make sure pihole and nginx-proxy are in the same network #}
+networks:
+  front-tier:
+    name: internet-monitoring-front-tier
+{% endif %}
 
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
@@ -12,12 +19,23 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
       - "67:67/udp"
+{% if domain_name_enable and domain_name and domain_pihole %}
+      - "38080:80/tcp"
+{% else %}
       - "80:80/tcp"
+{% endif %}
       - "443:443/tcp"
     environment:
       TZ: '{{ pihole_timezone }}'
       WEBPASSWORD: '{{ pihole_password }}'
       ServerIP: '{{ ansible_facts['default_ipv4']['address'] }}'
+{% if domain_name_enable and domain_name and domain_pihole %}
+      VIRTUAL_HOST: {{ domain_pihole }}.{{ domain_name }}
+      VIRTUAL_PORT: 80
+      PROXY_LOCATION: {{ domain_pihole }}
+    networks:
+      - front-tier
+{% endif %}
     dns:
       - 127.0.0.1
       - 8.8.8.8
@@ -26,4 +44,19 @@ services:
       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
     cap_add:
       - NET_ADMIN
+{% if domain_name_enable and domain_name %}
+    # adds hostname mappings to pihole /etc/hosts file
+    extra_hosts:
+      # # LAN hostnames for other docker containers using nginx-proxy
+      - "{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+{% if domain_name_enable and domain_name and domain_pihole %}
+      - "{{ domain_pihole }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+{% endif %}
+{% if domain_name_enable and domain_name and domain_grafana %}
+      - "{{ domain_grafana }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+{% endif %}
+{% if domain_name_enable and domain_name and domain_prometheus %}
+      - "{{ domain_prometheus }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+{% endif %}
+{% endif %}
     restart: unless-stopped
