@@ -34,3 +34,15 @@ airgradient_sensors:
 
 # Starlink configuration. (Also requires `monitoring_enable`)
 starlink_enable: false
+
+# DDclient configuration (A records for hosts must already exist)
+ddclient_enable: false
+ddclient_puid: 1000
+ddclient_pgid: 1000
+ddclient_protocol: cloudflare
+ddclient_login: my-cloudflare-login-email-address
+# Cloudflare Global API Key can be generated here: https://dash.cloudflare.com/profile/api-tokens
+ddclient_password: my-cloudflare-global-api-key
+ddclient_zone: mydomain.com
+ddclient_hosts: grafana.mydomain.com,pihole.mydomain.com
+ddclient_timezone: America/Chicago

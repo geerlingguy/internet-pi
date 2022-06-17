@@ -26,3 +26,10 @@
     build: false
     restarted: true
   become: false
+
+- name: Restart ddclient
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/ddclient/"
+    build: false
+    restarted: true
+  become: false

@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+---
+version: "3"
+
+services:
+  ddclient:
+    image: linuxserver/ddclient:latest
+    container_name: ddclient
+    volumes:
+      - './config:/config'
+    environment:
+      PUID: '{{ ddclient_puid }}'
+      PGID: '{{ ddclient_pgid }}'
+    restart: unless-stopped
+    pull_policy: always
