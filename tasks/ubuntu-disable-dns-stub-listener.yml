@@ -1,0 +1,19 @@
+---
+# For more information:
+# https://github.com/pi-hole/docker-pi-hole#installing-on-ubuntu
+
+- name: Copy systemd-resolved conf template to Pi.
+  ansible.builtin.template:
+    src: templates/pi-hole-ubuntu-systemd-resolved.conf.j2
+    dest: /etc/systemd/resolved.conf
+    mode: 0644
+  become: true
+  notify: Restart systemd-resolved
+
+- name: Ensure resolv.conf is linked
+  ansible.builtin.file:
+    src: /run/systemd/resolve/resolv.conf
+    dest: /etc/resolv.conf
+    state: link
+    force: true
+  notify: Restart systemd-resolved

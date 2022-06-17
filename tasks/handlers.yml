@@ -26,3 +26,9 @@
     build: false
     restarted: true
   become: false
+
+- name: Restart systemd-resolved
+  ansible.builtin.systemd:
+    name: systemd-resolved.service
+    state: restarted
+  become: true

@@ -7,6 +7,7 @@ pihole_enable: true
 pihole_hostname: pihole
 pihole_timezone: America/Chicago
 pihole_password: "change-this-password"
+pihole_systemd_resolved_dns: "1.1.1.1"
 
 # Internet monitoring configuration.
 monitoring_enable: true
