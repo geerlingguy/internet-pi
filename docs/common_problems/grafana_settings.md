@@ -16,7 +16,8 @@ To solve this problem:
 * To enable SSL encryption of the front-end, perform the following steps:
     * create a ssl key within the main internet-pi folder (from which you run the Ansible playbook):
         ```
-        openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj /CN=localhost -keyout files/grafana.key -out files/grafana.crt
+        openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj /CN=localhost -keyout internet-monitoring/grafana/provisioning/grafana.key -out internet-monitoring/grafana/provisioning/grafana.crt
+        chmod a+r ./internet-monitoring/grafana/provisioning/grafana.key
         ```
     * Add the following to the `config.yml` in the section '# Internet monitoring configuration.':
         ```
