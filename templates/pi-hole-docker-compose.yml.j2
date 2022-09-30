@@ -63,7 +63,8 @@ services:
 
   pihole-exporter:
     container_name: pihole-exporter
-    image: ekofr/pihole-exporter:latest
+    # There is an issue with v0.3.0, reverting to v0.2.0
+    image: ekofr/pihole-exporter:v0.2.0
     hostname: '{{ pihole_hostname }}'
     ports:
       - "9617:9617"
