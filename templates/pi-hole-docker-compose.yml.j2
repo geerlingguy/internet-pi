@@ -63,8 +63,7 @@ services:
 
   pihole-exporter:
     container_name: pihole-exporter
-    # Using 0.0.10 instead of latest for arm compatibility: https://github.com/eko/pihole-exporter/issues/73
-    image: ekofr/pihole-exporter:0.0.10
+    image: ekofr/pihole-exporter:latest
     hostname: '{{ pihole_hostname }}'
     ports:
       - "9617:9617"
