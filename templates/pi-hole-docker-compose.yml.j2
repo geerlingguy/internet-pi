@@ -72,3 +72,4 @@ services:
       PIHOLE_PASSWORD: '{{ pihole_password }}'
       INTERVAL: '30s'
       PORT: 9617
+    restart: unless-stopped
