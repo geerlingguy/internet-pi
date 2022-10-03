@@ -60,3 +60,16 @@ services:
 {% endif %}
 {% endif %}
     restart: unless-stopped
+
+  pihole-exporter:
+    container_name: pihole-exporter
+    image: ekofr/pihole-exporter:latest
+    hostname: '{{ pihole_hostname }}-exporter'
+    ports:
+      - "9617:9617"
+    environment:
+      PIHOLE_HOSTNAME: '{{ pihole_hostname }}'
+      PIHOLE_PASSWORD: '{{ pihole_password }}'
+      INTERVAL: '30s'
+      PORT: 9617
+    restart: unless-stopped
