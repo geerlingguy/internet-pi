@@ -56,7 +56,7 @@ It should also work with Ubuntu for Pi, or Arch Linux, but has not been tested o
 
 ### Pi-hole
 
-Visit the Pi's IP address (e.g. http://192.168.1.10/) and use the `pihole_password` you configured in your `config.yml` file.
+Visit the Pi's IP address (e.g. http://192.168.1.10/) and use the `pihole_password` you configured in your `config.yml` file. An existing pi-hole installation can be left unaltered by disabling the setup of this proyect's installation in your `config.yml` (`pihole_enable: false`)
 
 ### Grafana
 
@@ -68,6 +68,8 @@ To find the dashboard, navigate to Dashboards, click Browse, then go to the Inte
 
 ## Updating
 
+### pi-hole
+
 To upgrade Pi-hole to the latest version, run the following commands:
 
 ```bash
@@ -77,9 +79,11 @@ docker-compose up -d --no-deps  # restarts containers with newer images
 docker system prune --all       # deletes unused images
 ```
 
-Upgrades for the other configurations are similar (go into the directory, and run the same `docker-compose` commands. Make sure to `cd` into the `config_dir` that you use in your `config.yml` file.
+### Configurations and internet-monitoring images
 
-At some point in the future, a dedicated upgrade playbook may be added, but for now, upgrades may be performed manually as shown above.
+Upgrades for the other configurations are similar (go into the directory, and run the same `docker-compose` commands. Make sure to `cd` into the `config_dir` that you use in your `config.yml` file. 
+
+Alternatively, you may update the initial `config.yml` in the the repo folder and re-run the main playbook: `ansible-playbook main.yml`. At some point in the future, a dedicated upgrade playbook may be added, but for now, upgrades may be performed manually as shown above.
 
 ## Backups
 
