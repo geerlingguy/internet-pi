@@ -66,6 +66,18 @@ To find the dashboard, navigate to Dashboards, click Browse, then go to the Inte
 
 > Note: The `monitoring_grafana_admin_password` is only used the first time Grafana starts up; if you need to change it later, do it via Grafana's admin UI.
 
+### Prometheus
+
+A number of default Prometheus job configurations are included out of the box, but if you would like to add more to the `prometheus.yml` file, you can add a block of text that will be added to the end of the `scrape_configs` using the `prometheus_extra_scrape_configs` variable, for example:
+
+```yaml
+prometheus_extra_scrape_configs: |
+  - job_name: 'customjob'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.1.1:9100']
+```
+
 ## Updating
 
 ### pi-hole
