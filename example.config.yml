@@ -27,6 +27,8 @@ monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - https://www.apple.com/;apple.com
 
 # Prometheus configuration.
+prometheus_node_exporter_targets:
+  - 'nodeexp:9100'
 prometheus_extra_scrape_configs: ''
 
 # Shelly Plug configuration. (Also requires `monitoring_enable`)

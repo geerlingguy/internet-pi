@@ -78,6 +78,15 @@ prometheus_extra_scrape_configs: |
       - targets: ['192.168.1.1:9100']
 ```
 
+You can also add more targets to monitor via the node exporter dashboard, say if you have a number of servers or other Pis you want to monitor on this instance. Just add them to the list, after the `nodeexp:9100` entry for the main Pi:
+
+```yaml
+prometheus_node_exporter_targets:
+  - 'nodeexp:9100'
+  # Add more targets here
+  - 'another-server.local:9100'
+```
+
 ## Updating
 
 ### pi-hole
