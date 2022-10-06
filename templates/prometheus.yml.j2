@@ -69,9 +69,10 @@ scrape_configs:
       - target_label: __address__
         replacement: ping:9115  # The blackbox exporter's real hostname:port.
 
-  - job_name: 'nodeexp'
+  - job_name: 'node'
+    scrape_interval: 5s
     static_configs:
-      - targets: ['nodeexp:9100']
+      - targets: {{ prometheus_node_exporter_targets | to_yaml }}
 
   - job_name: 'pihole-exporter'
     static_configs:
