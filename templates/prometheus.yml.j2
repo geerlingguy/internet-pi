@@ -70,7 +70,6 @@ scrape_configs:
         replacement: ping:9115  # The blackbox exporter's real hostname:port.
 
   - job_name: 'node'
-    scrape_interval: 5s
     static_configs:
       - targets: {{ prometheus_node_exporter_targets | to_yaml }}
 
