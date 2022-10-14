@@ -10,10 +10,12 @@ rule_files:
   - 'alert.rules'
 
 scrape_configs:
+{% if prometheus_monitor_prometheus %}
   - job_name: 'prometheus'
     scrape_interval: 5s
     static_configs:
       - targets: ['localhost:9090']
+{% endif %}
 
   - job_name: 'speedtest'
     metrics_path: /metrics
@@ -72,11 +74,12 @@ scrape_configs:
   - job_name: 'node'
     static_configs:
       - targets: {{ prometheus_node_exporter_targets | to_yaml }}
-  {% if pihole_enable %}
-  - job_name: 'pihole-exporter'
+
+{% if pihole_enable %}
+  - job_name: '{{ pihole_hostname }}'
     static_configs:
-      - targets: ['pihole:9617']
-  {% endif %}
+      - targets: ['{{ pihole_hostname }}:9617']
+{% endif %}
 
 {% filter indent(width=2,first=True) %}
 {{ prometheus_extra_scrape_configs }}
