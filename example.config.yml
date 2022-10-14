@@ -27,6 +27,7 @@ monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - https://www.apple.com/;apple.com
 
 # Prometheus configuration.
+prometheus_monitor_prometheus: false
 prometheus_node_exporter_targets:
   - 'nodeexp:9100'
 prometheus_extra_scrape_configs: ''
