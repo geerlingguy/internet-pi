@@ -26,3 +26,10 @@
     build: false
     restarted: true
   become: false
+
+- name: Restart unpoller-exporter
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/unpoller-exporter/"
+    build: false
+    restarted: true
+  become: false

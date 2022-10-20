@@ -1,0 +1,28 @@
+# {{ ansible_managed }}
+---
+version: "3.5"
+
+networks:
+  back-tier:
+    name: internet-monitoring-back-tier
+
+services:
+  unpoller:
+    container_name: unpoller
+    hostname: 'unpoller'
+    restart: unless-stopped
+    image: golift/unifi-poller:latest
+    expose:
+      - 9130
+    ports:
+      - 9130:9130
+    networks:
+      - back-tier
+    environment:
+    # The documentation on these vars isn't great. The best example can be found at
+    # https://github.com/unpoller/unpoller/blob/51d0b2109ffe455c8ed2ef711e1a9ae46a6c15c7/init/docker/docker-compose.yml
+      UP_INFLUXDB_DISABLE: 'true'
+      UP_UNIFI_DEFAULT_SAVE_DPI: 'true'
+      UP_UNIFI_DEFAULT_USER: '{{ unpoller_unifi_admin_username }}'
+      UP_UNIFI_DEFAULT_PASS: '{{ unpoller_unifi_admin_password }}'
+      UP_UNIFI_DEFAULT_URL: '{{ unpoller_unifi_url }}'

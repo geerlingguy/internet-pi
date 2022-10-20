@@ -81,6 +81,13 @@ scrape_configs:
       - targets: ['{{ pihole_hostname }}:9617']
 {% endif %}
 
+{% if unpoller_enable %}
+  - job_name: 'unpoller'
+    scrape_interval: 30s
+    static_configs:
+    - targets: ['unpoller:9130']
+{% endif %}
+
 {% filter indent(width=2,first=True) %}
 {{ prometheus_extra_scrape_configs }}
 {% endfilter %}

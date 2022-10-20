@@ -47,3 +47,13 @@ airgradient_sensors:
 
 # Starlink configuration. (Also requires `monitoring_enable`)
 starlink_enable: false
+
+# Unifi Unpoller configuration
+unpoller_enable: false
+# URL for the UniFi Controller. Do not add any paths after the host:port
+# Do not use port 8443 if you have a UDM; just use "https://ip".
+unpoller_unifi_url: https://192.168.1.1
+# The password for the user created in the unifi admin, insructions at
+# https://unpoller.com/docs/install/gettingstarted#configuring-the-controller
+unpoller_unifi_admin_username: "unifipoller"
+unpoller_unifi_admin_password: "change-this-password"

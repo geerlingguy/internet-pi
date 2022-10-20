@@ -1,0 +1,28 @@
+---
+- name: Ensure unpoller directory exists.
+  file:
+    path: "{{ config_dir }}/unpoller-exporter"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Copy unpoller docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/unpoller-docker-compose.yml.j2
+    dest: "{{ config_dir }}/unpoller-exporter/docker-compose.yml"
+    mode: '0640'
+  become: false
+  notify: Restart unpoller-exporter
+
+- name: Ensure unpoller Prometheus exporter is running.
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/unpoller-exporter/"
+    build: false
+  become: false
+
+- name: Copy unpoller dashboard config to grafana.
+  ansible.builtin.copy:
+    src: files/unpoller-overview.json
+    dest: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/"
+    mode: 0644
+  become: false
