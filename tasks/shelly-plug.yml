@@ -1,7 +1,7 @@
 ---
 - name: Clone shelly-plug-prometheus repo to Pi.
   ansible.builtin.git:
-    repo: https://github.com/geerlingguy/shelly-plug-prometheus
+    repo: https://github.com/ian-rose/shelly-plug-prometheus
     dest: "{{ config_dir }}/shelly-plug-prometheus/"
     version: master
     accept_hostkey: true
