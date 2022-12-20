@@ -30,6 +30,7 @@ prometheus_monitor_prometheus: false
 prometheus_node_exporter_targets:
   - 'nodeexp:9100'
 prometheus_extra_scrape_configs: ''
+prometheus_tsdb_retention_time: 90d
 
 # Shelly Plug configuration. (Also requires `monitoring_enable`)
 shelly_plug_enable: false
