@@ -97,7 +97,11 @@ services:
       - 9798
     ports:
       - 9798:9798
+{% if monitoring_speedtest_provider == 'cloudflare' %}
+    image: redorbluepill/cloudflare-speedtest-exporter
+{% else %}
     image: miguelndecarvalho/speedtest-exporter
+{% endif %}
     restart: always
     networks:
       - back-tier
