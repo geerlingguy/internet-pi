@@ -11,22 +11,6 @@
     - ansible_facts.userspace_bits == '32'
     - ansible_facts.packages['libseccomp2'][0]['version'] is version('2.4.4', '<')
 
-- name: Set speedtest provider to ookla if selected
-  delegate_to: localhost
-  ansible.builtin.replace:
-    path: "{{ lookup('env', 'PWD') }}/internet-monitoring/docker-compose.yml"
-    regexp: 'redorbluepill/cloudflare-speedtest-exporter'
-    replace: 'miguelndecarvalho/speedtest-exporter'
-  when: monitoring_speedtest_provider == "ookla"
-
-- name: Set speedtest provider to cloudflare if selected
-  delegate_to: localhost
-  ansible.builtin.replace:
-    path: "{{ lookup('env', 'PWD') }}/internet-monitoring/docker-compose.yml"
-    regexp: 'miguelndecarvalho/speedtest-exporter'
-    replace: 'redorbluepill/cloudflare-speedtest-exporter'
-  when: monitoring_speedtest_provider == "cloudflare"
-
 - name: Synchronize internet-monitoring directory.
   ansible.posix.synchronize:
     src: internet-monitoring
