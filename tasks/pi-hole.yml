@@ -22,6 +22,26 @@
     build: false
   become: false
 
+- name: Copy Pi-hole backup script to Pi.
+  ansible.builtin.template:
+    src: templates/pi-hole-backup.sh.j2
+    dest: "{{ config_dir }}/pi-hole/backup.sh"
+    mode: '0750'
+  become: false
+
+
+- name: Configure Pi-hole backup cron job.
+  ansible.builtin.cron:
+    name: "Pi-hole backup"
+    state: present
+    user: "pi"
+    minute: "0"
+    hour: "3"
+    day: "*"
+    month: "*"
+    weekday: "*"
+    job: "/usr/bin/bash {{ config_dir}}/pi-hole/backup.sh >> {{ config_dir}}/pi-hole/backup-log.log 2>&1"
+
 - name: Update resolveconf for local name server use.
   ansible.builtin.lineinfile:
     line: "name_servers=127.0.0.1"
