@@ -1,0 +1,23 @@
+#! /usr/bin/env bash
+# {{ ansible_managed }}
+
+backupPath="{{ config_dir }}/pi-hole/etc-pihole/backups"
+
+cd {{ config_dir }}/pi-hole
+mkdir -p $backupPath
+docker exec -i -w /etc/pihole/backups $(docker-compose ps -q pihole) pihole -a -t
+
+for i in {0..6}; do 
+  index=$(date +"%Y%m%d" -d "-$i day");
+  value=$(date +"%F" -d "-$i day");
+  keep[index]=$value; 
+done; 
+
+for i in {0..4} 8 12; do 
+  index=$(date +"%Y%m%d" -d "saturday-$((i+1)) week");
+  value=$(date +"%F" -d "saturday-$((i+1)) week");
+  keep[index]=$value; 
+done
+
+find $backupPath -maxdepth 1 -type f -name "pi-hole-pihole-teleporter*" $(printf "! -name *%s* " ${keep[*]}) -exec rm {} \;
+
