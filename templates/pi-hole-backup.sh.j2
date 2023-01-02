@@ -5,7 +5,7 @@ backupPath="{{ config_dir }}/pi-hole/etc-pihole/backups"
 
 cd {{ config_dir }}/pi-hole
 mkdir -p $backupPath
-docker exec -i -w /etc/pihole/backups $(docker-compose ps -q pihole) pihole -a -t
+/usr/bin/docker exec -i -w /etc/pihole/backups $(/usr/local/bin/docker-compose ps -q pihole) pihole -a -t
 
 for i in {0..6}; do 
   index=$(date +"%Y%m%d" -d "-$i day");
