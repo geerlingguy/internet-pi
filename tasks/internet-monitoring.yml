@@ -72,7 +72,7 @@
     dest: /etc/docker/daemon.json
     mode: 0644
   notify: Restart internet-monitoring
-  become: false
+  become: yes
   when:
     - log_monitoring_enable
 
