@@ -80,6 +80,7 @@
   ansible.builtin.service:
     name: docker
     state: restarted
+  become: yes
   when:
     - log_monitoring_enable
 
