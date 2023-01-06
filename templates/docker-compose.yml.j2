@@ -76,6 +76,39 @@ services:
       - VIRTUAL_PORT=3000
 {% endif %}
 
+{% if log_monitoring_enable %}
+  loki:
+    image: grafana/loki
+    volumes:
+      - ./loki/local-config.yaml:/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - back-tier
+{% if domain_name_enable and domain_name and domain_loki %}
+    depends_on:
+      - nginx-proxy
+    environment:
+      - VIRTUAL_HOST={{ domain_loki }}.{{ domain_name }}
+      - VIRTUAL_PORT=3000
+{% endif %}
+
+  promtail:
+    image: grafana/promtail
+    volumes:
+      - ./promtail/config.yml:/etc/promtail/config.yml
+{% if syslog_monitoring_enable %}
+  ports:
+    - "1514:1514"
+{% endif %}
+    volumes:
+      - /var/log:/var/log
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - back-tier
+{% endif %}
+
   ping:
     tty: true
     stdin_open: true
