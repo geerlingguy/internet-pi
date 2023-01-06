@@ -27,7 +27,7 @@ services:
 {% endif %}
 
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:latest
     restart: always
     volumes:
       - ./prometheus/:/etc/prometheus/
@@ -54,7 +54,7 @@ services:
 {% endif %}
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
     restart: always
     volumes:
       - grafana_data:/var/lib/grafana
@@ -78,7 +78,7 @@ services:
 
 {% if log_monitoring_enable %}
   loki:
-    image: grafana/loki
+    image: grafana/loki:2.6.1
     volumes:
       - ./loki/local-config.yaml:/etc/loki/local-config.yaml
     ports:
@@ -95,7 +95,7 @@ services:
 {% endif %}
 
   promtail:
-    image: grafana/promtail
+    image: grafana/promtail:2.6.1
     volumes:
       - ./promtail/config.yml:/etc/promtail/config.yml
 {% if syslog_monitoring_enable %}
