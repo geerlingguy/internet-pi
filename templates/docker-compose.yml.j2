@@ -79,6 +79,7 @@ services:
 {% if log_monitoring_enable %}
   loki:
     image: grafana/loki:2.6.1
+    restart: always
     volumes:
       - ./loki/local-config.yaml:/etc/loki/local-config.yaml
     ports:
@@ -96,6 +97,7 @@ services:
 
   promtail:
     image: grafana/promtail:2.6.1
+    restart: always
     volumes:
       - ./promtail/config.yml:/etc/promtail/config.yml
 {% if syslog_monitoring_enable %}
@@ -107,6 +109,8 @@ services:
     command: -config.file=/etc/promtail/config.yml
     networks:
       - back-tier
+    depends_on:
+      - loki
 {% endif %}
 
   ping:
