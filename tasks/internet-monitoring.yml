@@ -86,7 +86,7 @@
 
 - name: Install grafana/loki-docker-driver plugin
   community.docker.docker_plugin:
-    plugin_name: grafana/loki-docker-driver:arm-v7
+    plugin_name: grafana/loki-docker-driver:arm-64
     alias: loki
   when:
     - log_monitoring_enable
