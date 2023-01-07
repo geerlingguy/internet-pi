@@ -2,6 +2,13 @@
 ---
 version: "3"
 
+# Use the same networks as internet-monitoring.
+networks:
+  front-tier:
+    name: internet-monitoring-front-tier
+  back-tier:
+    name: internet-monitoring-back-tier
+
 services:
   shelly-plug:
     container_name: shelly-plug
@@ -15,3 +22,6 @@ services:
     volumes:
       - './:/var/www/html'
     restart: unless-stopped
+    networks:
+      - back-tier
+

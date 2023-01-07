@@ -2,12 +2,12 @@
 ---
 version: "3.5"
 
-{% if domain_name_enable and domain_name and domain_pihole %}
-{# Make sure pihole and nginx-proxy are in the same network #}
+# Use the same networks as internet-monitoring.
 networks:
   front-tier:
     name: internet-monitoring-front-tier
-{% endif %}
+  back-tier:
+    name: internet-monitoring-back-tier
 
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
@@ -33,9 +33,12 @@ services:
       VIRTUAL_HOST: {{ domain_pihole }}.{{ domain_name }}
       VIRTUAL_PORT: 80
       PROXY_LOCATION: {{ domain_pihole }}
+{% endif %}
     networks:
+{% if domain_name_enable and domain_name and domain_pihole %}
       - front-tier
 {% endif %}
+      - back-tier
     dns:
       - 127.0.0.1
       - 8.8.8.8
@@ -73,3 +76,5 @@ services:
       INTERVAL: '30s'
       PORT: 9617
     restart: unless-stopped
+    networks:
+      - back-tier
