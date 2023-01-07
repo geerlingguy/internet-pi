@@ -52,3 +52,12 @@ airgradient_sensors:
 
 # Starlink configuration. (Also requires `monitoring_enable`)
 starlink_enable: false
+
+# Using PoE hat
+using_poe: true
+
+# PoE Hat Fan Speeds
+poe_fan_temp0: 50000
+poe_fan_temp1: 60000
+poe_fan_temp2: 70000
+poe_fan_temp3: 80000

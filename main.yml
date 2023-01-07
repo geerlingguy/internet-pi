@@ -27,6 +27,10 @@
       ansible.builtin.import_tasks: tasks/handlers.yml
 
   tasks:
+    - name: System configuration.
+      ansible.builtin.import_tasks: tasks/system.yml
+      when: using_poe
+
     - name: Setup Docker.
       ansible.builtin.import_tasks: tasks/docker.yml
 
