@@ -25,6 +25,10 @@ monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - https://github.com/;github.com
   - https://www.apple.com/;apple.com
 
+# Log monitoring configuration.
+log_monitoring_enable: true
+syslog_monitoring_enable: false
+
 # Prometheus configuration.
 prometheus_monitor_prometheus: false
 prometheus_node_exporter_targets:

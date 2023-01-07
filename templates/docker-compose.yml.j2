@@ -27,7 +27,7 @@ services:
 {% endif %}
 
   prometheus:
-    image: prom/prometheus:v2.25.2
+    image: prom/prometheus:latest
     restart: always
     volumes:
       - ./prometheus/:/etc/prometheus/
@@ -54,7 +54,7 @@ services:
 {% endif %}
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
     restart: always
     volumes:
       - grafana_data:/var/lib/grafana
@@ -74,6 +74,43 @@ services:
     environment:
       - VIRTUAL_HOST={{ domain_grafana }}.{{ domain_name }}
       - VIRTUAL_PORT=3000
+{% endif %}
+
+{% if log_monitoring_enable %}
+  loki:
+    image: grafana/loki:2.6.1
+    restart: always
+    volumes:
+      - ./loki/local-config.yaml:/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - back-tier
+{% if domain_name_enable and domain_name and domain_loki %}
+    depends_on:
+      - nginx-proxy
+    environment:
+      - VIRTUAL_HOST={{ domain_loki }}.{{ domain_name }}
+      - VIRTUAL_PORT=3000
+{% endif %}
+
+  promtail:
+    image: grafana/promtail:2.6.1
+    restart: always
+    volumes:
+      - ./promtail/config.yml:/etc/promtail/config.yml
+{% if syslog_monitoring_enable %}
+    ports:
+      - "1514:1514"
+{% endif %}
+    volumes:
+      - /var/log:/var/log
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - back-tier
+    depends_on:
+      - loki
 {% endif %}
 
   ping:

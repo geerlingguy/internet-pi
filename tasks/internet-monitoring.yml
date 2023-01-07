@@ -27,6 +27,12 @@
     state: absent
   become: false
 
+- name: Create grafana datasources directory.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/internet-monitoring/grafana/provisioning/datasources"
+    state: directory
+    mode: '0755'
+
 - name: Copy templated internet-monitoring files into place.
   ansible.builtin.template:
     src: templates/{{ item.src }}
@@ -37,12 +43,71 @@
       dest: docker-compose.yml
     - src: grafana-config.monitoring.j2
       dest: grafana/config.monitoring
+    - src: grafana-datasource.yml.j2
+      dest: grafana/provisioning/datasources/datasource.yml
     - src: prometheus.yml.j2
       dest: prometheus/prometheus.yml
     - src: prometheus-pinghosts.yaml.j2
       dest: prometheus/pinghosts.yaml
   notify: Restart internet-monitoring
   become: false
+
+
+- name: Create loki directory.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/internet-monitoring/loki"
+    state: directory
+    mode: '0755'
+  when:
+    - log_monitoring_enable
+
+- name: Create promtail directory.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/internet-monitoring/promtail"
+    state: directory
+    mode: '0755'
+  when:
+    - log_monitoring_enable
+
+- name: Copy templated log-monitoring files into place.
+  ansible.builtin.template:
+    src: templates/{{ item.src }}
+    dest: "{{ config_dir }}/internet-monitoring/{{ item.dest }}"
+    mode: 0644
+  loop:
+    - src: loki-local-config.yaml.j2
+      dest: loki/local-config.yaml
+    - src: promtail-config.yml.j2
+      dest: promtail/config.yml
+  notify: Restart internet-monitoring
+  become: false
+  when:
+    - log_monitoring_enable
+
+- name: Install grafana/loki-docker-driver plugin
+  community.docker.docker_plugin:
+    plugin_name: grafana/loki-docker-driver:arm-64
+    alias: loki
+  when:
+    - log_monitoring_enable
+
+- name: Copy templated docker daemon.json into place.
+  ansible.builtin.template:
+    src: templates/docker-daemon.json.j2
+    dest: /etc/docker/daemon.json
+    mode: 0644
+  notify: Restart internet-monitoring
+  become: yes
+  when:
+    - log_monitoring_enable
+
+- name: Restart service docker
+  ansible.builtin.service:
+    name: docker
+    state: restarted
+  become: yes
+  when:
+    - log_monitoring_enable
 
 - name: Ensure internet-monitoring environment is running.
   community.docker.docker_compose:

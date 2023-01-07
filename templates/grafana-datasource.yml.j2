@@ -1,3 +1,4 @@
+# {{ ansible_managed }}
 ---
 apiVersion: 1
 
@@ -32,3 +33,21 @@ datasources:
       tlsClientKey: "..."
     version: 1
     editable: true
+
+{% if log_monitoring_enable %}
+  - name: Loki
+    type: loki
+    access: proxy
+    orgId: 1
+    url: http://loki:3100
+    user:
+    database:
+    basicAuth: false
+    isDefault: false
+    jsonData: {}
+    id: 42
+    uid: GgLhdSmRk
+    typeName: Loki
+    typeLogoUrl: public/app/plugins/datasource/loki/img/loki_icon.svg
+    readOnly: false
+{% endif %}
