@@ -64,7 +64,7 @@ services:
   pihole-exporter:
     container_name: pihole-exporter
     image: ekofr/pihole-exporter:latest
-    hostname: 'pihole-exporter'
+    hostname: '{{ pihole_hostname }}-exporter'
     ports:
       - "9617:9617"
     environment:
