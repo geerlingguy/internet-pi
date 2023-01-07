@@ -109,8 +109,6 @@ services:
     command: -config.file=/etc/promtail/config.yml
     networks:
       - back-tier
-    depends_on:
-      - loki
 {% endif %}
 
   ping:
