@@ -1,4 +1,8 @@
 ---
+- name: Set timezone to UTC
+  community.general.timezone:
+    name: UTC
+
 - name: Set PoE hat fan speeds.
   lineinfile:
     dest: /boot/config.txt

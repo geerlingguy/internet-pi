@@ -4,8 +4,10 @@ version: "3.5"
 
 # Use the same networks as internet-monitoring.
 networks:
+{% if domain_name_enable and domain_name and domain_pihole %}
   front-tier:
     name: internet-monitoring-front-tier
+{% endif %}
   back-tier:
     name: internet-monitoring-back-tier
 
