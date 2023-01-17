@@ -2,6 +2,13 @@
 # Location where configuration files will be stored.
 config_dir: '~'
 
+# Domain names configuration (related services need to be enabled).
+domain_name_enable: false
+domain_name: 'home.local'
+domain_pihole: 'pihole'          # to access pihole via: http://pihole.home.local
+domain_grafana: 'grafana'        # to access grafana via: http://grafana.home.local
+domain_prometheus: 'prometheus'  # to access prometheus via: http://prometheus.home.local
+
 # Pi-hole configuration.
 pihole_enable: true
 pihole_hostname: pihole
@@ -17,6 +24,13 @@ monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - http://www.google.com/;google.com
   - https://github.com/;github.com
   - https://www.apple.com/;apple.com
+
+# Prometheus configuration.
+prometheus_monitor_prometheus: false
+prometheus_node_exporter_targets:
+  - 'nodeexp:9100'
+prometheus_extra_scrape_configs: ''
+prometheus_tsdb_retention_time: 90d
 
 # Shelly Plug configuration. (Also requires `monitoring_enable`)
 shelly_plug_enable: false

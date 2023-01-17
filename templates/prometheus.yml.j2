@@ -10,10 +10,12 @@ rule_files:
   - 'alert.rules'
 
 scrape_configs:
+{% if prometheus_monitor_prometheus %}
   - job_name: 'prometheus'
     scrape_interval: 5s
     static_configs:
       - targets: ['localhost:9090']
+{% endif %}
 
   - job_name: 'speedtest'
     metrics_path: /metrics
@@ -69,6 +71,16 @@ scrape_configs:
       - target_label: __address__
         replacement: ping:9115  # The blackbox exporter's real hostname:port.
 
-  - job_name: 'nodeexp'
+  - job_name: 'node'
     static_configs:
-      - targets: ['nodeexp:9100']
+      - targets: {{ prometheus_node_exporter_targets | to_yaml }}
+
+{% if pihole_enable %}
+  - job_name: '{{ pihole_hostname }}'
+    static_configs:
+      - targets: ['{{ pihole_hostname }}:9617']
+{% endif %}
+
+{% filter indent(width=2,first=True) %}
+{{ prometheus_extra_scrape_configs }}
+{% endfilter %}

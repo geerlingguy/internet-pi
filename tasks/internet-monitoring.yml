@@ -33,6 +33,8 @@
     dest: "{{ config_dir }}/internet-monitoring/{{ item.dest }}"
     mode: 0644
   loop:
+    - src: docker-compose.yml.j2
+      dest: docker-compose.yml
     - src: grafana-config.monitoring.j2
       dest: grafana/config.monitoring
     - src: prometheus.yml.j2

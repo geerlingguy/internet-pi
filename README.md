@@ -56,17 +56,40 @@ It should also work with Ubuntu for Pi, or Arch Linux, but has not been tested o
 
 ### Pi-hole
 
-Visit the Pi's IP address (e.g. http://192.168.1.10/) and use the `pihole_password` you configured in your `config.yml` file.
+Visit the Pi's IP address (e.g. http://192.168.1.10/) and use the `pihole_password` you configured in your `config.yml` file. An existing pi-hole installation can be left unaltered by disabling the setup of this proyect's installation in your `config.yml` (`pihole_enable: false`)
 
 ### Grafana
 
 Visit the Pi's IP address with port 3030 (e.g. http://192.168.1.10:3030/), and log in with username `admin` and the password `monitoring_grafana_admin_password` you configured in your `config.yml`.
 
-To find the dashboard, navigage to Dashboards, click Browse, then go to the Internet connection dashboard. If you star this dashboard, it will appear on the Grafana home page.
+To find the dashboard, navigate to Dashboards, click Browse, then go to the Internet connection dashboard. If you star this dashboard, it will appear on the Grafana home page.
 
 > Note: The `monitoring_grafana_admin_password` is only used the first time Grafana starts up; if you need to change it later, do it via Grafana's admin UI.
 
+### Prometheus
+
+A number of default Prometheus job configurations are included out of the box, but if you would like to add more to the `prometheus.yml` file, you can add a block of text that will be added to the end of the `scrape_configs` using the `prometheus_extra_scrape_configs` variable, for example:
+
+```yaml
+prometheus_extra_scrape_configs: |
+  - job_name: 'customjob'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.1.1:9100']
+```
+
+You can also add more targets to monitor via the node exporter dashboard, say if you have a number of servers or other Pis you want to monitor on this instance. Just add them to the list, after the `nodeexp:9100` entry for the main Pi:
+
+```yaml
+prometheus_node_exporter_targets:
+  - 'nodeexp:9100'
+  # Add more targets here
+  - 'another-server.local:9100'
+```
+
 ## Updating
+
+### pi-hole
 
 To upgrade Pi-hole to the latest version, run the following commands:
 
@@ -77,13 +100,40 @@ docker-compose up -d --no-deps  # restarts containers with newer images
 docker system prune --all       # deletes unused images
 ```
 
-Upgrades for the other configurations are similar (go into the directory, and run the same `docker-compose` commands. Make sure to `cd` into the `config_dir` that you use in your `config.yml` file.
+### Configurations and internet-monitoring images
 
-At some point in the future, a dedicated upgrade playbook may be added, but for now, upgrades may be performed manually as shown above.
+Upgrades for the other configurations are similar (go into the directory, and run the same `docker-compose` commands. Make sure to `cd` into the `config_dir` that you use in your `config.yml` file. 
+
+Alternatively, you may update the initial `config.yml` in the the repo folder and re-run the main playbook: `ansible-playbook main.yml`. At some point in the future, a dedicated upgrade playbook may be added, but for now, upgrades may be performed manually as shown above.
 
 ## Backups
 
 A guide for backing up the configurations and historical data will be posted here as part of [Issue #194: Create Backup guide](https://github.com/geerlingguy/internet-pi/issues/194).
+
+## Uninstall
+
+To remove `internet-pi` from your system, run the following commands (assuming the default install location of `~`, your home directory):
+
+```bash
+# Enter the internet-monitoring directory.
+cd ~/internet-monitoring
+
+# Shut down internet-monitoring containers and delete data volumes.
+docker-compose down -v
+
+# Enter the pi-hole directory.
+cd ~/pi-hole
+
+# Shutdown pi-hole containers and delete data volumes.
+docker-compose down -v
+
+# Delete all the unused container images, volumes, etc. from the system.
+docker system prune -f
+```
+
+Do the same thing for any of the other optional directories added by this project (e.g. `shelly-plug-prometheus`, `starlink-exporter`, etc.).
+
+You can then delete the `internet-monitoring`, `pi-hole`, etc. folders and everything will be gone from your system.
 
 ## License
 

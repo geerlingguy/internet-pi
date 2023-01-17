@@ -23,7 +23,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install yamllint ansible-base ansible-lint
+        run: pip3 install yamllint ansible-core ansible-lint
 
       - name: Lint code.
         run: |

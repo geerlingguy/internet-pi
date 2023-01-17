@@ -21,3 +21,15 @@
     project_src: "{{ config_dir }}/pi-hole/"
     build: false
   become: false
+
+- name: Update resolveconf for local name server use.
+  ansible.builtin.lineinfile:
+    line: "name_servers=127.0.0.1"
+    dest: "/etc/resolvconf.conf"
+    regexp: "^#?name_servers="
+  register: resolvconf_file
+
+- name: Regenerate resolvconf if file is changed.
+  ansible.builtin.command: resolvconf -u
+  changed_when: false
+  when: resolvconf_file is changed
