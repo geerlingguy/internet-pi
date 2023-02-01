@@ -96,7 +96,7 @@ services:
 {% endif %}
 
   promtail:
-    image: grafana/promtail:2.6.1
+    image: grafana/promtail:2.7.3
     restart: always
     volumes:
       - ./promtail/config.yml:/etc/promtail/config.yml
