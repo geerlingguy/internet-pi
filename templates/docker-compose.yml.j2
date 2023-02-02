@@ -102,7 +102,7 @@ services:
       - ./promtail/config.yml:/etc/promtail/config.yml
 {% if syslog_monitoring_enable %}
     ports:
-      - "1514:1514"
+      - "514:1514"
 {% endif %}
     volumes:
       - /var/log:/var/log
