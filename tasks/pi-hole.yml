@@ -5,11 +5,12 @@
     state: directory
     mode: 0755
   become: false
+  register: pi_hole_dir
 
 - name: Copy Pi-hole docker-compose template to Pi.
   ansible.builtin.template:
     src: templates/pi-hole-docker-compose.yml.j2
-    dest: "{{ config_dir }}/pi-hole/docker-compose.yml"
+    dest: "{{ pi_hole_dir.path }}/docker-compose.yml"
     mode: '0640'
   become: false
   notify: Restart pi-hole
@@ -18,7 +19,7 @@
 # to the `docker` group, so this task may fail.
 - name: Ensure Pi-hole is running.
   community.docker.docker_compose:
-    project_src: "{{ config_dir }}/pi-hole/"
+    project_src: "{{ pi_hole_dir.path }}/"
     build: false
   become: false
 
