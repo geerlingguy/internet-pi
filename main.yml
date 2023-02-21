@@ -1,5 +1,6 @@
 ---
-- hosts: internet_pi
+- name: Configure Internet Pi.
+  hosts: internet_pi
   become: true
 
   pre_tasks:
