@@ -1,0 +1,3 @@
+---
+- targets:
+{{ monitoring_DNS_servers | to_nice_yaml() | indent(4, True) }}

@@ -1,0 +1,3 @@
+---
+- targets:
+{{ prometheus_node_exporter_targets | to_nice_yaml() | indent(4, True) }}

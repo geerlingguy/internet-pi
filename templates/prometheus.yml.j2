@@ -53,10 +53,10 @@ scrape_configs:
     metrics_path: /probe
     scrape_interval: {{ monitoring_ping_interval }}
     params:
-      module: [http_2xx]  # Look for a HTTP 200 response.
+      module: [icmp]  # Look for a HTTP 200 response.
     file_sd_configs:
       - files:
-          - pinghosts.yaml
+          - ping-hosts.yaml
     relabel_configs:
       - source_labels: [__address__]
         regex: '(.*);(.*)'  # first is the url, thus unique for instance
@@ -69,11 +69,242 @@ scrape_configs:
       - source_labels: [instance]
         target_label: __param_target
       - target_label: __address__
-        replacement: ping:9115  # The blackbox exporter's real hostname:port.
+        replacement: blackbox:9115  # The blackbox exporter's real hostname:port.
+
+  - job_name: 'http'
+    metrics_path: /probe
+    scrape_interval: {{ monitoring_web_interval }}
+    params:
+      module: [http_2xx]  # Look for a HTTP 200 response.
+    file_sd_configs:
+      - files:
+          - web-hosts.yaml
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # first is the url, thus unique for instance
+        target_label: instance
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # second is humanname to use in charts
+        target_label: humanname
+        replacement: $2
+      - source_labels: [instance]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox:9115  # The blackbox exporter's real hostname:port.
+
+  - job_name: 'dns_google'
+    metrics_path: /probe
+    scrape_interval: {{ monitoring_DNS_interval }}
+    params:
+      module: [dns_google]
+    file_sd_configs:
+      - files:
+          - DNS-servers.yaml
+    relabel_configs:
+      - source_labels: [__param_module]
+        regex: 'dns_(.*)'
+        target_label: lookup
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # first is the url, thus unique for instance
+        target_label: instance
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # second is humanname to use in charts
+        target_label: humanname
+        replacement: $2
+      - source_labels: [instance]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox:9115  # The blackbox exporter's real hostname:port.
+
+  - job_name: 'dns_twitch'
+    metrics_path: /probe
+    scrape_interval: {{ monitoring_DNS_interval }}
+    params:
+      module: [dns_twitch]
+    file_sd_configs:
+      - files:
+          - DNS-servers.yaml
+    relabel_configs:
+      - source_labels: [__param_module]
+        regex: 'dns_(.*)'
+        target_label: lookup
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # first is the url, thus unique for instance
+        target_label: instance
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # second is humanname to use in charts
+        target_label: humanname
+        replacement: $2
+      - source_labels: [instance]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox:9115  # The blackbox exporter's real hostname:port.
+
+  - job_name: 'dns_github'
+    metrics_path: /probe
+    scrape_interval: {{ monitoring_DNS_interval }}
+    params:
+      module: [dns_github]
+    file_sd_configs:
+      - files:
+          - DNS-servers.yaml
+    relabel_configs:
+      - source_labels: [__param_module]
+        regex: 'dns_(.*)'
+        target_label: lookup
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # first is the url, thus unique for instance
+        target_label: instance
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # second is humanname to use in charts
+        target_label: humanname
+        replacement: $2
+      - source_labels: [instance]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox:9115  # The blackbox exporter's real hostname:port.
+
+  - job_name: 'dns_amazon'
+    metrics_path: /probe
+    scrape_interval: {{ monitoring_DNS_interval }}
+    params:
+      module: [dns_amazon]
+    file_sd_configs:
+      - files:
+          - DNS-servers.yaml
+    relabel_configs:
+      - source_labels: [__param_module]
+        regex: 'dns_(.*)'
+        target_label: lookup
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # first is the url, thus unique for instance
+        target_label: instance
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # second is humanname to use in charts
+        target_label: humanname
+        replacement: $2
+      - source_labels: [instance]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox:9115  # The blackbox exporter's real hostname:port.
+
+  - job_name: 'dns_ebay'
+    metrics_path: /probe
+    scrape_interval: {{ monitoring_DNS_interval }}
+    params:
+      module: [dns_ebay]
+    file_sd_configs:
+      - files:
+          - DNS-servers.yaml
+    relabel_configs:
+      - source_labels: [__param_module]
+        regex: 'dns_(.*)'
+        target_label: lookup
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # first is the url, thus unique for instance
+        target_label: instance
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # second is humanname to use in charts
+        target_label: humanname
+        replacement: $2
+      - source_labels: [instance]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox:9115  # The blackbox exporter's real hostname:port.
+
+  - job_name: 'adblock_google'
+    metrics_path: /probe
+    scrape_interval: {{ monitoring_DNS_interval }}
+    params:
+      module: [adblock_google]
+    file_sd_configs:
+      - files:
+          - DNS-servers.yaml
+    relabel_configs:
+      - source_labels: [__param_module]
+        regex: '(.*)'
+        target_label: lookup
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # first is the url, thus unique for instance
+        target_label: instance
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # second is humanname to use in charts
+        target_label: humanname
+        replacement: $2
+      - source_labels: [instance]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox:9115  # The blackbox exporter's real hostname:port.
+
+  - job_name: 'adblock_youtube'
+    metrics_path: /probe
+    scrape_interval: {{ monitoring_DNS_interval }}
+    params:
+      module: [adblock_youtube]
+    file_sd_configs:
+      - files:
+          - DNS-servers.yaml
+    relabel_configs:
+      - source_labels: [__param_module]
+        regex: '(.*)'
+        target_label: lookup
+        replacement: adblock_youtube
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # first is the url, thus unique for instance
+        target_label: instance
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # second is humanname to use in charts
+        target_label: humanname
+        replacement: $2
+      - source_labels: [instance]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox:9115  # The blackbox exporter's real hostname:port.
+
+  - job_name: 'adblock_amazon'
+    metrics_path: /probe
+    scrape_interval: {{ monitoring_DNS_interval }}
+    params:
+      module: [adblock_amazon]
+    file_sd_configs:
+      - files:
+          - DNS-servers.yaml
+    relabel_configs:
+      - source_labels: [__param_module]
+        regex: '(.*)'
+        target_label: lookup
+        replacement: adblock_amazon
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # first is the url, thus unique for instance
+        target_label: instance
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # second is humanname to use in charts
+        target_label: humanname
+        replacement: $2
+      - source_labels: [instance]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox:9115  # The blackbox exporter's real hostname:port.
 
   - job_name: 'node'
-    static_configs:
-      - targets: {{ prometheus_node_exporter_targets | to_yaml }}
+    file_sd_configs:
+      - files:
+          - node-exporter.yaml
 
 {% if pihole_enable %}
   - job_name: '{{ pihole_hostname }}'

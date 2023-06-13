@@ -15,8 +15,8 @@ networks:
 services:
 {% if domain_name_enable %}
   nginx-proxy:
-    image: nginxproxy/nginx-proxy
-    restart: always
+    image: nginxproxy/nginx-proxy:latest
+    restart: unless-stopped
     ports:
       - "80:80"
     networks:
@@ -27,8 +27,8 @@ services:
 {% endif %}
 
   prometheus:
-    image: prom/prometheus:v2.25.2
-    restart: always
+    image: prom/prometheus:latest
+    restart: unless-stopped
     volumes:
       - ./prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
@@ -41,7 +41,7 @@ services:
     ports:
       - 9090:9090
     links:
-      - ping:ping
+      - blackbox:blackbox
       - speedtest:speedtest
     networks:
       - back-tier
@@ -54,8 +54,8 @@ services:
 {% endif %}
 
   grafana:
-    image: grafana/grafana
-    restart: always
+    image: grafana/grafana:latest
+    restart: unless-stopped
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
@@ -76,15 +76,15 @@ services:
       - VIRTUAL_PORT=3000
 {% endif %}
 
-  ping:
+  blackbox:
     tty: true
     stdin_open: true
     expose:
       - 9115
     ports:
       - 9115:9115
-    image: prom/blackbox-exporter
-    restart: always
+    image: prom/blackbox-exporter:latest
+    restart: unless-stopped
     volumes:
       - ./blackbox/config:/config
     command:
@@ -97,21 +97,21 @@ services:
       - 9798
     ports:
       - 9798:9798
-    image: miguelndecarvalho/speedtest-exporter
-    restart: always
+    image: miguelndecarvalho/speedtest-exporter:latest
+    restart: unless-stopped
     networks:
       - back-tier
 
   nodeexp:
     privileged: true
-    image: prom/node-exporter
+    image: prom/node-exporter:latest
+    restart: unless-stopped
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro
     ports:
       - 9100:9100
-    restart: always
     command:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
