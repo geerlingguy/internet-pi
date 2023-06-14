@@ -21,12 +21,13 @@ monitoring_enable: true
 monitoring_grafana_admin_password: "admin"
 monitoring_speedtest_interval: 60m
 monitoring_ping_interval: 5s
-monitoring_ping_hosts:  # [IP/Hostname];[HUMAN_READABLE_NAME]
+monitoring_ping_hosts:
+  # [IP/Hostname];[HUMAN_READABLE_NAME]
   - stackoverflow.com;ping_stackoverflow.com
-#  - switch;network_switch
-#  - shelly_plug;shelly_plug_device
-#  - airgradient_sensors;airgradient_sensors_room
-#  - wireless_ap;wap_room
+  # - switch;network_switch
+  # - shelly_plug;shelly_plug_device
+  # - airgradient_sensors;airgradient_sensors_room
+  # - wireless_ap;wap_room
 monitoring_web_interval: 30s
 monitoring_web_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - https://www.google.com/;web_www.google.com
@@ -39,10 +40,10 @@ monitoring_web_hosts:  # [URL];[HUMAN_READABLE_NAME]
 #  - http://pi-hole:80;pi-hole
 monitoring_DNS_interval: 30s
 # https://www.lifewire.com/free-and-public-dns-servers-2626062
-monitoring_DNS_servers:  
-# [IP];[HUMAN_READABLE_NAME]
-#  - 192.168.1.10;dns_pihole
-#  - 192.168.1.1;dns_router
+monitoring_DNS_servers:
+  # [IP];[HUMAN_READABLE_NAME]
+  # - 192.168.1.10;dns_pihole
+  # - 192.168.1.1;dns_router
   - 8.8.8.8;dns_google_primary
   - 8.8.4.4;dns_google_secondary
   - 9.9.9.9;dns_quad9_primary
