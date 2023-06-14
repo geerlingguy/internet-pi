@@ -26,9 +26,10 @@
 - name: Update resolveconf for local name server use.
   ansible.builtin.lineinfile:
     line: "name_servers=127.0.0.1"
-    dest: "/etc/resolvconf.conf"
+    path: /etc/resolv.conf
     regexp: "^#?name_servers="
   register: resolvconf_file
+  when: pihole_update_local_resolveconf is true
 
 - name: Regenerate resolvconf if file is changed.
   ansible.builtin.command: resolvconf -u

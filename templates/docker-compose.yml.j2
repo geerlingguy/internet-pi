@@ -23,6 +23,7 @@ services:
       - back-tier
       - front-tier
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
 {% endif %}
 
@@ -30,6 +31,7 @@ services:
     image: prom/prometheus:latest
     restart: unless-stopped
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - ./prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
     command:
@@ -57,6 +59,7 @@ services:
     image: grafana/grafana:latest
     restart: unless-stopped
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     depends_on:
@@ -77,28 +80,33 @@ services:
 {% endif %}
 
   blackbox:
-    tty: true
-    stdin_open: true
+    image: prom/blackbox-exporter:latest
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./blackbox/config:/config
     expose:
       - 9115
     ports:
       - 9115:9115
-    image: prom/blackbox-exporter:latest
-    restart: unless-stopped
-    volumes:
-      - ./blackbox/config:/config
+    tty: true
+    stdin_open: true
+{% if pihole_enable %}
+#    links:
+#      - pihole:pihole
+{% endif %}
     command:
       - '--config.file=/config/blackbox.yml'
     networks:
       - back-tier
 
   speedtest:
+    image: miguelndecarvalho/speedtest-exporter:latest
+    restart: unless-stopped
     expose:
       - 9798
     ports:
       - 9798:9798
-    image: miguelndecarvalho/speedtest-exporter:latest
-    restart: unless-stopped
     networks:
       - back-tier
 
@@ -107,6 +115,7 @@ services:
     image: prom/node-exporter:latest
     restart: unless-stopped
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro

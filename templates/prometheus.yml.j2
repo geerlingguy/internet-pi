@@ -306,7 +306,7 @@ scrape_configs:
       - files:
           - node-exporter.yaml
 
-{% if pihole_enable %}
+{% if not pihole_enable %}
   - job_name: '{{ pihole_hostname }}'
     static_configs:
       - targets: ['{{ pihole_hostname }}:9617']

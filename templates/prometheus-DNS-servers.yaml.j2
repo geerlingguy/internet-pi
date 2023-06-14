@@ -1,3 +1,6 @@
 ---
 - targets:
 {{ monitoring_DNS_servers | to_nice_yaml() | indent(4, True) }}
+{% if pihole_enable %}
+    - pihole;dns_pihole
+{% endif %}

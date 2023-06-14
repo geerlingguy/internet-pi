@@ -2,11 +2,13 @@
 ---
 version: "3.5"
 
-{% if domain_name_enable and domain_name and domain_pihole %}
+{% if domain_name_enable and domain_name and domain_pihole or monitoring_enable %}
 {# Make sure pihole and nginx-proxy are in the same network #}
 networks:
   front-tier:
     name: internet-monitoring-front-tier
+  back-tier:
+    name: internet-monitoring-back-tier
 {% endif %}
 
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
@@ -26,20 +28,24 @@ services:
 {% endif %}
       - "443:443/tcp"
     environment:
-      TZ: '{{ pihole_timezone }}'
+#      TZ: '{{ pihole_timezone }}'
       WEBPASSWORD: '{{ pihole_password }}'
       ServerIP: '{{ ansible_facts['default_ipv4']['address'] }}'
 {% if domain_name_enable and domain_name and domain_pihole %}
       VIRTUAL_HOST: {{ domain_pihole }}.{{ domain_name }}
       VIRTUAL_PORT: 80
       PROXY_LOCATION: {{ domain_pihole }}
+{% endif %}
+{% if domain_name_enable and domain_name and domain_pihole or monitoring_enable %}
     networks:
       - front-tier
+      - back-tier
 {% endif %}
     dns:
       - 127.0.0.1
       - 8.8.8.8
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - './etc-pihole/:/etc/pihole/'
       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
     cap_add:
@@ -61,9 +67,12 @@ services:
 {% endif %}
     restart: unless-stopped
 
+# if hosted on same machine as internet-monitoring component, don't duplicate node-exporter 
+{% if not monitoring_enable %}
   pihole-exporter:
     container_name: pihole-exporter
     image: ekofr/pihole-exporter:latest
+    restart: unless-stopped
     hostname: 'pihole-exporter'
     ports:
       - "9617:9617"
@@ -72,4 +81,4 @@ services:
       PIHOLE_PASSWORD: '{{ pihole_password }}'
       INTERVAL: '30s'
       PORT: 9617
-    restart: unless-stopped
+{% endif %}

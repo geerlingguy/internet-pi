@@ -10,10 +10,11 @@ domain_grafana: 'grafana'        # to access grafana via: http://grafana.home.lo
 domain_prometheus: 'prometheus'  # to access prometheus via: http://prometheus.home.local
 
 # Pi-hole configuration.
-pihole_enable: false
+pihole_enable: true
 pihole_hostname: pihole
 pihole_timezone: America/Chicago
 pihole_password: "change-this-password"
+pihole_update_local_resolveconf: true
 
 # Internet monitoring configuration.
 monitoring_enable: true
@@ -21,25 +22,24 @@ monitoring_grafana_admin_password: "admin"
 monitoring_speedtest_interval: 60m
 monitoring_ping_interval: 5s
 monitoring_ping_hosts:  # [IP/Hostname];[HUMAN_READABLE_NAME]
-  - stackoverflow.com;stackoverflow.com
+  - stackoverflow.com;ping_stackoverflow.com
 #  - switch;network_switch
 #  - shelly_plug;shelly_plug_device
 #  - airgradient_sensors;airgradient_sensors_room
 #  - wireless_ap;wap_room
 monitoring_web_interval: 30s
 monitoring_web_hosts:  # [URL];[HUMAN_READABLE_NAME]
-  - https://www.google.com/;google.com
-  - https://www.github.com/;github.com
-  - https://www.twitch.com/;twitch.com
-  - https://www.youtube.com/;youtube.com
-  - https://www.ebay.com/;ebay.com
-  - https://www.amazon.com/;amazon.com
+  - https://www.google.com/;web_www.google.com
+  - https://www.github.com/;web_www.github.com
+  - https://www.twitch.com/;web_www.twitch.com
+  - https://www.youtube.com/;web_www.youtube.com
+  - https://www.ebay.com/;web_www.ebay.com
+  - https://www.amazon.com/;web_www.amazon.com
 #  - http://router:8080/;router
 #  - http://pi-hole:80;pi-hole
 monitoring_DNS_interval: 30s
 # https://www.lifewire.com/free-and-public-dns-servers-2626062
 monitoring_DNS_servers:  # [IP];[HUMAN_READABLE_NAME]
-    - 127.0.0.1;dns_localhost
 #    - 192.168.1.10;dns_pihole
 #    - 192.168.1.1;dns_router
     - 8.8.8.8;dns_google_primary
