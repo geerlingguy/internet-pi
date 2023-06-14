@@ -42,7 +42,7 @@ modules:
       query_type: "A"
       validate_answer_rrs:
         fail_if_not_matches_regexp:
-         - ".*google.*"
+          - ".*google.*"
   dns_twitch:
     prober: dns
     dns:
@@ -51,7 +51,7 @@ modules:
       query_type: "A"
       validate_answer_rrs:
         fail_if_not_matches_regexp:
-         - ".*twitch.*"
+          - ".*twitch.*"
   dns_amazon:
     prober: dns
     dns:
@@ -60,7 +60,7 @@ modules:
       query_type: "A"
       validate_answer_rrs:
         fail_if_none_matches_regexp:
-         - ".*amazon.*"
+          - ".*amazon.*"
   dns_ebay:
     prober: dns
     dns:
@@ -69,7 +69,7 @@ modules:
       query_type: "A"
       validate_answer_rrs:
         fail_if_none_matches_regexp:
-         - ".*ebay.*"
+          - ".*ebay.*"
   dns_github:
     prober: dns
     dns:
@@ -78,7 +78,7 @@ modules:
       query_type: "A"
       validate_answer_rrs:
         fail_if_not_matches_regexp:
-         - ".*github.*"
+          - ".*github.*"
 
 # Adblockers typically block domains by either:
 #   A) responding with a NXDOMAIN status
@@ -115,7 +115,7 @@ modules:
       valid_rcodes: ['NOERROR']
       validate_answer_rrs:
         fail_if_not_matches_regexp:
-         - ".*s.youtube.com.*1?0.1?0.1?0.(0|1)"
+          - ".*s.youtube.com.*1?0.1?0.1?0.(0|1)"
   adblock_amazon:
     prober: dns
     dns:
@@ -126,7 +126,7 @@ modules:
       valid_rcodes: ['NOERROR']
       validate_answer_rrs:
         fail_if_not_matches_regexp:
-         - ".*fls-na.amazon.com.*1?0.1?0.1?0.(0|1)"
+          - ".*fls-na.amazon.com.*1?0.1?0.1?0.(0|1)"
   pornhub:
     prober: dns
     dns:
@@ -137,4 +137,4 @@ modules:
       valid_rcodes: ['NOERROR']
       validate_answer_rrs:
         fail_if_not_matches_regexp:
-         - ".*pornhub.com.*1?0.1?0.1?0.(0|1)"
+          - ".*pornhub.com.*1?0.1?0.1?0.(0|1)"
