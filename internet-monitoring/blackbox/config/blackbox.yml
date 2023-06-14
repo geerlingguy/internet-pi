@@ -80,19 +80,19 @@ modules:
         fail_if_not_matches_regexp:
           - ".*github.*"
 
-# Adblockers typically block domains by either:
-#   A) responding with a NXDOMAIN status
-#   B) responding with NOERROR and invalid ip address 0.0.0.0
-#
-# NXDOMAIN require
-#      valid_rcodes: ['NXDOMAIN']
-#
-# invalid ip addresses require
-#
-#      valid_rcodes: ['NOERROR']
-#      validate_answer_rrs:
-#        fail_if_not_matches_regexp:
-#         - ".*<domain>.*1?0.1?0.1?0.(0|1)"
+  # Adblockers typically block domains by either:
+  #   A) responding with a NXDOMAIN status
+  #   B) responding with NOERROR and invalid ip address 0.0.0.0
+  #
+  # NXDOMAIN require
+  #      valid_rcodes: ['NXDOMAIN']
+  #
+  # invalid ip addresses require
+  #
+  #      valid_rcodes: ['NOERROR']
+  #      validate_answer_rrs:
+  #        fail_if_not_matches_regexp:
+  #         - ".*<domain>.*1?0.1?0.1?0.(0|1)"
 
   adblock_google:
     prober: dns
@@ -100,7 +100,7 @@ modules:
       preferred_ip_protocol: ip4
       query_name: "googleads.g.doubleclick.net"
       query_type: "A"
-#      valid_rcodes: ['NXDOMAIN']
+      #valid_rcodes: ['NXDOMAIN']
       valid_rcodes: ['NOERROR']
       validate_answer_rrs:
         fail_if_not_matches_regexp:
@@ -111,7 +111,7 @@ modules:
       preferred_ip_protocol: ip4
       query_name: "s.youtube.com"
       query_type: "A"
-#      valid_rcodes: ['NXDOMAIN']
+      #valid_rcodes: ['NXDOMAIN']
       valid_rcodes: ['NOERROR']
       validate_answer_rrs:
         fail_if_not_matches_regexp:
@@ -122,7 +122,7 @@ modules:
       preferred_ip_protocol: ip4
       query_name: "fls-na.amazon.com"
       query_type: "A"
-#      valid_rcodes: ['NXDOMAIN']
+      #valid_rcodes: ['NXDOMAIN']
       valid_rcodes: ['NOERROR']
       validate_answer_rrs:
         fail_if_not_matches_regexp:
@@ -133,7 +133,7 @@ modules:
       preferred_ip_protocol: ip4
       query_name: "pornhub.com"
       query_type: "A"
-#      valid_rcodes: ['NXDOMAIN']
+      #valid_rcodes: ['NXDOMAIN']
       valid_rcodes: ['NOERROR']
       validate_answer_rrs:
         fail_if_not_matches_regexp:
