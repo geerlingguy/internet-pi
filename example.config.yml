@@ -40,16 +40,16 @@ monitoring_web_hosts:  # [URL];[HUMAN_READABLE_NAME]
 monitoring_DNS_interval: 30s
 # https://www.lifewire.com/free-and-public-dns-servers-2626062
 monitoring_DNS_servers:  # [IP];[HUMAN_READABLE_NAME]
-#    - 192.168.1.10;dns_pihole
-#    - 192.168.1.1;dns_router
-    - 8.8.8.8;dns_google_primary
-    - 8.8.4.4;dns_google_secondary
-    - 9.9.9.9;dns_quad9_primary
-    - 149.112.112.112;dns_quad9_secondary
-    - 1.1.1.1;dns_cloudflare_primary
-    - 1.0.0.1;dns_cloudflare_secondary
-    - 8.8.8.8;dns_google_primary
-    - 8.8.4.4;dns_google_secondary
+#  - 192.168.1.10;dns_pihole
+#  - 192.168.1.1;dns_router
+  - 8.8.8.8;dns_google_primary
+  - 8.8.4.4;dns_google_secondary
+  - 9.9.9.9;dns_quad9_primary
+  - 149.112.112.112;dns_quad9_secondary
+  - 1.1.1.1;dns_cloudflare_primary
+  - 1.0.0.1;dns_cloudflare_secondary
+  - 8.8.8.8;dns_google_primary
+  - 8.8.4.4;dns_google_secondary
 
 # https://www.opendns.com/home-internet-security/
 # blocks NOERROR/146.112.61.106
