@@ -15,7 +15,7 @@ networks:
 services:
 {% if domain_name_enable %}
   nginx-proxy:
-    image: nginxproxy/nginx-proxy
+    image: nginxproxy/nginx-proxy:latest
     restart: always
     ports:
       - "80:80"
@@ -23,13 +23,15 @@ services:
       - back-tier
       - front-tier
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
 {% endif %}
 
   prometheus:
-    image: prom/prometheus:v2.25.2
+    image: prom/prometheus:latest
     restart: always
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - ./prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
     command:
@@ -54,9 +56,10 @@ services:
 {% endif %}
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
     restart: always
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     depends_on:
@@ -77,41 +80,43 @@ services:
 {% endif %}
 
   ping:
-    tty: true
-    stdin_open: true
+    image: prom/blackbox-exporter:latest
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./blackbox/config:/config
     expose:
       - 9115
     ports:
       - 9115:9115
-    image: prom/blackbox-exporter
-    restart: always
-    volumes:
-      - ./blackbox/config:/config
+    tty: true
+    stdin_open: true
     command:
       - '--config.file=/config/blackbox.yml'
     networks:
       - back-tier
 
   speedtest:
+    image: miguelndecarvalho/speedtest-exporter:latest
+    restart: always
     expose:
       - 9798
     ports:
       - 9798:9798
-    image: miguelndecarvalho/speedtest-exporter
-    restart: always
     networks:
       - back-tier
 
   nodeexp:
+    image: prom/node-exporter:latest
+    restart: always
     privileged: true
-    image: prom/node-exporter
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro
     ports:
       - 9100:9100
-    restart: always
     command:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
