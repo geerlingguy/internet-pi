@@ -100,7 +100,7 @@
             "refId": "A"
           }
         ],
-        "title": "Uptime",
+        "title": "Uptime by DNS Request",
         "tooltip": {
           "extraInfo": "",
           "freezeOnClick": true,
@@ -197,7 +197,7 @@
             "refId": "A"
           }
         ],
-        "title": "Uptime",
+        "title": "Uptime by DNS Server",
         "tooltip": {
           "extraInfo": "",
           "freezeOnClick": true,
@@ -598,6 +598,6 @@
     "timezone": "browser",
     "title": "DNS Status",
     "uid": "e2291ef5-acdb-4c53-b865-264d5aa2d7a0",
-    "version": 7,
+    "version": 8,
     "weekStart": ""
   }
