@@ -34,3 +34,107 @@ modules:
         - expect: "^:[^ ]+ 001"
   icmp:
     prober: icmp
+  dns_google:
+    prober: dns
+    dns:
+      preferred_ip_protocol: ip4
+      query_name: "www.google.com"
+      query_type: "A"
+      validate_answer_rrs:
+        fail_if_not_matches_regexp:
+          - ".*google.*"
+  dns_twitch:
+    prober: dns
+    dns:
+      preferred_ip_protocol: ip4
+      query_name: "www.twitch.com"
+      query_type: "A"
+      validate_answer_rrs:
+        fail_if_not_matches_regexp:
+          - ".*twitch.*"
+  dns_amazon:
+    prober: dns
+    dns:
+      preferred_ip_protocol: ip4
+      query_name: "www.amazon.com"
+      query_type: "A"
+      validate_answer_rrs:
+        fail_if_none_matches_regexp:
+          - ".*amazon.*"
+  dns_ebay:
+    prober: dns
+    dns:
+      preferred_ip_protocol: ip4
+      query_name: "www.ebay.com"
+      query_type: "A"
+      validate_answer_rrs:
+        fail_if_none_matches_regexp:
+          - ".*ebay.*"
+  dns_github:
+    prober: dns
+    dns:
+      preferred_ip_protocol: ip4
+      query_name: "www.github.com"
+      query_type: "A"
+      validate_answer_rrs:
+        fail_if_not_matches_regexp:
+          - ".*github.*"
+
+  # Adblockers typically block domains by either:
+  #   A) responding with a NXDOMAIN status
+  #   B) responding with NOERROR and invalid ip address 0.0.0.0
+  #
+  # NXDOMAIN require
+  #      valid_rcodes: ['NXDOMAIN']
+  #
+  # invalid ip addresses require
+  #
+  #      valid_rcodes: ['NOERROR']
+  #      validate_answer_rrs:
+  #        fail_if_not_matches_regexp:
+  #         - ".*<domain>.*1?0.1?0.1?0.(0|1)"
+
+  adblock_google:
+    prober: dns
+    dns:
+      preferred_ip_protocol: ip4
+      query_name: "googleads.g.doubleclick.net"
+      query_type: "A"
+      # valid_rcodes: ['NXDOMAIN']
+      valid_rcodes: ['NOERROR']
+      validate_answer_rrs:
+        fail_if_not_matches_regexp:
+          - ".*googleads.g.doubleclick.net.*1?0.1?0.1?0.(0|1)"
+  adblock_youtube:
+    prober: dns
+    dns:
+      preferred_ip_protocol: ip4
+      query_name: "s.youtube.com"
+      query_type: "A"
+      # valid_rcodes: ['NXDOMAIN']
+      valid_rcodes: ['NOERROR']
+      validate_answer_rrs:
+        fail_if_not_matches_regexp:
+          - ".*s.youtube.com.*1?0.1?0.1?0.(0|1)"
+  adblock_amazon:
+    prober: dns
+    dns:
+      preferred_ip_protocol: ip4
+      query_name: "fls-na.amazon.com"
+      query_type: "A"
+      # valid_rcodes: ['NXDOMAIN']
+      valid_rcodes: ['NOERROR']
+      validate_answer_rrs:
+        fail_if_not_matches_regexp:
+          - ".*fls-na.amazon.com.*1?0.1?0.1?0.(0|1)"
+  pornhub:
+    prober: dns
+    dns:
+      preferred_ip_protocol: ip4
+      query_name: "pornhub.com"
+      query_type: "A"
+      # valid_rcodes: ['NXDOMAIN']
+      valid_rcodes: ['NOERROR']
+      validate_answer_rrs:
+        fail_if_not_matches_regexp:
+          - ".*pornhub.com.*1?0.1?0.1?0.(0|1)"

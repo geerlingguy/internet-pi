@@ -24,6 +24,65 @@ monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - http://www.google.com/;google.com
   - https://github.com/;github.com
   - https://www.apple.com/;apple.com
+monitoring_DNS_interval: 30s
+# https://www.lifewire.com/free-and-public-dns-servers-2626062
+monitoring_DNS_servers:
+  # [IP];[HUMAN_READABLE_NAME]
+  # - 192.168.1.10;dns_pihole
+  # - 192.168.1.1;dns_router
+  - 8.8.8.8;dns_google_primary
+  - 8.8.4.4;dns_google_secondary
+  - 9.9.9.9;dns_quad9_primary
+  - 149.112.112.112;dns_quad9_secondary
+  - 1.1.1.1;dns_cloudflare_primary
+  - 1.0.0.1;dns_cloudflare_secondary
+
+# https://www.opendns.com/home-internet-security/
+# blocks NOERROR/146.112.61.106
+#    - 208.67.222.222;dns_opendns_primary
+#    - 208.67.220.220;dns_opendns_secondary
+#    - 208.67.222.123;dns_opendns_family_primary
+#    - 208.67.220.123;dns_opendns_family_secondary
+
+#    - 76.76.19.19;dns_alternate_primary
+#    - 76.223.122.150;dns_alternate_secondary
+
+# https://controld.com/free-dns
+# blocks NOERROR/0.0.0.0
+#    - 76.76.2.0;dns_controld_primary
+#    - 76.76.10.0;dns_controld_secondary
+#    - 76.76.2.1;dns_controld_malware_primary
+#    - 76.76.10.1;dns_controld_malware_secondary
+#    - 76.76.2.2;dns_controld_ads_primary
+#    - 76.76.10.2;dns_controld_ads_secondary
+#    - 76.76.2.3;dns_controld_social_primary
+#    - 76.76.10.3;dns_controld_social_secondary
+#    - 76.76.2.4;dns_controld_family_primary
+#    - 76.76.10.4;dns_controld_family_secondary
+#    - 76.76.2.5;dns_controld_uncensored_primary
+#    - 76.76.10.5;dns_controld_uncensored_secondary
+
+# https://adguard-dns.io/en/public-dns.html
+# blocks NOERROR/94.140.14.35
+#    - 94.140.14.14;dns_adguard_primary
+#    - 94.140.15.15;dns_adguard_secondary
+#    - 94.140.14.140;dns_adguard_non_primary
+#    - 94.140.14.141;dns_adguard_non_secondary
+#    - 94.140.14.15;dns_adguard_family_primary
+#    - 94.140.15.16;dns_adguard_family_secondary
+
+# https://cleanbrowsing.org/filters/
+# blocks NSDOMAIN
+#    - 185.228.168.9;dns_cleanbrowsing_primary
+#    - 185.228.169.9;dns_cleanbrowsing_secondary
+#    - 185.228.168.168;dns_cleanbrowsing_family_primary
+#    - 185.228.169.168;dns_cleanbrowsing_family_secondary
+
+# https://mullvad.net/en/help/dns-over-https-and-dns-over-tls/
+#    - 185.228.168.9;dns_mullvad
+
+#    - aaa.bbb.ccc.ddd;dns_ISP_primary
+#    - aaa.bbb.ccc.dde;dns_ISP_secondary
 
 # Prometheus configuration.
 prometheus_monitor_prometheus: false

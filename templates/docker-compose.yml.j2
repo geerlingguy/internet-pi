@@ -41,7 +41,7 @@ services:
     ports:
       - 9090:9090
     links:
-      - ping:ping
+      - blackbox:blackbox
       - speedtest:speedtest
     networks:
       - back-tier
@@ -76,7 +76,7 @@ services:
       - VIRTUAL_PORT=3000
 {% endif %}
 
-  ping:
+  blackbox:
     tty: true
     stdin_open: true
     expose:
