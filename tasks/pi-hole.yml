@@ -23,14 +23,21 @@
     build: false
   become: false
 
+# only run if resolvconf.conf exists
+- name: Ensure /etc/resolvconf.conf exists
+  ansible.builtin.stat:
+    path: /etc/resolvconf.conf
+  register: resolvconfconf_exists
+
 - name: Update resolveconf for local name server use.
   ansible.builtin.lineinfile:
     line: "name_servers=127.0.0.1"
-    dest: "/etc/resolvconf.conf"
+    path: "/etc/resolvconf.conf"
     regexp: "^#?name_servers="
   register: resolvconf_file
+  when: pihole_update_local_resolveconf is true and resolvconfconf_exists.stat.exists
 
 - name: Regenerate resolvconf if file is changed.
   ansible.builtin.command: resolvconf -u
   changed_when: false
-  when: resolvconf_file is changed
+  when: resolvconf_file is changed and resolvconfconf_exists.stat.exists

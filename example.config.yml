@@ -14,6 +14,7 @@ pihole_enable: true
 pihole_hostname: pihole
 pihole_timezone: America/Chicago
 pihole_password: "change-this-password"
+pihole_update_local_resolveconf: true
 
 # Internet monitoring configuration.
 monitoring_enable: true
