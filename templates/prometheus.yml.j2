@@ -269,11 +269,24 @@ scrape_configs:
     static_configs:
       - targets: {{ prometheus_node_exporter_targets | to_yaml }}
 
-{% if pihole_enable %}
-  - job_name: '{{ pihole_hostname }}'
-    static_configs:
-      - targets: ['{{ pihole_hostname }}:9617']
-{% endif %}
+  - job_name: 'pihole-exporter'
+    file_sd_configs:
+      - files:
+          - pihole-exporter.yaml
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # first is the url, thus unique for instance
+        target_label: instance
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # second is humanname to use in charts
+        target_label: humanname
+        replacement: $2
+      - source_labels: [instance]
+        target_label: __address__
+        regex: '(.*)'
+        replacement: $1:9617
+
 
 {% filter indent(width=2,first=True) %}
 {{ prometheus_extra_scrape_configs }}

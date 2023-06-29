@@ -1,0 +1,10 @@
+---
+- targets:
+{% if pihole_enable %}
+{% if monitoring_enable %}
+  - {{ pihole_hostname }}-exporter;dns_pihole
+{% else %}
+    - {{ pihole_hostname }};dns_pihole
+{% endif %}
+{% endif %}
+{{ monitoring_secondary_pihole | to_nice_yaml() | indent(4, True) }}

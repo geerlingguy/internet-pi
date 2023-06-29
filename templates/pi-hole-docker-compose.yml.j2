@@ -67,7 +67,7 @@ services:
     restart: unless-stopped
 
   pihole-exporter:
-    container_name: pihole-exporter
+    container_name: {{ pihole_hostname }}-exporter
     image: ekofr/pihole-exporter:latest
     hostname: 'pihole-exporter'
     ports:
@@ -78,3 +78,7 @@ services:
       INTERVAL: '30s'
       PORT: 9617
     restart: unless-stopped
+{% if monitoring_enable %}
+    networks:
+      - back-tier
+{% endif %}
