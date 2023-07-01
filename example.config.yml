@@ -85,9 +85,9 @@ monitoring_DNS_servers:
 #    - aaa.bbb.ccc.dde;dns_ISP_secondary
 
 monitoring_secondary_pihole:
-  # [IP];[HUMAN_READABLE_NAME]
-  # - 192.168.1.10;dns_pihole_secondary
-  # - 192.168.1.11;dns_pihole_rpizero
+# [IP];[HUMAN_READABLE_NAME]
+# - 192.168.1.10;dns_pihole_secondary
+# - 192.168.1.11;dns_pihole_rpizero
 
 
 # Prometheus configuration.
