@@ -6,6 +6,8 @@
   loop:
     - 04EE7237B7D453EC
     - 648ACFD622F3D138
+    - 0E98404D386FA1D9
+    - 6ED0E7B82643E131
 
 - name: Add Buster backports for fixed libseccomp2.
   ansible.builtin.apt_repository:
