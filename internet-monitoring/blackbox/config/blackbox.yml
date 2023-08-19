@@ -34,3 +34,7 @@ modules:
         - expect: "^:[^ ]+ 001"
   icmp:
     prober: icmp
+  icmp_ipv4:
+    prober: icmp
+    icmp:
+      preferred_ip_protocol: ip4
