@@ -14,6 +14,7 @@ services:
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
+    restart: unless-stopped
     hostname: '{{ pihole_hostname }}'
     ports:
       - "53:53/tcp"
@@ -40,6 +41,7 @@ services:
       - 127.0.0.1
       - 8.8.8.8
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - './etc-pihole/:/etc/pihole/'
       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
     cap_add:
@@ -59,11 +61,11 @@ services:
       - "{{ domain_prometheus }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
 {% endif %}
 {% endif %}
-    restart: unless-stopped
 
   pihole-exporter:
     container_name: pihole-exporter
     image: ekofr/pihole-exporter:latest
+    restart: unless-stopped
     hostname: 'pihole-exporter'
     ports:
       - "9617:9617"
@@ -72,4 +74,3 @@ services:
       PIHOLE_PASSWORD: '{{ pihole_password }}'
       INTERVAL: '30s'
       PORT: 9617
-    restart: unless-stopped

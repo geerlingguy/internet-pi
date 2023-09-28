@@ -12,11 +12,11 @@ So that's what this is.
 
 **Internet Monitoring**: Installs Prometheus and Grafana, along with a few Docker containers to monitor your Internet connection with Speedtest.net speedtests and HTTP tests so you can see uptime, ping stats, and speedtest results over time.
 
-![Internet Monitoring Dashboard in Grafana](/images/internet-monitoring.png)
+![Internet Monitoring Dashboard in Grafana](images/internet-monitoring.png)
 
 **Pi-hole**: Installs the Pi-hole Docker configuration so you can use Pi-hole for network-wide ad-blocking and local DNS. Make sure to update your network router config to direct all DNS queries through your Raspberry Pi if you want to use Pi-hole effectively!
 
-![Pi-hole on the Internet Pi](/images/pi-hole.png)
+![Pi-hole on the Internet Pi](images/pi-hole.png)
 
 Other features:
 
