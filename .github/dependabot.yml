@@ -15,5 +15,3 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    allow:
-    
