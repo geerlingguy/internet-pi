@@ -23,6 +23,11 @@
     build: false
   become: false
 
+- name: Ensure resolveconf exists.
+  ansible.builtin.file:
+    path: "/etc/resolvconf.conf"
+    state: touch
+
 - name: Update resolveconf for local name server use.
   ansible.builtin.lineinfile:
     line: "name_servers=127.0.0.1"
