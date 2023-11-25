@@ -27,6 +27,7 @@
   ansible.builtin.file:
     path: "/etc/resolvconf.conf"
     state: touch
+  become: false
 
 - name: Update resolveconf for local name server use.
   ansible.builtin.lineinfile:
