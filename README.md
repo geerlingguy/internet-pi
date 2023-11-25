@@ -41,7 +41,7 @@ It should also work with Ubuntu for Pi, or Arch Linux, but has not been tested o
 ## Setup
 
   1. [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html). The easiest way (especially on Pi or a Debian system) is via Pip:
-     1. (If on Pi/Debian): `sudo apt-get install -y python3-pip`
+     1. (If on Pi/Debian): `sudo apt-get install -y ansible`
      2. (Everywhere): `pip3 install ansible`
   2. Clone this repository: `git clone https://github.com/geerlingguy/internet-pi.git`, then enter the repository directory: `cd internet-pi`.
   3. Install requirements: `ansible-galaxy collection install -r requirements.yml` (if you see `ansible-galaxy: command not found`, restart your SSH session or reboot the Pi and try again)
@@ -56,7 +56,7 @@ It should also work with Ubuntu for Pi, or Arch Linux, but has not been tested o
 
 ### Pi-hole
 
-Visit the Pi's IP address (e.g. http://192.168.1.10/) and use the `pihole_password` you configured in your `config.yml` file. An existing pi-hole installation can be left unaltered by disabling the setup of this proyect's installation in your `config.yml` (`pihole_enable: false`)
+Visit the Pi's IP address (e.g. http://192.168.1.10/admin) and use the `pihole_password` you configured in your `config.yml` file. An existing pi-hole installation can be left unaltered by disabling the setup of this project's installation in your `config.yml` (`pihole_enable: false`)
 
 ### Grafana
 
