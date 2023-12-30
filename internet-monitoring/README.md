@@ -13,8 +13,8 @@ Make sure Docker and [Docker Compose](https://docs.docker.com/compose/install/) 
 ## Quick Start
 
 ```
-git clone https://github.com/geerlingguy/internet-monitoring
-cd internet-monitoring
+git clone https://github.com/geerlingguy/internet-pi
+cd internet-pi/internet-monitoring
 docker-compose up -d
 ```
 
