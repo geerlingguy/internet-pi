@@ -18,7 +18,7 @@
 # TODO: The first time this playbook is run, the `pi` user may not be added
 # to the `docker` group, so this task may fail.
 - name: Ensure Pi-hole is running.
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ pi_hole_dir.path }}/"
     build: false
   become: false

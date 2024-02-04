@@ -34,7 +34,7 @@
       - python3-pip
       - git
       - rsync
-      - docker-compose
+      - docker-compose-plugin
       - resolvconf
     state: present
   when: ansible_facts.os_family == "Debian"
@@ -48,7 +48,7 @@
       - python-pip
       - git
       - rsync
-      - docker-compose
+      - docker-compose-plugin
     state: present
   when: ansible_facts.os_family == "Archlinux"
 
