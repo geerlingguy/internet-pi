@@ -47,5 +47,5 @@
 - name: Ensure internet-monitoring environment is running.
   community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/internet-monitoring/"
-    build: false
+    build: never
   become: false

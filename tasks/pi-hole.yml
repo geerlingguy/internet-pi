@@ -20,7 +20,7 @@
 - name: Ensure Pi-hole is running.
   community.docker.docker_compose_v2:
     project_src: "{{ pi_hole_dir.path }}/"
-    build: false
+    build: never
   become: false
 
 - name: Ensure resolveconf exists.

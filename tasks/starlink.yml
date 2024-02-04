@@ -17,7 +17,7 @@
 - name: Ensure Starlink Prometheus exporter is running.
   community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/starlink-exporter/"
-    build: false
+    build: never
   become: false
 
 - name: Copy starlink dashboard config to grafana.
