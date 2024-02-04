@@ -3,26 +3,26 @@
   community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/pi-hole/"
     build: never
-    restarted: true
+    state: restarted
   become: false
 
 - name: Restart internet-monitoring
   community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/internet-monitoring/"
     build: never
-    restarted: true
+    state: restarted
   become: false
 
 - name: Restart shelly-plug-prometheus
   community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/shelly-plug-prometheus/"
     build: never
-    restarted: true
+    state: restarted
   become: false
 
 - name: Restart starlink-exporter
   community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/starlink-exporter/"
     build: never
-    restarted: true
+    state: restarted
   become: false

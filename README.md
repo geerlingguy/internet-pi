@@ -52,7 +52,7 @@ It should also work with Ubuntu for Pi, or Arch Linux, but has not been tested o
      - `example.config.yml` to `config.yml`
   5. Run the playbook: `ansible-playbook main.yml`
 
-> **If running locally on the Pi**: You may encounter an error like "Error while fetching server API version". If you do, please either reboot or log out and log back in, then run the playbook again.
+> **If running locally on the Pi**: You may encounter an error like "Error while fetching server API version" or "connect: permission denied". If you do, please either reboot or log out and log back in, then run the playbook again.
 
 ## Usage
 
