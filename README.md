@@ -97,14 +97,14 @@ To upgrade Pi-hole to the latest version, run the following commands:
 
 ```bash
 cd ~/pi-hole # 
-docker-compose pull             # pulls the latest images
-docker-compose up -d --no-deps  # restarts containers with newer images
+docker compose pull             # pulls the latest images
+docker compose up -d --no-deps  # restarts containers with newer images
 docker system prune --all       # deletes unused images
 ```
 
 ### Configurations and internet-monitoring images
 
-Upgrades for the other configurations are similar (go into the directory, and run the same `docker-compose` commands. Make sure to `cd` into the `config_dir` that you use in your `config.yml` file. 
+Upgrades for the other configurations are similar (go into the directory, and run the same `docker compose` commands. Make sure to `cd` into the `config_dir` that you use in your `config.yml` file. 
 
 Alternatively, you may update the initial `config.yml` in the the repo folder and re-run the main playbook: `ansible-playbook main.yml`. At some point in the future, a dedicated upgrade playbook may be added, but for now, upgrades may be performed manually as shown above.
 
@@ -121,16 +121,16 @@ To remove `internet-pi` from your system, run the following commands (assuming t
 cd ~/internet-monitoring
 
 # Shut down internet-monitoring containers and delete data volumes.
-docker-compose down -v
+docker compose down -v
 
 # Enter the pi-hole directory.
 cd ~/pi-hole
 
 # Shutdown pi-hole containers and delete data volumes.
-docker-compose down -v
+docker compose down -v
 
 # Delete all the unused container images, volumes, etc. from the system.
-docker system prune -f
+docker system prune -af
 ```
 
 Do the same thing for any of the other optional directories added by this project (e.g. `shelly-plug-prometheus`, `starlink-exporter`, etc.).

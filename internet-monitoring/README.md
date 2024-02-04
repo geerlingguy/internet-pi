@@ -24,7 +24,7 @@ For speedtest the only relevant configuration is how often you want the check to
 
 Once configurations are done, run the following command:
 
-    $ docker-compose up -d
+    $ docker compose up -d
 
 That's it. docker-compose builds the entire Grafana and Prometheus stack automagically.
 
