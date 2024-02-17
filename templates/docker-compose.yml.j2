@@ -64,6 +64,12 @@ services:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     depends_on:
       - prometheus
+{% if domain_name_enable and domain_name and domain_grafana %}
+      - nginx-proxy
+    environment:
+      - VIRTUAL_HOST={{ domain_grafana }}.{{ domain_name }}
+      - VIRTUAL_PORT=3000
+{% endif %}
     ports:
       - 3030:3000
     env_file:
@@ -71,13 +77,6 @@ services:
     networks:
       - back-tier
       - front-tier
-{% if domain_name_enable and domain_name and domain_grafana %}
-    depends_on:
-      - nginx-proxy
-    environment:
-      - VIRTUAL_HOST={{ domain_grafana }}.{{ domain_name }}
-      - VIRTUAL_PORT=3000
-{% endif %}
 
   ping:
     image: prom/blackbox-exporter:latest
