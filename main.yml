@@ -41,7 +41,7 @@
 
     - name: Set up Shelly Plug Monitoring.
       ansible.builtin.import_tasks: tasks/shelly-plug.yml
-      when: shelly_plug_enable
+      when: shelly_plugs_enable
 
     - name: Set up Air Gradient Monitoring.
       ansible.builtin.import_tasks: tasks/airgradient.yml
