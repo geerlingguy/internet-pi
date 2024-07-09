@@ -1,12 +1,11 @@
 # {{ ansible_managed }}
 ---
-version: "3.5"
-
 {% if domain_name_enable and domain_name and domain_pihole %}
 {# Make sure pihole and nginx-proxy are in the same network #}
 networks:
   front-tier:
     name: internet-monitoring-front-tier
+    external: true
 {% endif %}
 
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
