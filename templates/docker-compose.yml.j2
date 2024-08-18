@@ -96,6 +96,9 @@ services:
   speedtest:
     image: miguelndecarvalho/speedtest-exporter:latest
     restart: always
+    healthcheck:
+      test: "wget --no-verbose --tries=1 --spider http://0.0.0.0:9798/"
+      timeout: 10s
     expose:
       - 9798
     ports:
