@@ -10,6 +10,7 @@ networks:
 {% endif %}
   back-tier:
     name: internet-monitoring-back-tier
+    external: true
 
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
