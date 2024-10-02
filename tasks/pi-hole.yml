@@ -5,11 +5,12 @@
     state: directory
     mode: 0755
   become: false
+  register: pi_hole_dir
 
 - name: Copy Pi-hole docker-compose template to Pi.
   ansible.builtin.template:
     src: templates/pi-hole-docker-compose.yml.j2
-    dest: "{{ config_dir }}/pi-hole/docker-compose.yml"
+    dest: "{{ pi_hole_dir.path }}/docker-compose.yml"
     mode: '0640'
   become: false
   notify: Restart pi-hole
@@ -17,9 +18,9 @@
 # TODO: The first time this playbook is run, the `pi` user may not be added
 # to the `docker` group, so this task may fail.
 - name: Ensure Pi-hole is running.
-  community.docker.docker_compose:
-    project_src: "{{ config_dir }}/pi-hole/"
-    build: false
+  community.docker.docker_compose_v2:
+    project_src: "{{ pi_hole_dir.path }}/"
+    build: never
   become: false
 
 - name: Copy Pi-hole backup script to Pi.
@@ -28,7 +29,6 @@
     dest: "{{ config_dir }}/pi-hole/backup.sh"
     mode: '0750'
   become: false
-
 
 - name: Configure Pi-hole backup cron job.
   ansible.builtin.cron:
@@ -41,6 +41,12 @@
     month: "*"
     weekday: "*"
     job: "/usr/bin/bash {{ config_dir}}/pi-hole/backup.sh >> {{ config_dir}}/pi-hole/backup-log.log 2>&1"
+
+- name: Ensure resolveconf exists.
+  ansible.builtin.file:
+    path: "/etc/resolvconf.conf"
+    state: touch
+    mode: "744"
 
 - name: Update resolveconf for local name server use.
   ansible.builtin.lineinfile:

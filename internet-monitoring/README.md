@@ -12,11 +12,7 @@ Make sure Docker and [Docker Compose](https://docs.docker.com/compose/install/) 
 
 ## Quick Start
 
-```
-git clone https://github.com/geerlingguy/internet-monitoring
-cd internet-monitoring
-docker-compose up -d
-```
+Follow the directions inside the main README file in this repository (make sure you have `monitoring_enable: true` in your `config.yml` before running the Ansible playbook).
 
 Go to [http://localhost:3030/d/o9mIe_Aik/internet-connection](http://localhost:3030/d/o9mIe_Aik/internet-connection) (change `localhost` to your docker host ip/name).
 
@@ -28,7 +24,7 @@ For speedtest the only relevant configuration is how often you want the check to
 
 Once configurations are done, run the following command:
 
-    $ docker-compose up -d
+    $ docker compose up -d
 
 That's it. docker-compose builds the entire Grafana and Prometheus stack automagically.
 

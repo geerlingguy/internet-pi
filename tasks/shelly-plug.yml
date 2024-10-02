@@ -17,9 +17,9 @@
   notify: Restart shelly-plug-prometheus
 
 - name: Ensure Shelly Plug Prometheus exporter is running.
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/shelly-plug-prometheus/"
-    build: false
+    build: never
   become: false
 
 - name: Copy shelly dashboard config to grafana
