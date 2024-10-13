@@ -97,7 +97,7 @@
     dest: /etc/docker/daemon.json
     mode: 0644
   notify: Restart internet-monitoring
-  become: yes
+  become: true
   when:
     - log_monitoring_enable
 
@@ -105,7 +105,7 @@
   ansible.builtin.service:
     name: docker
     state: restarted
-  become: yes
+  become: true
   when:
     - log_monitoring_enable
 

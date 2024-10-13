@@ -40,7 +40,7 @@
     day: "*"
     month: "*"
     weekday: "*"
-    job: "/usr/bin/bash {{ config_dir}}/pi-hole/backup.sh >> {{ config_dir}}/pi-hole/backup-log.log 2>&1"
+    job: "/usr/bin/bash {{ config_dir }}/pi-hole/backup.sh >> {{ config_dir }}/pi-hole/backup-log.log 2>&1"
 
 - name: Ensure resolveconf exists.
   ansible.builtin.file:
