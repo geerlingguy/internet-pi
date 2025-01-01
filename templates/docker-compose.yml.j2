@@ -6,9 +6,9 @@ volumes:
 
 networks:
   front-tier:
-    name: internet-monitoring-front-tier
+    name: front-tier
   back-tier:
-    name: internet-monitoring-back-tier
+    name: back-tier
 
 services:
 {% if domain_name_enable %}
