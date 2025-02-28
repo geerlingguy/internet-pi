@@ -39,6 +39,7 @@ services:
       PROXY_LOCATION: {{ domain_pihole }}
     networks:
       - front-tier
+      - back-tier
 {% endif %}
     dns:
       - 127.0.0.1
