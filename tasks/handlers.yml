@@ -26,3 +26,10 @@
     build: never
     state: restarted
   become: false
+
+- name: Restart timetagger
+  community.docker.docker_compose_v2:
+    project_src: "{{ config_dir }}/timetagger/"
+    build: never
+    state: restarted
+  become: false

@@ -2,7 +2,9 @@
 ---
 services:
   timetagger:
+    container_name: timetagger
     image: ghcr.io/almarklein/timetagger
+    restart: unless-stopped
     ports:
       - "80:80"
     volumes:
