@@ -21,6 +21,7 @@ services:
       - back-tier
       - front-tier
     volumes:
+      - ./data:/data
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
 {% endif %}
@@ -92,7 +93,7 @@ services:
       - nginx-proxy
     environment:
       - VIRTUAL_HOST={{ domain_loki }}.{{ domain_name }}
-      - VIRTUAL_PORT=3001
+      - VIRTUAL_PORT=3000
 {% endif %}
 
   promtail:
