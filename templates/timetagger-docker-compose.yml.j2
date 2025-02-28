@@ -29,3 +29,7 @@ services:
 {% endif %}
     volumes:
       - ./_timetagger:/root/_timetagger
+{% if domain_name_enable and domain_name and domain_timetagger %}
+    networks:
+      - front-tier
+{% endif %}
