@@ -13,3 +13,9 @@
     mode: '0640'
   become: false
   notify: Restart timetagger
+
+- name: Ensure Timetagger is running.
+  community.docker.docker_compose_v2:
+    project_src: "{{ config_dir }}/timetagger/"
+    build: never
+  become: false
