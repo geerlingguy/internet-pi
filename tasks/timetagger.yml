@@ -1,0 +1,15 @@
+---
+- name: Ensure Timetagger directory exists.
+  file:
+    path: "{{ config_dir }}/timetagger"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Copy Timetagger docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/timetagger-docker-compose.yml.j2
+    dest: "{{ config_dir }}/timetagger/docker-compose.yml"
+    mode: '0640'
+  become: false
+  notify: Restart timetagger

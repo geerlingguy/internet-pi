@@ -54,3 +54,7 @@
     - name: Set up Starlink Monitoring.
       ansible.builtin.import_tasks: tasks/starlink.yml
       when: starlink_enable
+
+    - name: Set up Timetagger.
+      ansible.builtin.import_tasks: tasks/timetagger.yml
+      when: timetagger_enable
