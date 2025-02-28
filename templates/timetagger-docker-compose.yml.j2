@@ -1,6 +1,15 @@
 # {{ ansible_managed }}
 ---
 
+# Use the same networks as internet-monitoring.
+{# Make sure timetagger and nginx-proxy are in the same network #}
+networks:
+{% if domain_name_enable and domain_name and domain_timetagger %}
+  front-tier:
+    name: internet-monitoring-front-tier
+    external: true
+{% endif %}
+
 services:
   timetagger:
     container_name: timetagger
