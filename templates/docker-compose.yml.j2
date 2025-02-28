@@ -92,7 +92,7 @@ services:
       - nginx-proxy
     environment:
       - VIRTUAL_HOST={{ domain_loki }}.{{ domain_name }}
-      - VIRTUAL_PORT=3000
+      - VIRTUAL_PORT=3001
 {% endif %}
 
   promtail:
