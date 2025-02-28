@@ -17,9 +17,9 @@ services:
     restart: unless-stopped
     hostname: '{{ timetagger_hostname }}'
     ports:
-      - "8080:80"
+      - "8080:8080"
     environment:
-      TIMETAGGER_BIND: 0.0.0.0:80
+      TIMETAGGER_BIND: 0.0.0.0:8080
       TIMETAGGER_DATADIR: /root/_timetagger
       TIMETAGGER_LOG_LEVEL: info
       TIMETAGGER_CREDENTIALS: test:$$2a$$08$$zMsjPEGdXHzsu0N/felcbuWrffsH4.4ocDWY5oijsZ0cbwSiLNA8.  # test:test
