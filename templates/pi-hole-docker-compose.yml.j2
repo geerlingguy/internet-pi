@@ -27,8 +27,8 @@ services:
       - "443:443/tcp"
     environment:
       TZ: '{{ pihole_timezone }}'
-      WEBPASSWORD: '{{ pihole_password }}'
-      ServerIP: '{{ ansible_facts['default_ipv4']['address'] }}'
+      FTLCONF_webserver_api_password: '{{ pihole_password }}'
+      FTLCONF_dns_reply_host_IPv4: '{{ ansible_facts['default_ipv4']['address'] }}'
 {% if domain_name_enable and domain_name and domain_pihole %}
       VIRTUAL_HOST: {{ domain_pihole }}.{{ domain_name }}
       VIRTUAL_PORT: 80
