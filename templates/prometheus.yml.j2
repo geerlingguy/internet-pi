@@ -78,7 +78,7 @@ scrape_configs:
 {% if pihole_enable %}
   - job_name: '{{ pihole_hostname }}'
     static_configs:
-      - targets: ['{{ pihole_hostname }}:9617']
+      - targets: ['pihole-exporter:9617']
 {% endif %}
 
 {% filter indent(width=2,first=True) %}
