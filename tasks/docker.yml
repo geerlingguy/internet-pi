@@ -6,6 +6,31 @@
   check_mode: false
   register: docker_command_result
 
+- name: "Install required packages"
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+    state: present
+    cache_valid_time: 3600
+    install_recommends: no
+  with_items:
+    - nano
+    - vim
+    - wget
+    - curl
+    - sudo
+    - apt-transport-https
+    - ca-certificates
+    - software-properties-common
+    - gnupg
+    - lsb-release
+    - locate
+    - git
+    - dnsutils
+    - rsync
+    - htop
+    - jq
+
 - name: Download Docker install convenience script.
   ansible.builtin.get_url:
     url: https://get.docker.com/
