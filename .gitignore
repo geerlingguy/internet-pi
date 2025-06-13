@@ -2,3 +2,9 @@ inventory.ini
 config.yml
 .DS_Store
 internet-monitoring/grafana/provisioning/grafana.key
+*.key
+*.crt
+*.pem
+*.env
+secrets/
+private/
