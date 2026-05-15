@@ -7,3 +7,19 @@ GF_AUTH_ANONYMOUS_ENABLED=true
 # GF_SERVER_PROTOCOL=https                                                                                                                                                                                                               
 # GF_SERVER_CERT_FILE={{ monitoring_grafana_ssl_file }}                                                                                                                                                                                  
 # GF_SERVER_CERT_KEY={{ monitoring_grafana_ssl_key }} 
+
+# SMP
+# SMTP
+# Env vars in ../../env-vars.sh
+GF_SMTP_ENABLED=true
+GF_SMTP_HOST=smtp.zoho.com:465
+GF_SMTP_USER=admin@use1.net                       # Use full Zoho email address
+GF_SMTP_PASSWORD="{{ lookup('env', 'GF_SMTP_PASSWORD') }}"                     # Use app password if 2FA is enabled
+GF_SMTP_FROM_ADDRESS=grafana@use1.net
+GF_SMTP_FROM_NAME="Grafana Alerts"
+GF_SMTP_SKIP_VERIFY=false                         # Keep false for production
+GF_SMTP_STARTTLS_POLICY=NoStartTLS                # Required for SSL on port 465
+GF_SMTP_PROTOCOL=smtps                            # Use 'smtps' for implicit SSL/TLS
+
+# 
+# GF_SERVER_ROOT_URL=g.use1.net
