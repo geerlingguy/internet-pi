@@ -46,7 +46,7 @@ scrape_configs:
   - job_name: 'starlink'
     metrics_path: /metrics
     static_configs:
-      - targets: ['172.17.0.1:9817']
+      - targets: ['172.17.0.1:9451']
 {% endif %}
 
   - job_name: 'ping'

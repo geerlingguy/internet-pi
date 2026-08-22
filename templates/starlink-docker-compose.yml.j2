@@ -3,7 +3,7 @@
 services:
   starlink-exporter:
     container_name: starlink-exporter
-    image: danopstech/starlink_exporter
+    image: ghcr.io/joshuasing/starlink_exporter:0.9.2
     ports:
-      - "9817:9817"
+      - "9451:9451"
     restart: unless-stopped
