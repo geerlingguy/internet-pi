@@ -1,0 +1,21 @@
+# {{ ansible_managed }}
+# Blackbox modules for the per-uplink ping containers: the upstream modules from
+# internet-monitoring/blackbox/config/blackbox.yml plus the uplink-specific ones.
+{% set blackbox_upstream_modules = (lookup('ansible.builtin.file', 'internet-monitoring/blackbox/config/blackbox.yml') | from_yaml).modules %}
+{% set uplink_modules = {
+  'uplink_icmp': {'prober': 'icmp', 'icmp': {'preferred_ip_protocol': 'ip4', 'ip_protocol_fallback': false}},
+} %}
+{% for uplink in monitoring_uplinks | selectattr('expected_isp_pattern', 'defined') %}
+{% set egress_module_added = uplink_modules.update({
+  'uplink_egress_' ~ uplink.name: {
+    'prober': 'http',
+    'timeout': '20s',
+    'http': {
+      'preferred_ip_protocol': 'ip4',
+      'ip_protocol_fallback': false,
+      'fail_if_body_not_matches_regexp': ['(?i)' ~ uplink.expected_isp_pattern],
+    },
+  },
+}) %}
+{% endfor %}
+{{ {'modules': blackbox_upstream_modules | combine(uplink_modules)} | to_nice_yaml(indent=2) }}
