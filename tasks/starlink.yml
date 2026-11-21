@@ -1,6 +1,6 @@
 ---
 - name: Ensure Starlink directory exists.
-  file:
+  ansible.builtin.file:
     path: "{{ config_dir }}/starlink-exporter"
     state: directory
     mode: 0755
