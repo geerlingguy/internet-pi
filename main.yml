@@ -31,8 +31,18 @@
     - name: Setup Docker.
       ansible.builtin.import_tasks: tasks/docker.yml
 
+    - name: Set up per-uplink Internet Monitoring.
+      ansible.builtin.import_tasks: tasks/uplink-monitoring.yml
+      when:
+        - monitoring_enable
+        - monitoring_uplinks | length > 0
+
     - name: Set up Internet Monitoring.
       ansible.builtin.import_tasks: tasks/internet-monitoring.yml
+      when: monitoring_enable
+
+    - name: Keep only the dashboards that match the uplink setup.
+      ansible.builtin.import_tasks: tasks/uplink-monitoring-dashboards.yml
       when: monitoring_enable
 
     - name: Set up Pi Hole.

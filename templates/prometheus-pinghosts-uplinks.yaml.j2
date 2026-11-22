@@ -1,0 +1,7 @@
+---
+{% for uplink in monitoring_uplinks %}
+- targets:
+{{ monitoring_ping_hosts | to_nice_yaml() | trim | indent(4, True) }}
+  labels:
+    uplink: '{{ uplink.name }}'
+{% endfor %}

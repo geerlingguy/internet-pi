@@ -9,6 +9,17 @@ networks:
     name: internet-monitoring-front-tier
   back-tier:
     name: internet-monitoring-back-tier
+{% for uplink in monitoring_uplinks %}
+  uplink-{{ uplink.name }}:
+    name: internet-monitoring-uplink-{{ uplink.name }}
+    driver: macvlan
+    driver_opts:
+      parent: {{ uplink.parent_interface }}
+    ipam:
+      config:
+        - subnet: {{ uplink.subnet }}
+          gateway: {{ uplink.gateway }}
+{% endfor %}
 
 services:
 {% if domain_name_enable %}
@@ -40,9 +51,11 @@ services:
       - '--web.console.templates=/usr/share/prometheus/consoles'
     ports:
       - 9090:9090
+{% if not monitoring_uplinks %}
     links:
       - ping:ping
       - speedtest:speedtest
+{% endif %}
     networks:
       - back-tier
 {% if domain_name_enable and domain_name and domain_prometheus %}
@@ -76,6 +89,7 @@ services:
       - VIRTUAL_PORT=3000
 {% endif %}
 
+{% if not monitoring_uplinks %}
   ping:
     image: prom/blackbox-exporter:latest
     restart: always
@@ -105,6 +119,7 @@ services:
       - 9798:9798
     networks:
       - back-tier
+{% endif %}
 
   nodeexp:
     image: prom/node-exporter:latest
@@ -124,3 +139,66 @@ services:
       - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
     networks:
       - back-tier
+{% for uplink in monitoring_uplinks %}
+
+  # Owns the uplink's network namespace; the speedtest exporter below shares it.
+  uplink-{{ uplink.name }}-ping:
+    image: prom/blackbox-exporter:latest
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./blackbox/uplinks:/config
+    command:
+      - '--config.file=/config/blackbox.yml'
+      # Listen on the back-tier alias only, so devices on the uplink's LAN cannot reach /probe.
+      - '--web.listen-address=uplink-{{ uplink.name }}-probe:9115'
+    sysctls:
+      net.ipv4.ping_group_range: '0 2147483647'  # unprivileged ICMP for the uplink_icmp module
+{% if uplink.dns_servers is defined %}
+    dns: {{ uplink.dns_servers | to_json }}
+{% endif %}
+    networks:
+      back-tier:
+        aliases:
+          - uplink-{{ uplink.name }}-probe
+      uplink-{{ uplink.name }}:
+        ipv4_address: {{ uplink.probe_address }}
+        gw_priority: 1  # default route through this uplink, not back-tier
+
+  # Runs a test only when uplink-speedtest-scheduler asks for one.
+  uplink-{{ uplink.name }}-speedtest:
+    image: miguelndecarvalho/speedtest-exporter:latest
+    restart: always
+    healthcheck:
+      test: "wget --no-verbose --tries=1 --spider http://0.0.0.0:9798/"
+      timeout: 10s
+    network_mode: service:uplink-{{ uplink.name }}-ping
+    depends_on:
+      - uplink-{{ uplink.name }}-ping
+{% endfor %}
+{% if monitoring_uplinks %}
+
+  # Holds the latest speed test result per uplink for Prometheus to scrape.
+  pushgateway:
+    image: prom/pushgateway:latest
+    restart: always
+    networks:
+      - back-tier
+
+  # Runs the uplinks' speed tests one after another at fixed times.
+  uplink-speedtest-scheduler:
+    image: python:3-alpine
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./scheduler:/scheduler:ro
+    command: ['python3', '-u', '/scheduler/run_uplink_speedtests.py']
+    environment:
+      - UPLINK_NAMES={{ monitoring_uplinks | map(attribute='name') | join(',') }}
+      - SPEEDTEST_INTERVAL_SECONDS={{ uplink_speedtest_interval_seconds }}
+      - SPEEDTEST_OFFSET_SECONDS={{ uplink_speedtest_offset_seconds }}
+    networks:
+      - back-tier
+    depends_on:
+      - pushgateway
+{% endif %}

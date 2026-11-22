@@ -8,6 +8,9 @@ global:
 
 rule_files:
   - 'alert.rules'
+{% if monitoring_uplinks %}
+  - 'uplink.rules'
+{% endif %}
 
 scrape_configs:
 {% if prometheus_monitor_prometheus %}
@@ -17,12 +20,14 @@ scrape_configs:
       - targets: ['localhost:9090']
 {% endif %}
 
+{% if not monitoring_uplinks %}
   - job_name: 'speedtest'
     metrics_path: /metrics
     scrape_interval: {{ monitoring_speedtest_interval }}
     scrape_timeout: 60s  # running speedtest needs time to complete
     static_configs:
       - targets: ['speedtest:9798']
+{% endif %}
 
 {% if shelly_plug_enable %}
   - job_name: 'shelly-plug'
@@ -49,6 +54,7 @@ scrape_configs:
       - targets: ['172.17.0.1:9451']
 {% endif %}
 
+{% if not monitoring_uplinks %}
   - job_name: 'ping'
     metrics_path: /probe
     scrape_interval: {{ monitoring_ping_interval }}
@@ -70,6 +76,76 @@ scrape_configs:
         target_label: __param_target
       - target_label: __address__
         replacement: ping:9115  # The blackbox exporter's real hostname:port.
+{% endif %}
+{% if monitoring_uplinks %}
+{% macro uplink_probe_address_relabel() %}
+      - source_labels: [uplink]
+        target_label: __address__
+        replacement: uplink-${1}-probe:9115  # The uplink's blackbox exporter.
+{% endmacro %}
+{% set uplinks_with_expected_isp = monitoring_uplinks | selectattr('expected_isp_pattern', 'defined') | list %}
+
+  # Speed tests run on a schedule (uplink-speedtest-scheduler); their results wait in the Pushgateway.
+  - job_name: 'speedtest'
+    honor_labels: true  # keep the job and uplink labels set when the results were pushed
+    static_configs:
+      - targets: ['pushgateway:9091']
+
+  - job_name: 'ping'
+    metrics_path: /probe
+    scrape_interval: {{ monitoring_ping_interval }}
+    params:
+      module: [http_2xx]  # Look for a HTTP 200 response.
+    file_sd_configs:
+      - files:
+          - pinghosts-uplinks.yaml  # one target group per uplink, labeled with `uplink`
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # first is the url, thus unique for instance
+        target_label: instance
+        replacement: $1
+      - source_labels: [__address__]
+        regex: '(.*);(.*)'  # second is humanname to use in charts
+        target_label: humanname
+        replacement: $2
+      - source_labels: [instance]
+        target_label: __param_target
+{{ uplink_probe_address_relabel() }}
+  - job_name: 'icmp'
+    metrics_path: /probe
+    scrape_interval: {{ monitoring_ping_interval }}
+    params:
+      module: [uplink_icmp]
+    static_configs:
+{% for uplink in monitoring_uplinks %}
+      - targets: {{ monitoring_uplink_icmp_hosts | to_json }}
+        labels:
+          uplink: '{{ uplink.name }}'
+{% endfor %}
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__address__]
+        target_label: instance
+{{ uplink_probe_address_relabel() }}
+{% if uplinks_with_expected_isp %}
+  - job_name: 'uplink_egress'
+    metrics_path: /probe
+    scrape_interval: 5m  # the lookup service asks for at most one request per minute
+    scrape_timeout: 30s
+    static_configs:
+{% for uplink in uplinks_with_expected_isp %}
+      - targets: ['{{ monitoring_uplink_egress_lookup_url }}']
+        labels:
+          uplink: '{{ uplink.name }}'
+          __param_module: 'uplink_egress_{{ uplink.name }}'
+{% endfor %}
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+{{ uplink_probe_address_relabel() }}
+{% endif %}
+{% endif %}
 
   - job_name: 'node'
     static_configs:

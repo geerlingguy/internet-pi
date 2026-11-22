@@ -1,0 +1,16 @@
+---
+# Runs after the upstream internet-monitoring tasks, which copy every dashboard into Grafana's
+# provisioning folder on each run. Grafana deletes a provisioned dashboard once its file is gone.
+- name: Remove the single-uplink dashboard while per-uplink monitoring is set.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/internet-connection.json"
+    state: absent
+  when: monitoring_uplinks | length > 0
+  become: false
+
+- name: Remove the per-uplink dashboard while per-uplink monitoring is not set.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/internet-connection-uplinks.json"
+    state: absent
+  when: monitoring_uplinks | length == 0
+  become: false

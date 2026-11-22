@@ -1,0 +1,140 @@
+---
+- name: Validate monitoring_uplinks entries.
+  ansible.builtin.assert:
+    that:
+      - uplink.name is defined
+      - uplink.name is match('^[a-z0-9]+(-[a-z0-9]+)*$')
+      - uplink.parent_interface is defined
+      - uplink.parent_interface in ansible_facts.interfaces
+      - uplink.subnet is defined
+      - uplink.gateway is defined
+      - uplink.probe_address is defined
+      - uplink.contract_download_mbps is not defined or uplink.contract_download_mbps is number
+      - uplink.contract_upload_mbps is not defined or uplink.contract_upload_mbps is number
+      - uplink.expected_isp_pattern is not defined or uplink.expected_isp_pattern is string
+      - uplink.display_name is not defined or uplink.display_name is string
+    fail_msg: >-
+      Uplink '{{ uplink.name | default('unnamed') }}' needs a name made of lowercase letters, digits
+      and hyphens (for example cable or fiber; put a readable label such as 'Cable' or 'Fiber' in display_name),
+      a parent_interface that exists on this host, and subnet, gateway and probe_address.
+      contract_download_mbps and contract_upload_mbps must be numbers; expected_isp_pattern and
+      display_name text.
+    quiet: true
+  loop: "{{ monitoring_uplinks }}"
+  loop_control:
+    loop_var: uplink
+    label: "{{ uplink.name | default('unnamed') }}"
+
+- name: Ensure uplink names are unique.
+  ansible.builtin.assert:
+    that:
+      - monitoring_uplinks | map(attribute='name') | unique | length == monitoring_uplinks | length
+    fail_msg: Every entry in monitoring_uplinks needs a different name.
+    quiet: true
+
+- name: Ensure uplink speed test timing uses simple durations.
+  ansible.builtin.assert:
+    that:
+      - monitoring_speedtest_interval is match(simple_duration_pattern)
+      - monitoring_uplink_speedtest_offset is match(simple_duration_pattern)
+    fail_msg: >-
+      With monitoring_uplinks set, monitoring_speedtest_interval and monitoring_uplink_speedtest_offset
+      must each be a number followed by s, m, h or d (for example 60m or 5m).
+    quiet: true
+  vars:
+    simple_duration_pattern: '^[0-9]+[smhd]$'
+
+- name: Compute uplink speed test timing in seconds.
+  ansible.builtin.set_fact:
+    uplink_speedtest_interval_seconds: "{{ (interval_count | int) * duration_unit_seconds[interval_unit] }}"
+    uplink_speedtest_offset_seconds: "{{ (offset_count | int) * duration_unit_seconds[offset_unit] }}"
+  vars:
+    duration_unit_seconds: {s: 1, m: 60, h: 3600, d: 86400}
+    interval_count: "{{ monitoring_speedtest_interval[:-1] }}"
+    interval_unit: "{{ monitoring_speedtest_interval[-1] }}"
+    offset_count: "{{ monitoring_uplink_speedtest_offset[:-1] }}"
+    offset_unit: "{{ monitoring_uplink_speedtest_offset[-1] }}"
+
+- name: Compute when uplink speed test results count as stale.
+  ansible.builtin.set_fact:
+    # Two missed runs plus time for the tests themselves.
+    uplink_speedtest_stale_after_seconds: "{{ 2 * (uplink_speedtest_interval_seconds | int) + 600 }}"
+
+- name: Ensure the speed test offset is shorter than the interval.
+  ansible.builtin.assert:
+    that:
+      - uplink_speedtest_offset_seconds | int < uplink_speedtest_interval_seconds | int
+    fail_msg: monitoring_uplink_speedtest_offset must be shorter than monitoring_speedtest_interval.
+    quiet: true
+
+- name: Read Docker Engine version.
+  ansible.builtin.command:
+    argv:
+      - docker
+      - version
+      - --format
+      - "{% raw %}{{.Server.Version}}{% endraw %}"
+  register: docker_engine_version_result
+  changed_when: false
+  check_mode: false
+
+- name: Read Docker Compose version.
+  ansible.builtin.command:
+    argv:
+      - docker
+      - compose
+      - version
+      - --short
+  register: docker_compose_version_result
+  changed_when: false
+  check_mode: false
+
+# Per-network gateway priority (gw_priority) pins each probe's default route to its uplink.
+- name: Ensure Docker supports per-network gateway priority.
+  ansible.builtin.assert:
+    that:
+      - docker_engine_version is version(minimum_docker_engine_version, '>=')
+      - docker_compose_version is version(minimum_docker_compose_version, '>=')
+    fail_msg: >-
+      Per-uplink monitoring needs Docker Engine {{ minimum_docker_engine_version }} or newer and
+      Docker Compose {{ minimum_docker_compose_version }} or newer (found Engine {{ docker_engine_version }},
+      Compose {{ docker_compose_version }}). Upgrade Docker, then run the playbook again.
+    quiet: true
+  vars:
+    docker_engine_version: "{{ docker_engine_version_result.stdout | trim }}"
+    docker_compose_version: "{{ docker_compose_version_result.stdout | trim | regex_replace('^v', '') }}"
+    minimum_docker_engine_version: '28.0.0'
+    minimum_docker_compose_version: '2.33.1'
+
+- name: Ensure internet-monitoring directories for uplink files exist.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/internet-monitoring/{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - prometheus
+    - blackbox/uplinks
+    - grafana/provisioning/dashboards
+  become: false
+
+- name: Copy templated uplink monitoring files into place.
+  ansible.builtin.template:
+    src: templates/{{ item.src }}
+    dest: "{{ config_dir }}/internet-monitoring/{{ item.dest }}"
+    mode: 0644
+  loop:
+    - src: prometheus-pinghosts-uplinks.yaml.j2
+      dest: prometheus/pinghosts-uplinks.yaml
+    - src: prometheus-uplink.rules.j2
+      dest: prometheus/uplink.rules
+    - src: blackbox-uplinks.yml.j2
+      dest: blackbox/uplinks/blackbox.yml
+  notify: Restart internet-monitoring
+  become: false
+
+- name: Copy uplink dashboard config to grafana.
+  ansible.builtin.copy:
+    src: files/internet-connection-uplinks.json
+    dest: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/"
+    mode: 0644
+  become: false

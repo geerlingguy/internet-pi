@@ -25,6 +25,55 @@ monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - https://github.com/;github.com
   - https://www.apple.com/;apple.com
 
+# Per-uplink monitoring for multi-WAN setups. Leave empty to measure only the
+# host's default route. When set, each uplink gets its own speedtest and ping
+# probe on a macvlan network bound to `parent_interface`, so probe traffic
+# leaves through that uplink's gateway, and the single default-route probes are
+# not started. `name` uses lowercase letters, digits and hyphens.
+# `probe_address` must be a free address in `subnet`, reserved outside the
+# DHCP pool. Optional per uplink: `dns_servers` (list), `contract_download_mbps`
+# and `contract_upload_mbps` (the speeds you pay for, shown as "% of contract"),
+# `expected_isp_pattern` (text in the ISP name, case-insensitive; an alert
+# fires when the uplink's traffic leaves through another ISP, e.g. failover),
+# and `display_name` (readable label for the dashboard, defaults to `name`).
+# Requires Docker Engine 28.0 or newer and Docker Compose 2.33.1 or newer.
+monitoring_uplinks: []
+# monitoring_uplinks:
+#   - name: cable
+#     parent_interface: eth0
+#     subnet: 192.0.2.0/24
+#     gateway: 192.0.2.1
+#     probe_address: 192.0.2.250
+#     contract_download_mbps: 600
+#     contract_upload_mbps: 40
+#     expected_isp_pattern: 'Example Cable'
+#     display_name: 'Example Cable (WAN1)'
+#   - name: dsl
+#     parent_interface: eth1
+#     subnet: 198.51.100.0/24
+#     gateway: 198.51.100.1
+#     probe_address: 198.51.100.250
+#     dns_servers:
+#       - 198.51.100.1
+#     contract_download_mbps: 250
+#     contract_upload_mbps: 50
+#     expected_isp_pattern: 'Example DSL'
+
+# Uplink speed tests run one after another (never at the same time), once per
+# `monitoring_speedtest_interval`, starting this long after each interval
+# boundary (boundaries are aligned to UTC, e.g. every hour at :05).
+monitoring_uplink_speedtest_offset: 5m
+# Hosts pinged with ICMP through every uplink, for round-trip time and packet loss.
+# Use IP addresses: a hostname needs DNS, and DNS filters (for example Pi-hole
+# blocklists for DNS-over-HTTPS) may answer resolver names with 0.0.0.0, which
+# shows up as 100% packet loss.
+monitoring_uplink_icmp_hosts:
+  - 1.1.1.1
+  - 9.9.9.9
+# Plain-text service that answers with the caller's ISP (AS organization name),
+# used with `expected_isp_pattern`. Checked every 5 minutes per uplink.
+monitoring_uplink_egress_lookup_url: https://ifconfig.co/asn-org
+
 # Prometheus configuration.
 prometheus_monitor_prometheus: false
 prometheus_node_exporter_targets:
