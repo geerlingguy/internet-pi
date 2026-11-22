@@ -1,5 +1,4 @@
 ---
 skip_list:
-  - 'fqcn-builtins'
-  - 'no-handler'
-  - 'no-changed-when'
+  - no-handler
+  - no-changed-when
